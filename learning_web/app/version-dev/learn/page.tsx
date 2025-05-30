@@ -19,7 +19,7 @@ const units = [
   { title: "Unit 10", description: "Shopping" },
 ];
 
-const zigzagData = [
+const zigzagData: { type: "star" | "crown" | "start" | "check"; active?: boolean }[] = [
   { type: "star", active: true },
   { type: "star" },
   { type: "crown" },
