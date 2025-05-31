@@ -1,14 +1,23 @@
 "use client";
+// Import các hook cần thiết từ React
 import React, { useRef, useState } from "react";
 
+// Định nghĩa component ChatBubble (bong bóng chat nổi trên màn hình)
 export default function ChatBubble() {
+  // Trạng thái kiểm soát việc kéo bong bóng
   const [isDragging, setIsDragging] = useState(false);
+  // Trạng thái vị trí của bong bóng trên màn hình (tọa độ x, y)
   const [position, setPosition] = useState({ x: 30, y: 80 });
+  // Trạng thái hiển thị/ẩn cửa sổ chat
   const [showChat, setShowChat] = useState(false);
+  // Ref tới DOM element của bong bóng
   const bubbleRef = useRef<HTMLDivElement>(null);
+  // Ref lưu offset khi bắt đầu kéo
   const offset = useRef({ x: 0, y: 0 });
+  // Kích thước cố định của bong bóng (px)
   const BUBBLE_SIZE = 64; // px, tương ứng w-16 h-16
 
+  // Xử lý khi bắt đầu kéo bong bóng
   const onMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     offset.current = {
@@ -18,6 +27,7 @@ export default function ChatBubble() {
     document.body.style.userSelect = "none";
   };
 
+  // Xử lý khi di chuyển chuột (kéo bong bóng)
   const onMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
     // Tính toán vị trí mới, giới hạn trong viewport
@@ -30,11 +40,13 @@ export default function ChatBubble() {
     setPosition({ x: newX, y: newY });
   };
 
+  // Xử lý khi thả chuột (kết thúc kéo)
   const onMouseUp = () => {
     setIsDragging(false);
     document.body.style.userSelect = "";
   };
 
+  // Lắng nghe sự kiện kéo/thả chuột để di chuyển bong bóng
   React.useEffect(() => {
     if (isDragging) {
       window.addEventListener("mousemove", onMouseMove);
@@ -50,7 +62,7 @@ export default function ChatBubble() {
     // eslint-disable-next-line
   }, [isDragging]);
 
-  // Nếu resize cửa sổ, đảm bảo bong bóng không bị mất
+  // Nếu resize cửa sổ, đảm bảo bong bóng không bị mất khỏi màn hình
   React.useEffect(() => {
     const handleResize = () => {
       const maxX = window.innerWidth - BUBBLE_SIZE - 10;
@@ -82,6 +94,7 @@ export default function ChatBubble() {
 
   return (
     <>
+      {/* Bong bóng chat nổi, có thể kéo thả, double click để mở chat, click để đóng */}
       <div
         ref={bubbleRef}
         onMouseDown={onMouseDown}
@@ -102,8 +115,10 @@ export default function ChatBubble() {
         className="w-16 h-16 bg-[#5ba5fa] rounded-full flex items-center justify-center text-white text-3xl font-bold select-none shadow-lg hover:shadow-2xl border-4 border-white"
         title={showChat ? "Click to close chat" : "Double click to open chat"}
       >
+        {/* Icon chat */}
         💬
       </div>
+      {/* Cửa sổ chat, chỉ hiển thị khi showChat = true */}
       {showChat && (
         <div
           style={{
@@ -117,6 +132,7 @@ export default function ChatBubble() {
           }}
           className="bg-white rounded-2xl shadow-2xl border border-blue-200 flex flex-col overflow-hidden animate-fade-in"
         >
+          {/* Header của cửa sổ chat */}
           <div className="bg-[#5ba5fa] text-white px-4 py-2 font-bold flex items-center justify-between">
             Chat
             <button
@@ -126,6 +142,7 @@ export default function ChatBubble() {
               ×
             </button>
           </div>
+          {/* Nội dung chat (hiện tại chỉ là placeholder) */}
           <div className="flex-1 p-4 text-neutral-500 flex items-center justify-center">
             Chatbot coming soon...
           </div>

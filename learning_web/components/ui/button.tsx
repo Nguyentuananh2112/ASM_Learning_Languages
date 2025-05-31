@@ -4,32 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+// Định nghĩa các biến thể (variant) và kích thước (size) cho Button sử dụng cva
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-bold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive uppercase tracking-wide",
   {
     variants: {
       variant: {
         default: "bg-white text-black border-slate-200 border-2 hover:bg-slate-100 text-slate-500",
-        // chuyển sang màu xanh da trờitrời
+        // chuyển sang màu xanh da trời
         primary: "bg-sky-400 text-primary-foreground hover:bg-sky-400/90 border-sky-500 border-b-4 active:border-b-0",
-
         primaryOutline: "bg-white text-sky-500 hover:bg-slate-100",
-
         secondary: "bg-blue-400 text-primary-foreground hover:bg-blue-400/90 border-blue-500 border-b-4 "
         +"active:border-b-0",
-
         secondaryOutline: "bg-white text-blue-500 hover:bg-slate-100",
-
         danger: "bg-rose-400 text-primary-foreground hover:bg-rose-400/90 border-rose-500 border-b-4 active:border-b-0",
-
         dangerOutline: "bg-white text-rose-500 hover:bg-slate-100",
-
         super: "bg-indigo-500 text-primary-foreground hover:bg-indigo-500/90 border-indigo-600 border-b-4 "
         +"active:border-b-0",
         superOutline: "bg-white text-indigo-500 hover:bg-slate-100",
-
         ghost: "bg-transparent text-slate-500 border-transparent border-0 hover:bg-slate-100",
-
         sidebar: "bg-transparent text-slate-500 border-2 border-transparent hover:bg-slate-100 transition-none",
         sidebarOutline: "bg-sky-500/15 text-sky-500 border-sky-300 border-2 hover:bg-sky-500/20 transition-none",
       },
@@ -48,6 +41,7 @@ const buttonVariants = cva(
   }
 )
 
+// Component Button nhận props variant, size, asChild, ...
 function Button({
   className,
   variant,
@@ -58,6 +52,7 @@ function Button({
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
   }) {
+  // Nếu asChild=true thì render Slot, ngược lại render button
   const Comp = asChild ? Slot : "button"
 
   return (
