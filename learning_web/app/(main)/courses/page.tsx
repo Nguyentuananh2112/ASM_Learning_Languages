@@ -1,20 +1,20 @@
-import { getCourses } from "@/app/db/queries";
-import { Course } from "@/app/db/schema";
+import { getCourses, getUserProgress } from "@/app/db/queries";
 import { List } from "./list";
 
 const CoursesPage = async () => {
+  const coursesData = getCourses();
+  const userProgressData = getUserProgress();
 
-  const courses = await getCourses();
+  const [courses, userProgress] = await Promise.all([coursesData, userProgressData]);
 
   return (
     <div className="h-full max-w-[1300px] px-3 mx-auto">
       <h1 className="text-2xl font-bold text-neutral-600">
         Languages Courses
       </h1>
-
       <List
         courses={courses}
-        activeCourseId={1}
+        activeCourseId={userProgress?.activeCourseId}
  
       />
     </div>

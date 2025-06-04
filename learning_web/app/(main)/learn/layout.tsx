@@ -7,7 +7,7 @@ export default function LearnLayout({
   return (
     // Container bọc nội dung, chiều cao full
     <div className="h-full">
-      {children} // Nội dung động sẽ được render ở đây
+      {children} 
     </div>
   );
 }
