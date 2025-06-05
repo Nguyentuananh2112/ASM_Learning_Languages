@@ -20,16 +20,17 @@ const LearnPage = async () => {
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
         <UserProgress
-          activeCourse={{ title: "English", imageSrc: "/english.svg" }}
-          hearts={5}
-          points={1000}
+          // Truyền dữ liệu userProgress vào UserProgress component
+          activeCourse={userProgress.activeCourse}
+          hearts={userProgress.hearts}
+          points={userProgress.points}
           hasActiveSubscription={false}
         />
       </StickyWrapper>
 
       {/* Trang learn chứa Header và FeedWrapper */}
       <FeedWrapper>
-        <Header title="English" />
+        <Header title={userProgress.activeCourse.title} />
       </FeedWrapper>
     </div>
   );
