@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
+import { ExitModal } from "@/components/modals/exit-modal";
 // import { ExitModal } from "@/components/modals/exit-modal";
 // import { HeartsModal } from "@/components/modals/hearts-modal";
 // import { PraciceModal } from "@/components/modals/practice-modal";
@@ -26,9 +27,9 @@ export default function RootLayout({
         </head>
         <body className={font.className}>
           <Toaster />
-          {/* <ExitModal />
-          <HeartsModal />
-          <PraciceModal /> */}
+          <ExitModal />
+          {/* <HeartsModal /> */}
+          {/* <PraciceModal /> */}
           {children}
         </body>
       </html>
