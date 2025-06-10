@@ -148,7 +148,7 @@ const main = async () => {
             {
                 id: 2,
                 challengeId: 1, //Which one of these is "the man" ?
-                imageSrc: "/women.svg",
+                imageSrc: "/woman.svg",
                 correct: false,
                 text: "女性たち",
                 audioSrc: "/jp_women.mp3"
