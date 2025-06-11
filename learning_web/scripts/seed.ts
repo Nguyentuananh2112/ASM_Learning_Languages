@@ -151,14 +151,7 @@ const main = async () => {
                 question: 'Which one of these is the "The robot" ?',
 
             },
-            {
-                id: 4,
-                lessonId: 1, //Nours
-                type: "ASSIST",
-                order: 3,
-                question: "The robot",
-
-            },
+            
         ]);
 
         await db.insert(schema.challengeOptions).values([
@@ -254,37 +247,8 @@ const main = async () => {
             },
         ]);
 
-        await db.insert(schema.challengeOptions).values([
-            {
-                challengeId: 3, //'Which one of these is the "The robot" ?',
-                // imageSrc: "/man.svg",
-                correct: false,
-                text: "その男",
-                audioSrc: "/U1_theman.mp3"
-            },
-            {
-                challengeId: 3, //'Which one of these is the "The robot" ?',
-                // imageSrc: "/woman.svg",
-                correct: false,
-                text: "女性たち",
-                audioSrc: "/U1_girl.mp3"
-            },
-            {
-                challengeId: 3, //'Which one of these is the "The robot" ?',
-                // imageSrc: "/robot.svg",
-                correct: true,
-                text: "ロボット",
-                audioSrc: "/U1_robot.mp3"
-            },
-            {
-                challengeId: 3, //'Which one of these is the "The robot" ?',
-                // imageSrc: "/cat.svg",
-                correct: false,
-                text: "猫",
-                audioSrc: "/U1_cat.mp3"
-            },
-        ]);
           
+
         console.log("Seeding completed successfully.");
     } catch (error) {
         console.error("Error seeding the database:", error);
