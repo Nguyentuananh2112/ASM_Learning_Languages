@@ -60,6 +60,14 @@ export const getUnits = cache(async () => {
     
     const normalizedData = data.map((unit) => {
         const lessonsWithCompletedStatus = unit.lessons.map((lesson)=>{
+            
+            // Nếu không có challenge nào trong bài học, đánh dấu là chưa hoàn thành
+            if (
+                lesson.challenges.length === 0
+            ) {
+                return { ...lesson, completed: false };
+            }
+
             const allCompletedChallenges = lesson.challenges.every((challenge)=>{
                 return challenge.challengeProgress 
                  && challenge.challengeProgress.length > 0
