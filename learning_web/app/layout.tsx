@@ -23,7 +23,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <link rel="icon" href="./favicon/favicon.ico" sizes="any" />
+          <link rel="icon" href="./logo_main.svg" sizes="any" />
         </head>
         <body className={font.className}>
           <Toaster />

@@ -143,7 +143,7 @@ const main = async () => {
                 imageSrc: "/man.svg",
                 correct: true,
                 text: "その男",
-                audioSrc: "/jp_man.mp3"
+                audioSrc: "/U1_theman.mp3"
             },
             {
                 id: 2,
@@ -151,7 +151,7 @@ const main = async () => {
                 imageSrc: "/woman.svg",
                 correct: false,
                 text: "女性たち",
-                audioSrc: "/jp_women.mp3"
+                audioSrc: "/U1_girl.mp3"
             },
             {
                 id: 3,
@@ -159,7 +159,7 @@ const main = async () => {
                 imageSrc: "/robot.svg",
                 correct: false,
                 text: "ロボット",
-                audioSrc: "/jp_robot.mp3"
+                audioSrc: "/U1_robot.mp3"
             },
             {
                 id: 4,
@@ -167,7 +167,7 @@ const main = async () => {
                 imageSrc: "/cat.svg",
                 correct: false,
                 text: "猫",
-                audioSrc: "/jp_cat.mp3"
+                audioSrc: "/U1_cat.mp3"
             },
         ]);
 
