@@ -26,22 +26,22 @@ export const Footer = ({
     return (
         <footer className={cn(
             "lg:-h[140px] h-[100px] border-t-2",
-            status === "correct" && "border-transparent bg-green-100",
+            status === "correct" && "border-transparent bg-blue-100",
             status === "wrong" && "border-transparent bg-rose-100",
         )}>
-            <div className="max-w-[1140px] h-full mx-auto flex item-center justify-between px-6 lg:px-10">
+            <div className="max-width-[1140px] h-full mx-auto flex items-center justify-between px-6 lg:px-10">
                 {/* Hiển thị thông báo khi trả lời đúng */}
                 {status === "correct" && (
-                    <div className="text-green-500 font-bold text-base lg:text-2xl flex item">
-                        <CheckCircle className="h6 w-6 lg:h-10 lg:w-10 mr-4" />
+                     <div className="text-blue-500 font-bold text-base lg:text-2xl flex items-center">
+                        <CheckCircle className="h-6 w-6 lg:h-10 lg:w-10 mr-4"/>
                         Nicely done!
                     </div>
                 )}
 
                 {/* Hiển thị thông báo khi trả lời sai */}
                 {status === "wrong" && (
-                    <div className="text-rose-500 font-bold text-base lg:text-2xl flex item">
-                        <XCircle className="h6 w-6 lg:h-10 lg:w-10 mr-4" />
+                    <div className="text-rose-500 font-bold text-base lg:text-2xl flex items-center">
+                        <XCircle className="h-6 w-6 lg:h-10 lg:w-10 mr-4"/>
                         Try again.
                     </div>
                 )}
@@ -60,7 +60,7 @@ export const Footer = ({
                 {/* Nút điều khiển chính (Next, Retry, Continue,...) */}
                 <Button
                     disabled={disabled}
-                    className={cn("ml-auto", status === "correct" && "bg-green-400 hover:bg-green-500 border-green-500 text-white")}
+                    className={cn("ml-auto", status === "correct" && "bg-blue-400 hover:bg-blue-500 border-blue-500 text-white")}
                     onClick={onCheck}
                     size={isMobile ? "sm" : "lg"}
                     variant={status === "wrong" ? "danger" : "secondary"}

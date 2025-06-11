@@ -62,6 +62,7 @@ const main = async () => {
             // }
         ]
         )
+
         await db.insert(schema.lessons).values([
             {
                 id: 1,
@@ -134,11 +135,34 @@ const main = async () => {
                 question: 'Which one of these is the "The man" ?',
 
             },
-       
+            {
+                id: 2,
+                lessonId: 1, //Nours
+                type: "ASSIST",
+                order: 2,
+                question: "The Man",
+
+            },
+            {
+                id: 3,
+                lessonId: 1, //Nours
+                type: "SELECT",
+                order: 3,
+                question: 'Which one of these is the "The robot" ?',
+
+            },
+            {
+                id: 4,
+                lessonId: 1, //Nours
+                type: "ASSIST",
+                order: 3,
+                question: "The robot",
+
+            },
         ]);
+
         await db.insert(schema.challengeOptions).values([
             {
-                id: 1,
                 challengeId: 1, //Which one of these is "the man" ?
                 imageSrc: "/man.svg",
                 correct: true,
@@ -146,7 +170,6 @@ const main = async () => {
                 audioSrc: "/U1_theman.mp3"
             },
             {
-                id: 2,
                 challengeId: 1, //Which one of these is "the man" ?
                 imageSrc: "/woman.svg",
                 correct: false,
@@ -154,7 +177,6 @@ const main = async () => {
                 audioSrc: "/U1_girl.mp3"
             },
             {
-                id: 3,
                 challengeId: 1, //Which one of these is "the man" ?
                 imageSrc: "/robot.svg",
                 correct: false,
@@ -162,7 +184,6 @@ const main = async () => {
                 audioSrc: "/U1_robot.mp3"
             },
             {
-                id: 4,
                 challengeId: 1, //Which one of these is "the man" ?
                 imageSrc: "/cat.svg",
                 correct: false,
@@ -171,6 +192,98 @@ const main = async () => {
             },
         ]);
 
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 2, // "the man" ?
+                // imageSrc: "/man.svg",
+                correct: true,
+                text: "その男",
+                audioSrc: "/U1_theman.mp3"
+            },
+            {
+                challengeId: 2, //"the man" ?
+                // imageSrc: "/woman.svg",
+                correct: false,
+                text: "女性たち",
+                audioSrc: "/U1_girl.mp3"
+            },
+            {
+                challengeId: 2, //"the man" ?
+                // imageSrc: "/robot.svg",
+                correct: false,
+                text: "ロボット",
+                audioSrc: "/U1_robot.mp3"
+            },
+            {
+                challengeId: 2, //"the man" ?
+                // imageSrc: "/cat.svg",
+                correct: false,
+                text: "猫",
+                audioSrc: "/U1_cat.mp3"
+            },
+        ]);
+
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                imageSrc: "/man.svg",
+                correct: false,
+                text: "その男",
+                audioSrc: "/U1_theman.mp3"
+            },
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                imageSrc: "/woman.svg",
+                correct: false,
+                text: "女性たち",
+                audioSrc: "/U1_girl.mp3"
+            },
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                imageSrc: "/robot.svg",
+                correct: true,
+                text: "ロボット",
+                audioSrc: "/U1_robot.mp3"
+            },
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                imageSrc: "/cat.svg",
+                correct: false,
+                text: "猫",
+                audioSrc: "/U1_cat.mp3"
+            },
+        ]);
+
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                // imageSrc: "/man.svg",
+                correct: false,
+                text: "その男",
+                audioSrc: "/U1_theman.mp3"
+            },
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                // imageSrc: "/woman.svg",
+                correct: false,
+                text: "女性たち",
+                audioSrc: "/U1_girl.mp3"
+            },
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                // imageSrc: "/robot.svg",
+                correct: true,
+                text: "ロボット",
+                audioSrc: "/U1_robot.mp3"
+            },
+            {
+                challengeId: 3, //'Which one of these is the "The robot" ?',
+                // imageSrc: "/cat.svg",
+                correct: false,
+                text: "猫",
+                audioSrc: "/U1_cat.mp3"
+            },
+        ]);
           
         console.log("Seeding completed successfully.");
     } catch (error) {

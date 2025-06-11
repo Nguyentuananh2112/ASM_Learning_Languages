@@ -1,12 +1,14 @@
-
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { challenges, challengeOptions } from "../db/schema";
 import { Header } from "./header";
 import QuestionBubble from "./question-bubble";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { toast } from "sonner";
+import { reduceHearts } from "@/actions/user-progress";
 
 // Định nghĩa kiểu Props cho component Quiz
 type Props = {
@@ -28,6 +30,9 @@ export const Quiz = ({
     initialLessonChallenges,
     userSubscription
 }: Props) => {
+
+    const [pending, startTransiton] = useTransition();
+
     // State theo dõi số tim & phần trăm hoàn thành bài học
     const [hearts, setHearts] = useState(initialHearts);
     const [percentage, setPercentage] = useState(initialPercentage);
@@ -47,10 +52,73 @@ export const Quiz = ({
     const challenge = challenges[activeIndex];
     const options = challenge?.challengeOptions ?? [];
 
+    const onNext = () => {
+        setActiveIndex((current) => current + 1);
+    };
+
+
+
     // Hàm xử lý khi người dùng chọn đáp án
     const onSelect = (id: number) => {
         if (status !== "none") return; // Nếu đã chọn rồi thì không cho chọn lại
         setSelectedOption(id);
+    };
+
+    const onContinue = () => {
+        if (!selectedOption) return;
+
+        if (status === "wrong") {
+            setStatus("none");
+            setSelectedOption(undefined);
+            return;
+        }
+
+        if (status === "correct") {
+            onNext();
+            setStatus("none");
+            setSelectedOption(undefined);
+            return;
+        }
+
+        const correctOption = options.find((option) => option.correct);
+
+        if (!correctOption) {
+            return;
+        }
+
+        if (correctOption.id === selectedOption) {
+            startTransiton(() => {
+                upsertChallengeProgress(challenge.id).then((respone) => {
+                    if (respone?.error === "hearts") {
+                        console.error("Missing hearts");
+                        return;
+                    }
+
+                    setStatus("correct");
+                    setPercentage((prev) => prev + 100 /challenges.length);
+
+                    if (initialPercentage === 100) {
+                        setHearts((prev) => Math.min(prev + 1, 5));
+                    }
+                })
+                .catch(() => toast.error("Wrong. Pls try again."))
+            });
+        } else {
+            startTransiton(() => {
+                reduceHearts(challenge.id).then((respone) => {
+                    if (respone?.error === "hearts") {
+                        console.error("Missing hearts");
+                        return;
+                    }
+
+                    setStatus("wrong");
+
+                    if (!respone?.error) {
+                        setHearts((prev) => Math.max(prev - 1, 0))
+                    }
+                }) .catch(() => toast.error("Something went wrong. Try again."));
+            })
+        }
     };
 
     // Tiêu đề câu hỏi
@@ -84,7 +152,7 @@ export const Quiz = ({
                                 onSelect={onSelect}
                                 status={status}
                                 selectedOption={selectedOption}
-                                disabled={false}
+                                disabled={pending}
                                 type={challenge.type}
                             />
                         </div>
@@ -93,9 +161,9 @@ export const Quiz = ({
             </div>
             {/* Footer hiển thị nút điều khiển */}
             <Footer
-                disabled={!selectedOption}
+                disabled={pending || !selectedOption}
                 status={status}
-                onCheck={() => {}}
+                onCheck={onContinue}
             />
         </>
     );
