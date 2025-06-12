@@ -3,9 +3,9 @@
 import { toast } from "sonner";
 import Image from "next/image";
 import Confetti from "react-confetti";
-import { useAudio, useWindowSize } from "react-use";
+import { useAudio, useWindowSize, useMount } from "react-use";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import { reduceHearts } from "@/actions/user-progress";
 import { challenges, challengeOptions } from "../db/schema";
@@ -16,6 +16,8 @@ import { Footer } from "./footer";
 import { Challenge } from "./challenge";
 import { ResultCard } from "./result-card";
 import QuestionBubble from "./question-bubble";
+import { useHeartsModal } from "@/store/use-hearts-modal";
+import { usePracticesModal } from "@/store/use-practice-modals";
 
 
 
@@ -41,27 +43,32 @@ export const Quiz = ({
     initialLessonChallenges,
     userSubscription,
 }: Props) => {
+    const { open: openHeartsModal } = useHeartsModal();
+    const { open: openPracticeModal } = usePracticesModal();
+
+    useMount(() => {
+        if (initialPercentage === 100) {
+            openPracticeModal();
+        }
+    })
+
     const { width, height } = useWindowSize();
 
     const router = useRouter();
 
-    const [finishAudio] = useAudio( { src: "/finish.mp3", autoPlay: true });
-    const [
-      correctAudio,
-      _c,
-      correctControls,  
-    ] = useAudio({ src: "/correct.mp3"}); // Âm thanh khi trả lời đúng
-    const [
-      incorrectAudio,
-      _i,
-      incorrectControls,  
-    ] = useAudio({ src: "/incorrect.mp3"}); // Âm thanh khi trả lời sai
+    // Khởi tạo các hook âm thanh
+    const [finishAudio, finishState, finishControls] = useAudio({ src: "/finish.mp3", autoPlay: true });
+    const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.mp3" });
+    const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.mp3" });
+    
     const [pending, startTransiton] = useTransition(); // Xử lý trạng thái loading khi gọi API
 
     const [lessonId] = useState(initialLessonId);
     // State theo dõi số tim & phần trăm hoàn thành bài học
     const [hearts, setHearts] = useState(initialHearts); // Số tim hiện tại
-    const [percentage, setPercentage] = useState(initialPercentage); // Phần trăm hoàn thành bài học
+    const [percentage, setPercentage] = useState(() => {
+        return initialPercentage === 100 ? 0 : initialPercentage
+    }); 
     const [challenges] = useState(initialLessonChallenges); // Danh sách các câu hỏi
 
     // Xác định index của câu hỏi hiện tại (chưa hoàn thành)
@@ -73,6 +80,8 @@ export const Quiz = ({
     // State lưu lựa chọn của người dùng và trạng thái đúng/sai
     const [selectedOption, setSelectedOption] = useState<number>(); // Đáp án người dùng chọn
     const [status, setStatus] = useState<"correct" | "wrong" | "none">("none"); // Trạng thái trả lời
+    // const [hasPlayedFinishAudio, setHasPlayedFinishAudio] = useState(false); // Theo dõi trạng thái phát âm thanh
+
 
     // Lấy challenge và options hiện tại
     const challenge = challenges[activeIndex]; // Câu hỏi hiện tại
@@ -81,6 +90,14 @@ export const Quiz = ({
     const onNext = () => {
         setActiveIndex((current) => current + 1); // Chuyển sang câu hỏi tiếp theo
     };
+
+    // // Phát âm thanh hoàn tất chỉ một lần khi bài kiểm tra hoàn thành
+    // useEffect(() => {
+    // if (!challenge && !hasPlayedFinishAudio) {
+    //         finishControls.play();
+    //         setHasPlayedFinishAudio(true); // Đánh dấu âm thanh đã phát
+    //     }
+    // }, [challenge, finishControls, hasPlayedFinishAudio]);
 
 
 
@@ -116,7 +133,7 @@ export const Quiz = ({
             startTransiton(() => {
                 upsertChallengeProgress(challenge.id).then((respone) => {
                     if (respone?.error === "hearts") {
-                        console.error("Missing hearts");
+                        openHeartsModal();
                         return;
                     }
                     
@@ -134,7 +151,7 @@ export const Quiz = ({
             startTransiton(() => {
                 reduceHearts(challenge.id).then((respone) => {
                     if (respone?.error === "hearts") {
-                        console.error("Missing hearts");
+                        openHeartsModal();
                         return;
                     }
 
@@ -154,13 +171,15 @@ export const Quiz = ({
         return (
             <>
             {finishAudio}
+            {/* {correctAudio}
+            {incorrectAudio} */}
             <Confetti
                 width={width}
                 height={height}
                 recycle={false}
                 numberOfPieces={500}
                 tweenDuration={10000}
-            />/* Hiệu ứng pháo giấy khi hoàn thành */
+            />
             <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
                <Image
                 src="/finish.svg"
@@ -206,6 +225,7 @@ export const Quiz = ({
         <>
             {incorrectAudio}
             {correctAudio}
+            {/* {finishAudio} */}
             {/* Header hiển thị trạng thái học */}
             <Header 
                 hearts={hearts}
