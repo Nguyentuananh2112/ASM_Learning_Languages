@@ -2,8 +2,11 @@
 
 import { toast } from "sonner";
 import Image from "next/image";
-import { useAudio } from "react-use";
+import Confetti from "react-confetti";
+import { useAudio, useWindowSize } from "react-use";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+
 import { reduceHearts } from "@/actions/user-progress";
 import { challenges, challengeOptions } from "../db/schema";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
@@ -13,6 +16,7 @@ import { Footer } from "./footer";
 import { Challenge } from "./challenge";
 import { ResultCard } from "./result-card";
 import QuestionBubble from "./question-bubble";
+
 
 
 
@@ -35,8 +39,13 @@ export const Quiz = ({
     initialHearts,
     initialPercentage,
     initialLessonChallenges,
-    userSubscription
+    userSubscription,
 }: Props) => {
+    const { width, height } = useWindowSize();
+
+    const router = useRouter();
+
+    const [finishAudio] = useAudio( { src: "/finish.mp3", autoPlay: true });
     const [
       correctAudio,
       _c,
@@ -49,6 +58,7 @@ export const Quiz = ({
     ] = useAudio({ src: "/incorrect.mp3"}); // Âm thanh khi trả lời sai
     const [pending, startTransiton] = useTransition(); // Xử lý trạng thái loading khi gọi API
 
+    const [lessonId] = useState(initialLessonId);
     // State theo dõi số tim & phần trăm hoàn thành bài học
     const [hearts, setHearts] = useState(initialHearts); // Số tim hiện tại
     const [percentage, setPercentage] = useState(initialPercentage); // Phần trăm hoàn thành bài học
@@ -140,8 +150,17 @@ export const Quiz = ({
     };
 
     // Nếu đã hoàn thành hết các câu hỏi thì hiển thị màn hình chúc mừng
-    if (true || !challenge) {
+    if (!challenge) {
         return (
+            <>
+            {finishAudio}
+            <Confetti
+                width={width}
+                height={height}
+                recycle={false}
+                numberOfPieces={500}
+                tweenDuration={10000}
+            />/* Hiệu ứng pháo giấy khi hoàn thành */
             <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
                <Image
                 src="/finish.svg"
@@ -171,7 +190,12 @@ export const Quiz = ({
                     />
                 </div>
             </div>
-            
+            <Footer
+                lessonId={lessonId}
+                status="completed"
+                onCheck={() => router.push("/learn")}
+            />
+            </>
         );
     }
 
