@@ -1,14 +1,21 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { challenges, challengeOptions } from "../db/schema";
-import { Header } from "./header";
-import QuestionBubble from "./question-bubble";
-import { Challenge } from "./challenge";
-import { Footer } from "./footer";
-import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
+import Image from "next/image";
+import { useAudio } from "react-use";
+import { useState, useTransition } from "react";
 import { reduceHearts } from "@/actions/user-progress";
+import { challenges, challengeOptions } from "../db/schema";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+
+import { Header } from "./header";
+import { Footer } from "./footer";
+import { Challenge } from "./challenge";
+import { ResultCard } from "./result-card";
+import QuestionBubble from "./question-bubble";
+
+
+
 
 // Định nghĩa kiểu Props cho component Quiz
 type Props = {
@@ -30,30 +37,39 @@ export const Quiz = ({
     initialLessonChallenges,
     userSubscription
 }: Props) => {
-
-    const [pending, startTransiton] = useTransition();
+    const [
+      correctAudio,
+      _c,
+      correctControls,  
+    ] = useAudio({ src: "/correct.mp3"}); // Âm thanh khi trả lời đúng
+    const [
+      incorrectAudio,
+      _i,
+      incorrectControls,  
+    ] = useAudio({ src: "/incorrect.mp3"}); // Âm thanh khi trả lời sai
+    const [pending, startTransiton] = useTransition(); // Xử lý trạng thái loading khi gọi API
 
     // State theo dõi số tim & phần trăm hoàn thành bài học
-    const [hearts, setHearts] = useState(initialHearts);
-    const [percentage, setPercentage] = useState(initialPercentage);
-    const [challenges] = useState(initialLessonChallenges);
+    const [hearts, setHearts] = useState(initialHearts); // Số tim hiện tại
+    const [percentage, setPercentage] = useState(initialPercentage); // Phần trăm hoàn thành bài học
+    const [challenges] = useState(initialLessonChallenges); // Danh sách các câu hỏi
 
     // Xác định index của câu hỏi hiện tại (chưa hoàn thành)
     const [activeIndex, setActiveIndex] = useState(() => {
         const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed);
         return uncompletedIndex === -1 ? 0 : uncompletedIndex;
-    });
+    }); // Index của câu hỏi đang làm
 
     // State lưu lựa chọn của người dùng và trạng thái đúng/sai
-    const [selectedOption, setSelectedOption] = useState<number>();
-    const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
+    const [selectedOption, setSelectedOption] = useState<number>(); // Đáp án người dùng chọn
+    const [status, setStatus] = useState<"correct" | "wrong" | "none">("none"); // Trạng thái trả lời
 
     // Lấy challenge và options hiện tại
-    const challenge = challenges[activeIndex];
-    const options = challenge?.challengeOptions ?? [];
+    const challenge = challenges[activeIndex]; // Câu hỏi hiện tại
+    const options = challenge?.challengeOptions ?? []; // Các lựa chọn của câu hỏi
 
     const onNext = () => {
-        setActiveIndex((current) => current + 1);
+        setActiveIndex((current) => current + 1); // Chuyển sang câu hỏi tiếp theo
     };
 
 
@@ -61,26 +77,26 @@ export const Quiz = ({
     // Hàm xử lý khi người dùng chọn đáp án
     const onSelect = (id: number) => {
         if (status !== "none") return; // Nếu đã chọn rồi thì không cho chọn lại
-        setSelectedOption(id);
+        setSelectedOption(id); // Lưu đáp án người dùng chọn
     };
 
     const onContinue = () => {
-        if (!selectedOption) return;
+        if (!selectedOption) return; // Nếu chưa chọn đáp án thì không làm gì
 
         if (status === "wrong") {
-            setStatus("none");
+            setStatus("none"); // Nếu sai thì reset trạng thái để chọn lại
             setSelectedOption(undefined);
             return;
         }
 
         if (status === "correct") {
-            onNext();
+            onNext(); // Nếu đúng thì chuyển sang câu tiếp theo
             setStatus("none");
             setSelectedOption(undefined);
             return;
         }
 
-        const correctOption = options.find((option) => option.correct);
+        const correctOption = options.find((option) => option.correct); // Tìm đáp án đúng
 
         if (!correctOption) {
             return;
@@ -93,12 +109,13 @@ export const Quiz = ({
                         console.error("Missing hearts");
                         return;
                     }
-
-                    setStatus("correct");
-                    setPercentage((prev) => prev + 100 /challenges.length);
+                    
+                    correctControls.play(); // Phát âm thanh đúng
+                    setStatus("correct"); // Đánh dấu trả lời đúng
+                    setPercentage((prev) => prev + 100 /challenges.length); // Tăng phần trăm hoàn thành
 
                     if (initialPercentage === 100) {
-                        setHearts((prev) => Math.min(prev + 1, 5));
+                        setHearts((prev) => Math.min(prev + 1, 5)); // Nếu hoàn thành 100% thì cộng tim
                     }
                 })
                 .catch(() => toast.error("Wrong. Pls try again."))
@@ -111,21 +128,60 @@ export const Quiz = ({
                         return;
                     }
 
-                    setStatus("wrong");
+                    incorrectControls.play(); // Phát âm thanh sai
+                    setStatus("wrong"); // Đánh dấu trả lời sai
 
                     if (!respone?.error) {
-                        setHearts((prev) => Math.max(prev - 1, 0))
+                        setHearts((prev) => Math.max(prev - 1, 0)) // Trừ tim nếu sai
                     }
                 }) .catch(() => toast.error("Something went wrong. Try again."));
             })
         }
     };
 
+    // Nếu đã hoàn thành hết các câu hỏi thì hiển thị màn hình chúc mừng
+    if (true || !challenge) {
+        return (
+            <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+               <Image
+                src="/finish.svg"
+                alt="Finish"
+                className="hidden lg:block"
+                height={100}
+                width={100}
+               />
+                <Image
+                src="/finish.svg"
+                alt="Finish"
+                className="block lg:hidden"
+                height={50}
+                width={50}
+               />
+               <h1 className="text-xl lg:text-3xl font-bold text-neutral-700">
+                    Great job! <br /> You've completed the lesson.
+                </h1>
+                <div className="flex items-center gap-x-4 w-full">
+                    <ResultCard
+                        variant="points"
+                        value={challenges.length * 10}
+                    />
+                    <ResultCard
+                        variant="hearts"
+                        value={hearts }
+                    />
+                </div>
+            </div>
+            
+        );
+    }
+
     // Tiêu đề câu hỏi
-    const title = challenge.type === "ASSIST" ? "Select the correct meaning" : challenge.question;
+    const title = challenge.type === "ASSIST" ? "Select the correct meaning" : challenge.question; // Tiêu đề hiển thị trên mỗi câu hỏi
 
     return (
         <>
+            {incorrectAudio}
+            {correctAudio}
             {/* Header hiển thị trạng thái học */}
             <Header 
                 hearts={hearts}
