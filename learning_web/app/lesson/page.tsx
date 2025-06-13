@@ -6,10 +6,12 @@ const LessonPage = async () => {
     // Gọi dữ liệu bài học & tiến độ người dùng
   const lessonData = getLesson();
   const userProgressData = getUserProgress();
+  // const userSubscriptionData = getUserSubscription();
 
   const [lesson, userProgress] = await Promise.all([
     lessonData,
     userProgressData,
+    //userSubscriptionData,
   ]);
 
   // Nếu thiếu dữ liệu thì chuyển về /learn

@@ -7,6 +7,7 @@ import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress } fro
 import { get } from "http";
 import { Unit } from "./unit";
 import { lessons, units as unitsSchema } from "@/app/db/schema";
+import { Promo } from "@/components/promo";
 
 const LearnPage = async () => {
   // Gọi các hàm lấy dữ liệu song song
@@ -14,14 +15,15 @@ const LearnPage = async () => {
   const userProgressData = getUserProgress(); // Lấy tiến trình học người dùng
   const courseProgressData = getCourseProgress();// Lấy bài học hiện tại người dùng đang học
   const lessonPercentageData = getLessonPercentage();// Tính phần trăm hoàn thành bài học hiện tại
-
+//const userSubscriptionData = getUserSubscription();
   // Chờ tất cả dữ liệu được trả về cùng lúc
   const [userProgress, units, courseProgress, lessonPercentage] = await Promise.all(
     [
       userProgressData, 
       unitsData, 
       courseProgressData, 
-      lessonPercentageData
+      lessonPercentageData,
+      //userSubscriptionData,
     ]);
 
 
@@ -35,6 +37,7 @@ const LearnPage = async () => {
     redirect("/courses");
   }
 
+  
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
@@ -45,6 +48,7 @@ const LearnPage = async () => {
           points={userProgress.points}
           hasActiveSubscription={false}
         />
+        <Promo/>
       </StickyWrapper>
 
       {/* Trang learn chứa Header và FeedWrapper */}
