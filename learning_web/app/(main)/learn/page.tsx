@@ -4,10 +4,9 @@ import StickyWrapper from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { redirect } from "next/navigation";
 import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress } from "@/app/db/queries";
-import { get } from "http";
 import { Unit } from "./unit";
 import { lessons, units as unitsSchema } from "@/app/db/schema";
-import { Promo } from "@/components/promo";
+
 
 const LearnPage = async () => {
   // Gọi các hàm lấy dữ liệu song song
@@ -48,7 +47,7 @@ const LearnPage = async () => {
           points={userProgress.points}
           hasActiveSubscription={false}
         />
-        <Promo/>
+        
       </StickyWrapper>
 
       {/* Trang learn chứa Header và FeedWrapper */}
