@@ -65,8 +65,8 @@ const QuestsPage = async () => {
                     width={90}
                     height={90}
                 />
-                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">Quests</h1>
-                <p className="text-muted-foreground text-center text-lg mb-6">
+                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">Quests</h1>
+                <p className="text-muted-foreground text-center text-lg mb-6 dark:text-white">
                         Complete quests by earning points.
                 </p>
                <ul className="w-full"> 
@@ -88,7 +88,7 @@ const QuestsPage = async () => {
                             height={60}                           
                             />  
                             <div className="flex flex-col gap-y-2 w-full">
-                                <p className="text-neutral-700 text-xl font-bold">
+                                <p className="text-neutral-700 text-xl font-bold dark:text-white">
                                     {quest.title}
                                 </p>
                                 <Progress value={progress} className="h-3"/>

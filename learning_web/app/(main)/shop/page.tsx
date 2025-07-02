@@ -39,8 +39,8 @@ const ShopPage = async () => {
                     width={90}
                     height={90}
                 />
-                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">Shop</h1>
-                <p className="text-muted-foreground text-center text-lg mb-6">
+                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">Shop</h1>
+                <p className="text-muted-foreground text-center text-lg mb-6 dark:text-white">
                     Spend your points on coll stuff
                 </p>
                 <Items 

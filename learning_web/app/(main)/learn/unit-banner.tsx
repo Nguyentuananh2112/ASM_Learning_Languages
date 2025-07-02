@@ -23,8 +23,10 @@ export const UnitBanner = ({
                     variant="secondary"
                     className="hidden xl:flex border-2 border-b-4 active:border-2"
                 >
-                    <Notebook className="mr-2" />
-                    Continue to Learn
+                    <Notebook className="mr-2 dark:text-neutral-100" />
+                    <div className="flex items-center gap-x-2 dark:text-neutral-100">
+                        Start Learning
+                    </div>
                 </Button>
             </Link>
 
