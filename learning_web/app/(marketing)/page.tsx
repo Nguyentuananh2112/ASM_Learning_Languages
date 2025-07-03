@@ -18,7 +18,7 @@ export default function Home() {
       </div>
       {/* Khu vực nội dung và nút hành động */}
       <div className="flex flex-col items-center gap-y-8">
-        <h1 className="text-xl lg:tex-3xl font-bold text-neutral-600 max-w-[480px] text-center">
+        <h1 className="text-xl lg:tex-3xl font-bold text-neutral-600 max-w-[480px] text-center dark:text-neutral-100">
           Learn, pratice, and master new languages with our!
         </h1>
         <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
@@ -45,7 +45,9 @@ export default function Home() {
             <SignedIn>
               <Button size="lg" variant="secondary" className="w-full" asChild>
                 <Link href="/learn">
-                  Continue Learning
+                  <div className="flex items-center gap-x-2 dark:text-neutral-100">
+                    Start
+                  </div>
                 </Link>
               </Button>
             </SignedIn>

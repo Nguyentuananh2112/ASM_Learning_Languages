@@ -54,9 +54,9 @@ const LearderboardPage = async () => {
                     width={90}
                     height={90}
                 />
-                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">LeaderBoard</h1>
-                <p className="text-muted-foreground text-center text-lg mb-6">
-                    see where you stand among other learners in the community.
+                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">LeaderBoard</h1>
+                <p className="text-muted-foreground text-center text-lg mb-6 dark:text-neutral-100">
+                    See where you stand among other learners in the community.
                 </p>
                 <Separator className="mb-4 h-0.5 rounded-full"/>
                {leaderboard.map((userProgress, index) => (
@@ -76,10 +76,10 @@ const LearderboardPage = async () => {
                         
                         />
                     </Avatar>
-                    <p className="font-bold text-neutral-800 flex-1">
+                    <p className="font-bold text-neutral-800 flex-1 dark:text-white">
                         {userProgress.userName }
                     </p>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground dark:text-white">
                         {userProgress.points} XP
                     </p>
                 </div>

@@ -59,12 +59,12 @@ export const lessons = [
 // ============================================================================
 export const challenges = [
     // Unit 1, Lesson 21001: Bảng chữ cái 1 (Phụ âm)
-    { id: 22001, lessonId: 21001, type: "SELECT", order: 1, question: "What is this character? ㄱ" },
-    { id: 22002, lessonId: 21001, type: "SELECT", order: 2, question: "What is this character? ㅁ" },
+    { id: 22001, lessonId: 21001, type: "ASSIST", order: 1, question: "What is this character? ㄱ" },
+    { id: 22002, lessonId: 21001, type: "ASSIST", order: 2, question: "What is this character? ㅁ" },
     { id: 22003, lessonId: 21001, type: "ASSIST", order: 3, question: "What is the Korean character for 'S'?" },
     // Unit 1, Lesson 21002: Bảng chữ cái 2 (Nguyên âm)
-    { id: 22004, lessonId: 21002, type: "SELECT", order: 1, question: "What vowel is this? ㅏ" },
-    { id: 22005, lessonId: 21002, type: "SELECT", order: 2, question: "What vowel is this? ㅜ" },
+    { id: 22004, lessonId: 21002, type: "ASSIST", order: 1, question: "What vowel is this? ㅏ" },
+    { id: 22005, lessonId: 21002, type: "ASSIST", order: 2, question: "What vowel is this? ㅜ" },
     { id: 22006, lessonId: 21002, type: "ASSIST", order: 3, question: "What is the Korean vowel for 'i'?" },
     // Unit 1, Lesson 21003: Danh từ cơ bản
     { id: 22007, lessonId: 21003, type: "SELECT", order: 1, question: 'Which one is "tree"?' },
@@ -120,44 +120,44 @@ export const challenges = [
     { id: 22044, lessonId: 21015, type: "ASSIST", order: 2, question: 'Which is the adjective "small"?' },
     { id: 22045, lessonId: 21015, type: "ASSIST", order: 3, question: '"Beautiful"' },
     // Unit 4, Lesson 21016: Thì quá khứ (았/었)
-    { id: 22046, lessonId: 21016, type: "SELECT", order: 1, question: "What is the past tense of '가다' (to go)?" },
-    { id: 22047, lessonId: 21016, type: "SELECT", order: 2, question: "What is the past tense of '먹다' (to eat)?" },
+    { id: 22046, lessonId: 21016, type: "ASSIST", order: 1, question: "What is the past tense of '가다' (to go)?" },
+    { id: 22047, lessonId: 21016, type: "ASSIST", order: 2, question: "What is the past tense of '먹다' (to eat)?" },
     { id: 22048, lessonId: 21016, type: "ASSIST", order: 3, question: '"I watched a movie"' },
     // Unit 4, Lesson 21017: Thì tương lai (ㄹ/을 거예요)
-    { id: 22049, lessonId: 21017, type: "SELECT", order: 1, question: "What is the future tense of '하다' (to do)?" },
-    { id: 22050, lessonId: 21017, type: "SELECT", order: 2, question: "What is the future tense of '보다' (to see)?" },
+    { id: 22049, lessonId: 21017, type: "ASSIST", order: 1, question: "What is the future tense of '하다' (to do)?" },
+    { id: 22050, lessonId: 21017, type: "ASSIST", order: 2, question: "What is the future tense of '보다' (to see)?" },
     { id: 22051, lessonId: 21017, type: "ASSIST", order: 3, question: '"I will study"' },
     // Unit 4, Lesson 21018: Tiểu từ chủ ngữ (이/가)
     { id: 22052, lessonId: 21018, type: "SELECT", order: 1, question: "Fill in the blank: '사과__ 맛있어요.'" },
     { id: 22053, lessonId: 21018, type: "SELECT", order: 2, question: "Fill in the blank: '학생__ 공부해요.'" },
-    { id: 22054, lessonId: 21018, type: "ASSIST", order: 3, question: 'Which particle goes with "Teacher" (선생님)?' },
+    { id: 22054, lessonId: 21018, type: "SELECT", order: 3, question: 'Which particle goes with "Teacher" (선생님)?' },
     // Unit 4, Lesson 21019: Tiểu từ tân ngữ (을/를)
     { id: 22055, lessonId: 21019, type: "SELECT", order: 1, question: "Fill in the blank: '책__ 읽어요.'" },
     { id: 22056, lessonId: 21019, type: "SELECT", order: 2, question: "Fill in the blank: '영화__ 봐요.'" },
-    { id: 22057, lessonId: 21019, type: "ASSIST", order: 3, question: 'Which particle goes with "Coffee" (커피)?' },
+    { id: 22057, lessonId: 21019, type: "SELECT", order: 3, question: 'Which particle goes with "Coffee" (커피)?' },
     // Unit 4, Lesson 21020: Từ nối (그리고, 그래서)
-    { id: 22058, lessonId: 21020, type: "SELECT", order: 1, question: 'Which conjunction means "and"?' },
-    { id: 22059, lessonId: 21020, type: "SELECT", order: 2, question: 'Which conjunction means "so"?' },
+    { id: 22058, lessonId: 21020, type: "ASSIST", order: 1, question: 'Which conjunction means "and"?' },
+    { id: 22059, lessonId: 21020, type: "ASSIST", order: 2, question: 'Which conjunction means "so"?' },
     { id: 22060, lessonId: 21020, type: "ASSIST", order: 3, question: '"But"' },
     // Unit 5, Lesson 21021: Cảm xúc và Cảm giác
-    { id: 22061, lessonId: 21021, type: "SELECT", order: 1, question: 'Which one means "happy"?' },
-    { id: 22062, lessonId: 21021, type: "SELECT", order: 2, question: 'Which one means "sad"?' },
+    { id: 22061, lessonId: 21021, type: "ASSIST", order: 1, question: 'Which one means "happy"?' },
+    { id: 22062, lessonId: 21021, type: "ASSIST", order: 2, question: 'Which one means "sad"?' },
     { id: 22063, lessonId: 21021, type: "ASSIST", order: 3, question: '"Tired"' },
     // Unit 5, Lesson 21022: Tại nơi làm việc
-    { id: 22064, lessonId: 21022, type: "SELECT", order: 1, question: 'Which word means "meeting"?' },
-    { id: 22065, lessonId: 21022, type: "SELECT", order: 2, question: 'Which word means "report"?' },
+    { id: 22064, lessonId: 21022, type: "ASSIST", order: 1, question: 'Which word means "meeting"?' },
+    { id: 22065, lessonId: 21022, type: "ASSIST", order: 2, question: 'Which word means "report"?' },
     { id: 22066, lessonId: 21022, type: "ASSIST", order: 3, question: '"Colleague"' },
     // Unit 5, Lesson 21023: Thuê nhà
-    { id: 22067, lessonId: 21023, type: "SELECT", order: 1, question: 'Which one is "contract"?' },
-    { id: 22068, lessonId: 21023, type: "SELECT", order: 2, question: 'Which one is "deposit"?' },
+    { id: 22067, lessonId: 21023, type: "ASSIST", order: 1, question: 'Which one is "contract"?' },
+    { id: 22068, lessonId: 21023, type: "ASSIST", order: 2, question: 'Which one is "deposit"?' },
     { id: 22069, lessonId: 21023, type: "ASSIST", order: 3, question: '"Monthly rent"' },
     // Unit 5, Lesson 21024: Lên kế hoạch du lịch
-    { id: 22070, lessonId: 21024, type: "SELECT", order: 1, question: 'Which one means "planning"?' },
-    { id: 22071, lessonId: 21024, type: "SELECT", order: 2, question: 'Which one means "plane ticket"?' },
+    { id: 22070, lessonId: 21024, type: "ASSIST", order: 1, question: 'Which one means "planning"?' },
+    { id: 22071, lessonId: 21024, type: "ASSIST", order: 2, question: 'Which one means "plane ticket"?' },
     { id: 22072, lessonId: 21024, type: "ASSIST", order: 3, question: '"Passport"' },
     // Unit 5, Lesson 21025: Văn hóa Hàn Quốc
-    { id: 22073, lessonId: 21025, type: "SELECT", order: 1, question: 'What is the traditional Korean costume?' },
-    { id: 22074, lessonId: 21025, type: "SELECT", order: 2, question: 'What is Korea’s iconic dish?' },
+    { id: 22073, lessonId: 21025, type: "ASSIST", order: 1, question: 'What is the traditional Korean costume?' },
+    { id: 22074, lessonId: 21025, type: "ASSIST", order: 2, question: 'What is Korea’s iconic dish?' },
     { id: 22075, lessonId: 21025, type: "ASSIST", order: 3, question: '"Cultural heritage"' },
 ] as const;
 
@@ -216,6 +216,7 @@ export const challengeOptions = [
     { challengeId: 22012, correct: true, text: "공부하다", audioSrc: "/assets/audio/korean/unit_10001/kr_gongbuhada.mp3" },
     { challengeId: 22012, correct: false, text: "운동하다", audioSrc: "/assets/audio/korean/unit_10001/kr_undonghada.mp3" },
     { challengeId: 22012, correct: false, text: "일하다", audioSrc: "/assets/audio/korean/unit_10001/kr_ilhada.mp3" },
+    
     // U1-L21005
     { challengeId: 22013, imageSrc:"/assets/images/korean/unit_1/kr_hana.svg", correct: false, text: "하나", audioSrc: "/assets/audio/korean/unit_10001/kr_hana.mp3" },
     { challengeId: 22013, imageSrc:"/assets/images/korean/unit_1/kr_dul.svg", correct: true, text: "둘", audioSrc: "/assets/audio/korean/unit_10001/kr_dul.mp3" },
@@ -235,7 +236,6 @@ export const challengeOptions = [
     { challengeId: 22016, correct: false, text: "안녕", audioSrc: "/assets/audio/korean/unit_20001/kr_annyeong.mp3" },
     { challengeId: 22016, correct: false, text: "여보세요", audioSrc: "/assets/audio/korean/unit_20001/kr_yeoboseyo.mp3" },
 
-    
     { challengeId: 22017, correct: false, text: "미안합니다", audioSrc: "/assets/audio/korean/unit_20001/kr_mianhamnida.mp3" },
     { challengeId: 22017, correct: false, text: "괜찮아요", audioSrc: "/assets/audio/korean/unit_20001/kr_gwaenchanayo.mp3" },
     { challengeId: 22017, correct: true, text: "감사합니다", audioSrc: "/assets/audio/korean/unit_20001/kr_gamsahamnida.mp3" },
@@ -324,7 +324,7 @@ export const challengeOptions = [
     { challengeId: 22035, correct: false, text: "눈이 와요", audioSrc: "/assets/audio/korean/unit_3/kr_nuni-wayo.mp3" },
     { challengeId: 22035, correct: false, text: "바람이 불어요", audioSrc: "/assets/audio/korean/unit_3/kr_barami-bureoyo.mp3" },
 
-    { challengeId: 22036, imageSrc:"/assets/images/korean/unit_3/kr_nun.svg", correct: true, text: "눈", audioSrc: "/assets/audio/korean/unit_3/kr_nun.mp3" },
+    { challengeId: 22036, imageSrc:"/assets/images/korean/unit_3/kr_snow.svg", correct: true, text: "눈", audioSrc: "/assets/audio/korean/unit_3/kr_nun.mp3" },
     { challengeId: 22036, imageSrc:"/assets/images/korean/unit_3/kr_bi.svg", correct: false, text: "비", audioSrc: "/assets/audio/korean/unit_3/kr_bi.mp3" },
     { challengeId: 22036, imageSrc:"/assets/images/korean/unit_3/kr_gureum.svg", correct: false, text: "구름", audioSrc: "/assets/audio/korean/unit_3/kr_gureum.mp3" },
 
@@ -359,8 +359,8 @@ export const challengeOptions = [
     { challengeId: 22043, correct: false, text: "작다", audioSrc: "/assets/audio/korean/unit_3/kr_jakda.mp3" },
     { challengeId: 22043, correct: false, text: "많다", audioSrc: "/assets/audio/korean/unit_3/kr_manta.mp3" },
 
-    { challengeId: 22044, correct: true, text: "작다", audioSrc: "/assets/audio/korean/unit_3/kr_jakda.mp3" },
     { challengeId: 22044, correct: false, text: "적다", audioSrc: "/assets/audio/korean/unit_3/kr_jeokda.mp3" },
+    { challengeId: 22044, correct: true, text: "작다", audioSrc: "/assets/audio/korean/unit_3/kr_jakda.mp3" },
     { challengeId: 22044, correct: false, text: "길다", audioSrc: "/assets/audio/korean/unit_3/kr_gilda.mp3" },
 
     { challengeId: 22045, correct: true, text: "예쁘다", audioSrc: "/assets/audio/korean/unit_3/kr_yeppeuda.mp3" },
@@ -368,105 +368,136 @@ export const challengeOptions = [
     { challengeId: 22045, correct: false, text: "귀엽다", audioSrc: "/assets/audio/korean/unit_3/kr_gwiyeopda.mp3" },
 
     // U4-L21016
-    { challengeId: 22046, correct: true, text: "갔어요", audioSrc: "/assets/audio/korean/unit_4/kr_gasseoyo.mp3" },
     { challengeId: 22046, correct: false, text: "가요", audioSrc: "/assets/audio/korean/unit_4/kr_gayo.mp3" },
+    { challengeId: 22046, correct: true, text: "갔어요", audioSrc: "/assets/audio/korean/unit_4/kr_gasseoyo.mp3" },
     { challengeId: 22046, correct: false, text: "갈 거예요", audioSrc: "/assets/audio/korean/unit_4/kr_gal-geoyeyo.mp3" },
     
-    { challengeId: 22047, correct: true, text: "먹었어요", audioSrc: "/kr_meogeosseoyo.mp3" },
-    { challengeId: 22047, correct: false, text: "마셨어요", audioSrc: "/kr_masyeosseoyo.mp3" },
-    { challengeId: 22047, correct: false, text: "먹을 거예요", audioSrc: "/kr_meogeul-geoyeyo.mp3" },
+    { challengeId: 22047, correct: true, text: "먹었어요", audioSrc: "/assets/audio/korean/unit_4/kr_meogeosseoyo.mp3" },
+    { challengeId: 22047, correct: false, text: "마셨어요", audioSrc: "/assets/audio/korean/unit_4/kr_masyeosseoyo.mp3" },
+    { challengeId: 22047, correct: false, text: "먹을 거예요", audioSrc: "/assets/audio/korean/unit_4/kr_meogeul-geoyeyo.mp3" },
 
-    { challengeId: 22048, correct: true, text: "영화를 봤어요", audioSrc: "/kr_yeonghwareul-bwasseoyo.mp3" },
-    { challengeId: 22048, correct: false, text: "영화를 봐요", audioSrc: "/kr_yeonghwareul-bwayo.mp3" },
-    { challengeId: 22048, correct: false, text: "영화를 볼 거예요", audioSrc: "/kr_yeonghwareul-bol-geoyeyo.mp3" },
+    
+    { challengeId: 22048, correct: false, text: "영화를 봐요", audioSrc: "/assets/audio/korean/unit_4/kr_yeonghwareul-bwayo.mp3" },
+    { challengeId: 22048, correct: false, text: "영화를 볼 거예요", audioSrc: "/assets/audio/korean/unit_4/kr_yeonghwareul-bol-geoyeyo.mp3" },
+    { challengeId: 22048, correct: true, text: "영화를 봤어요", audioSrc: "/assets/audio/korean/unit_4/kr_yeonghwareul-bwasseoyo.mp3" },
+
     // U4-L21017
-    { challengeId: 22049, correct: true, text: "할 거예요", audioSrc: "/kr_hal-geoyeyo.mp3" },
-    { challengeId: 22049, correct: false, text: "했어요", audioSrc: "/kr_haesseoyo.mp3" },
-    { challengeId: 22049, correct: false, text: "해요", audioSrc: "/kr_haeyo.mp3" },
-    { challengeId: 22050, correct: true, text: "볼 거예요", audioSrc: "/kr_bol-geoyeyo.mp3" },
-    { challengeId: 22050, correct: false, text: "봤어요", audioSrc: "/kr_bwasseoyo.mp3" },
-    { challengeId: 22050, correct: false, text: "봐요", audioSrc: "/kr_bwayo.mp3" },
-    { challengeId: 22051, correct: true, text: "공부할 거예요", audioSrc: "/kr_gongbuhal-geoyeyo.mp3" },
-    { challengeId: 22051, correct: false, text: "공부했어요", audioSrc: "/kr_gongbuhaesseoyo.mp3" },
-    { challengeId: 22051, correct: false, text: "공부해요", audioSrc: "/kr_gongbuhaeyo.mp3" },
+    
+    { challengeId: 22049, correct: false, text: "했어요", audioSrc: "/assets/audio/korean/unit_4/kr_haesseoyo.mp3" },
+    { challengeId: 22049, correct: false, text: "해요", audioSrc: "/assets/audio/korean/unit_4/kr_haeyo.mp3" },
+    { challengeId: 22049, correct: true, text: "할 거예요", audioSrc: "/assets/audio/korean/unit_4/kr_hal-geoyeyo.mp3" },
+
+    { challengeId: 22050, correct: false, text: "봤어요", audioSrc: "/assets/audio/korean/unit_4/kr_bwasseoyo.mp3" },
+    { challengeId: 22050, correct: false, text: "봐요", audioSrc: "/assets/audio/korean/unit_4/kr_bwayo.mp3" },
+    { challengeId: 22050, correct: true, text: "볼 거예요", audioSrc: "/assets/audio/korean/unit_4/kr_bol-geoyeyo.mp3" },
+
+    { challengeId: 22051, correct: true, text: "공부할 거예요", audioSrc: "/assets/audio/korean/unit_4/kr_gongbuhal-geoyeyo.mp3" },
+    { challengeId: 22051, correct: false, text: "공부했어요", audioSrc: "/assets/audio/korean/unit_4/kr_gongbuhaesseoyo.mp3" },
+    { challengeId: 22051, correct: false, text: "공부해요", audioSrc: "/assets/audio/korean/unit_4/kr_gongbuhaeyo.mp3" },
+
     // U4-L21018
-    { challengeId: 22052, correct: true, text: "가", audioSrc: "/kr_ga.mp3" },
-    { challengeId: 22052, correct: false, text: "는", audioSrc: "/kr_neun.mp3" },
-    { challengeId: 22052, correct: false, text: "를", audioSrc: "/kr_reul.mp3" },
-    { challengeId: 22053, correct: true, text: "이", audioSrc: "/kr_i.mp3" },
-    { challengeId: 22053, correct: false, text: "은", audioSrc: "/kr_eun.mp3" },
-    { challengeId: 22053, correct: false, text: "을", audioSrc: "/kr_eul.mp3" },
-    { challengeId: 22054, correct: true, text: "이", audioSrc: "/kr_i.mp3" },
-    { challengeId: 22054, correct: false, text: "가", audioSrc: "/kr_ga.mp3" },
-    { challengeId: 22054, correct: false, text: "는", audioSrc: "/kr_neun.mp3" },
+    { challengeId: 22052, imageSrc:"/assets/images/korean/unit_4/kr_ga.svg", correct: true, text: "가", audioSrc: "/assets/audio/korean/unit_4/kr_ga.mp3" },
+    { challengeId: 22052, imageSrc:"/assets/images/korean/unit_4/kr_neun.svg", correct: false, text: "는", audioSrc: "/assets/audio/korean/unit_4/kr_neun.mp3" },
+    { challengeId: 22052, imageSrc:"/assets/images/korean/unit_4/kr_reul.svg", correct: false, text: "를", audioSrc: "/assets/audio/korean/unit_4/kr_reul.mp3" },
+
+    { challengeId: 22053, imageSrc:"/assets/images/korean/unit_4/kr_ii.svg", correct: true, text: "이", audioSrc: "/assets/audio/korean/unit_4/kr_ii.mp3" },
+    { challengeId: 22053, imageSrc:"/assets/images/korean/unit_4/kr_eun.svg", correct: false, text: "은", audioSrc: "/assets/audio/korean/unit_4/kr_eun.mp3" },
+    { challengeId: 22053, imageSrc:"/assets/images/korean/unit_4/kr_eul.svg", correct: false, text: "을", audioSrc: "/assets/audio/korean/unit_4/kr_eul.mp3" },
+
+    { challengeId: 22054, imageSrc:"/assets/images/korean/unit_4/kr_ga.svg", correct: false, text: "가", audioSrc: "/assets/audio/korean/unit_4/kr_ga.mp3" },
+    { challengeId: 22054, imageSrc:"/assets/images/korean/unit_4/kr_ii.svg", correct: true, text: "이", audioSrc: "/assets/audio/korean/unit_4/kr_ii.mp3" },
+    { challengeId: 22054, imageSrc:"/assets/images/korean/unit_4/kr_neun.svg", correct: false, text: "는", audioSrc: "/assets/audio/korean/unit_4/kr_neun.mp3" },
+
     // U4-L21019
-    { challengeId: 22055, correct: true, text: "을", audioSrc: "/kr_eul.mp3" },
-    { challengeId: 22055, correct: false, text: "를", audioSrc: "/kr_reul.mp3" },
-    { challengeId: 22055, correct: false, text: "이", audioSrc: "/kr_i.mp3" },
-    { challengeId: 22056, correct: true, text: "를", audioSrc: "/kr_reul.mp3" },
-    { challengeId: 22056, correct: false, text: "을", audioSrc: "/kr_eul.mp3" },
-    { challengeId: 22056, correct: false, text: "가", audioSrc: "/kr_ga.mp3" },
-    { challengeId: 22057, correct: true, text: "를", audioSrc: "/kr_reul.mp3" },
-    { challengeId: 22057, correct: false, text: "을", audioSrc: "/kr_eul.mp3" },
-    { challengeId: 22057, correct: false, text: "는", audioSrc: "/kr_neun.mp3" },
+    { challengeId: 22055, imageSrc:"/assets/images/korean/unit_4/kr_reul.svg", correct: false, text: "를", audioSrc: "/assets/audio/korean/unit_4/kr_reul.mp3" },
+    { challengeId: 22055, imageSrc:"/assets/images/korean/unit_4/kr_ii.svg", correct: false, text: "이", audioSrc: "/assets/audio/korean/unit_4/kr_ii.mp3" },
+    { challengeId: 22055, imageSrc:"/assets/images/korean/unit_4/kr_eul.svg", correct: true, text: "을", audioSrc: "/assets/audio/korean/unit_4/kr_eul.mp3" },
+
+    { challengeId: 22056, imageSrc:"/assets/images/korean/unit_4/kr_reul.svg", correct: true, text: "를", audioSrc: "/assets/audio/korean/unit_4/kr_reul.mp3" },
+    { challengeId: 22056, imageSrc:"/assets/images/korean/unit_4/kr_eul.svg", correct: false, text: "을", audioSrc: "/assets/audio/korean/unit_4/kr_eul.mp3" },
+    { challengeId: 22056, imageSrc:"/assets/images/korean/unit_4/kr_ga.svg", correct: false, text: "가", audioSrc: "/assets/audio/korean/unit_4/kr_ga.mp3" },
+
+    { challengeId: 22057, imageSrc:"/assets/images/korean/unit_4/kr_reul.svg", correct: true, text: "를", audioSrc: "/assets/audio/korean/unit_4/kr_reul.mp3" },
+    { challengeId: 22057, imageSrc:"/assets/images/korean/unit_4/kr_eul.svg", correct: false, text: "을", audioSrc: "/assets/audio/korean/unit_4/kr_eul.mp3" },
+    { challengeId: 22057, imageSrc:"/assets/images/korean/unit_4/kr_neun.svg", correct: false, text: "는", audioSrc: "/assets/audio/korean/unit_4/kr_neun.mp3" },
+
     // U4-L21020
-    { challengeId: 22058, correct: true, text: "그리고", audioSrc: "/kr_geurigo.mp3" },
-    { challengeId: 22058, correct: false, text: "그래서", audioSrc: "/kr_geuraeseo.mp3" },
-    { challengeId: 22058, correct: false, text: "하지만", audioSrc: "/kr_hajiman.mp3" },
-    { challengeId: 22059, correct: true, text: "그래서", audioSrc: "/kr_geuraeseo.mp3" },
-    { challengeId: 22059, correct: false, text: "그러나", audioSrc: "/kr_geureona.mp3" },
-    { challengeId: 22059, correct: false, text: "그리고", audioSrc: "/kr_geurigo.mp3" },
-    { challengeId: 22060, correct: true, text: "하지만", audioSrc: "/kr_hajiman.mp3" },
-    { challengeId: 22060, correct: false, text: "그래서", audioSrc: "/kr_geuraeseo.mp3" },
-    { challengeId: 22060, correct: false, text: "그러면", audioSrc: "/kr_geureomyeon.mp3" },
+    { challengeId: 22058, correct: true, text: "그리고", audioSrc: "/assets/audio/korean/unit_4/kr_geurigo.mp3" },
+    { challengeId: 22058, correct: false, text: "그래서", audioSrc: "/assets/audio/korean/unit_4/kr_geuraeseo.mp3" },
+    { challengeId: 22058, correct: false, text: "하지만", audioSrc: "/assets/audio/korean/unit_4/kr_hajiman.mp3" },
+
+    { challengeId: 22059, correct: false, text: "그러나", audioSrc: "/assets/audio/korean/unit_4/kr_geureona.mp3" },
+    { challengeId: 22059, correct: true, text: "그래서", audioSrc: "/assets/audio/korean/unit_4/kr_geuraeseo.mp3" },
+    { challengeId: 22059, correct: false, text: "그리고", audioSrc: "/assets/audio/korean/unit_4/kr_geurigo.mp3" },
+
+    { challengeId: 22060, correct: true, text: "하지만", audioSrc: "/assets/audio/korean/unit_4/kr_hajiman.mp3" },
+    { challengeId: 22060, correct: false, text: "그래서", audioSrc: "/assets/audio/korean/unit_4/kr_geuraeseo.mp3" },
+    { challengeId: 22060, correct: false, text: "그러면", audioSrc: "/assets/audio/korean/unit_4/kr_geureomyeon.mp3" },
+
     // U5-L21021
-    { challengeId: 22061, correct: true, text: "행복해요", audioSrc: "/kr_haengbokaeyo.mp3" },
-    { challengeId: 22061, correct: false, text: "슬퍼요", audioSrc: "/kr_seulpeoyo.mp3" },
-    { challengeId: 22061, correct: false, text: "화나요", audioSrc: "/kr_hwanayo.mp3" },
-    { challengeId: 22062, correct: true, text: "슬퍼요", audioSrc: "/kr_seulpeoyo.mp3" },
-    { challengeId: 22062, correct: false, text: "기뻐요", audioSrc: "/kr_gippeoyo.mp3" },
-    { challengeId: 22062, correct: false, text: "피곤해요", audioSrc: "/kr_pigonhaeyo.mp3" },
-    { challengeId: 22063, correct: true, text: "피곤해요", audioSrc: "/kr_pigonhaeyo.mp3" },
-    { challengeId: 22063, correct: false, text: "아파요", audioSrc: "/kr_apayo.mp3" },
-    { challengeId: 22063, correct: false, text: "좋아요", audioSrc: "/kr_joayo.mp3" },
+    { challengeId: 22061, correct: true, text: "행복해요", audioSrc: "/assets/audio/korean/unit_5/kr_haengbokaeyo.mp3" },
+    { challengeId: 22061, correct: false, text: "슬퍼요", audioSrc: "/assets/audio/korean/unit_5/kr_seulpeoyo.mp3" },
+    { challengeId: 22061, correct: false, text: "화나요", audioSrc: "/assets/audio/korean/unit_5/kr_hwanayo.mp3" },
+
+    { challengeId: 22062, correct: true, text: "슬퍼요", audioSrc: "/assets/audio/korean/unit_5/kr_seulpeoyo.mp3" },
+    { challengeId: 22062, correct: false, text: "기뻐요", audioSrc: "/assets/audio/korean/unit_5/kr_gippeoyo.mp3" },
+    { challengeId: 22062, correct: false, text: "피곤해요", audioSrc: "/assets/audio/korean/unit_5/kr_pigonhaeyo.mp3" },
+
+    { challengeId: 22063, correct: true, text: "피곤해요", audioSrc: "/assets/audio/korean/unit_5/kr_pigonhaeyo.mp3" },
+    { challengeId: 22063, correct: false, text: "아파요", audioSrc: "/assets/audio/korean/unit_5/kr_apayo.mp3" },
+    { challengeId: 22063, correct: false, text: "좋아요", audioSrc: "/assets/audio/korean/unit_5/kr_joayo.mp3" },
+
     // U5-L21022
-    { challengeId: 22064, correct: true, text: "회의", audioSrc: "/kr_hoeui.mp3" },
-    { challengeId: 22064, correct: false, text: "보고서", audioSrc: "/kr_bogoseo.mp3" },
-    { challengeId: 22064, correct: false, text: "상사", audioSrc: "/kr_sangsa.mp3" },
-    { challengeId: 22065, correct: true, text: "보고서", audioSrc: "/kr_bogoseo.mp3" },
-    { challengeId: 22065, correct: false, text: "업무", audioSrc: "/kr_eommu.mp3" },
-    { challengeId: 22065, correct: false, text: "동료", audioSrc: "/kr_dongnyo.mp3" },
-    { challengeId: 22066, correct: true, text: "동료", audioSrc: "/kr_dongnyo.mp3" },
-    { challengeId: 22066, correct: false, text: "상사", audioSrc: "/kr_sangsa.mp3" },
-    { challengeId: 22066, correct: false, text: "부하직원", audioSrc: "/kr_buhajigwon.mp3" },
+    
+    { challengeId: 22064, correct: false, text: "보고서", audioSrc: "/assets/audio/korean/unit_5/kr_bogoseo.mp3" },
+    { challengeId: 22064, correct: true, text: "회의", audioSrc: "/assets/audio/korean/unit_5/kr_hoeui.mp3" },
+    { challengeId: 22064, correct: false, text: "상사", audioSrc: "/assets/audio/korean/unit_5/kr_sangsa.mp3" },
+
+    { challengeId: 22065, correct: false, text: "업무", audioSrc: "/assets/audio/korean/unit_5/kr_eommu.mp3" },
+    { challengeId: 22065, correct: false, text: "동료", audioSrc: "/assets/audio/korean/unit_5/kr_dongnyo.mp3" },
+    { challengeId: 22065, correct: true, text: "보고서", audioSrc: "/assets/audio/korean/unit_5/kr_bogoseo.mp3" },
+
+    { challengeId: 22066, correct: true, text: "동료", audioSrc: "/assets/audio/korean/unit_5/kr_dongnyo.mp3" },
+    { challengeId: 22066, correct: false, text: "상사", audioSrc: "/assets/audio/korean/unit_5/kr_sangsa.mp3" },
+    { challengeId: 22066, correct: false, text: "부하직원", audioSrc: "/assets/audio/korean/unit_5/kr_buhajigwon.mp3" },
+
     // U5-L21023
-    { challengeId: 22067, correct: true, text: "계약", audioSrc: "/kr_gyeyak.mp3" },
-    { challengeId: 22067, correct: false, text: "보증금", audioSrc: "/kr_bojeunggeum.mp3" },
-    { challengeId: 22067, correct: false, text: "월세", audioSrc: "/kr_wolse.mp3" },
-    { challengeId: 22068, correct: true, text: "보증금", audioSrc: "/kr_bojeunggeum.mp3" },
-    { challengeId: 22068, correct: false, text: "관리비", audioSrc: "/kr_gwallibi.mp3" },
-    { challengeId: 22068, correct: false, text: "전세", audioSrc: "/kr_jeonse.mp3" },
-    { challengeId: 22069, correct: true, text: "월세", audioSrc: "/kr_wolse.mp3" },
-    { challengeId: 22069, correct: false, text: "계약금", audioSrc: "/kr_gyeyakkeum.mp3" },
-    { challengeId: 22069, correct: false, text: "부동산", audioSrc: "/kr_budongsan.mp3" },
+    { challengeId: 22067, correct: false, text: "보증금", audioSrc: "/assets/audio/korean/unit_5/kr_bojeunggeum.mp3" },
+    { challengeId: 22067, correct: false, text: "월세", audioSrc: "/assets/audio/korean/unit_5/kr_wolse.mp3" },
+    { challengeId: 22067, correct: true, text: "계약", audioSrc: "/assets/audio/korean/unit_5/kr_gyeyak.mp3" },
+
+    { challengeId: 22068, correct: false, text: "관리비", audioSrc: "/assets/audio/korean/unit_5/kr_gwallibi.mp3" },
+    { challengeId: 22068, correct: false, text: "전세", audioSrc: "/assets/audio/korean/unit_5/kr_jeonse.mp3" },
+    { challengeId: 22068, correct: true, text: "보증금", audioSrc: "/assets/audio/korean/unit_5/kr_bojeunggeum.mp3" },
+
+    { challengeId: 22069, correct: true, text: "월세", audioSrc: "/assets/audio/korean/unit_5/kr_wolse.mp3" },
+    { challengeId: 22069, correct: false, text: "계약금", audioSrc: "/assets/audio/korean/unit_5/kr_gyeyakkeum.mp3" },
+    { challengeId: 22069, correct: false, text: "부동산", audioSrc: "/assets/audio/korean/unit_5/kr_budongsan.mp3" },
+
     // U5-L21024
-    { challengeId: 22070, correct: true, text: "계획을 세우다", audioSrc: "/kr_gyehoegeul-seuda.mp3" },
-    { challengeId: 22070, correct: false, text: "비행기 표를 예매하다", audioSrc: "/kr_bihaenggi-pyoreul-yemaehada.mp3" },
-    { challengeId: 22070, correct: false, text: "숙소를 예약하다", audioSrc: "/kr_suksoruel-yeyakada.mp3" },
-    { challengeId: 22071, correct: true, text: "비행기 표", audioSrc: "/kr_bihaenggi-pyo.mp3" },
-    { challengeId: 22071, correct: false, text: "여권", audioSrc: "/kr_yeogwon.mp3" },
-    { challengeId: 22071, correct: false, text: "짐", audioSrc: "/kr_jim.mp3" },
-    { challengeId: 22072, correct: true, text: "여권", audioSrc: "/kr_yeogwon.mp3" },
-    { challengeId: 22072, correct: false, text: "비자", audioSrc: "/kr_bija.mp3" },
-    { challengeId: 22072, correct: false, text: "여행 가방", audioSrc: "/kr_yeohaeng-gabang.mp3" },
+    { challengeId: 22070, correct: false, text: "비행기 표를 예매하다", audioSrc: "/assets/audio/korean/unit_5/kr_bihaenggi-pyoreul-yemaehada.mp3" },
+    { challengeId: 22070, correct: false, text: "숙소를 예약하다", audioSrc: "/assets/audio/korean/unit_5/kr_suksoruel-yeyakada.mp3" },
+    { challengeId: 22070, correct: true, text: "계획을 세우다", audioSrc: "/assets/audio/korean/unit_5/kr_gyehoegeul-seuda.mp3" },
+
+    { challengeId: 22071, correct: false, text: "여권", audioSrc: "/assets/audio/korean/unit_5/kr_yeogwon.mp3" },
+    { challengeId: 22071, correct: true, text: "비행기 표", audioSrc: "/assets/audio/korean/unit_5/kr_bihaenggi-pyo.mp3" },
+    { challengeId: 22071, correct: false, text: "짐", audioSrc: "/assets/audio/korean/unit_5/kr_jim.mp3" },
+
+    { challengeId: 22072, correct: true, text: "여권", audioSrc: "/assets/audio/korean/unit_5/kr_yeogwon.mp3" },
+    { challengeId: 22072, correct: false, text: "비자", audioSrc: "/assets/audio/korean/unit_5/kr_bija.mp3" },
+    { challengeId: 22072, correct: false, text: "여행 가방", audioSrc: "/assets/audio/korean/unit_5/kr_yeohaeng-gabang.mp3" },
+
     // U5-L21025
-    { challengeId: 22073, correct: true, text: "한복", audioSrc: "/kr_hanbok.mp3" },
-    { challengeId: 22073, correct: false, text: "기모노", audioSrc: "/kr_kimono.mp3" },
-    { challengeId: 22073, correct: false, text: "아오자이", audioSrc: "/kr_aozai.mp3" },
-    { challengeId: 22074, correct: true, text: "김치", audioSrc: "/kr_kimchi.mp3" },
-    { challengeId: 22074, correct: false, text: "불고기", audioSrc: "/kr_bulgogi.mp3" },
-    { challengeId: 22074, correct: false, text: "떡볶이", audioSrc: "/kr_tteokbokki.mp3" },
-    { challengeId: 22075, correct: true, text: "문화유산", audioSrc: "/kr_munhwayusan.mp3" },
-    { challengeId: 22075, correct: false, text: "전통", audioSrc: "/kr_jeontong.mp3" },
-    { challengeId: 22075, correct: false, text: "역사", audioSrc: "/kr_yeoksa.mp3" },
+    { challengeId: 22073, correct: false, text: "기모노", audioSrc: "/assets/audio/korean/unit_5/kr_kimono.mp3" },
+    { challengeId: 22073, correct: false, text: "아오자이", audioSrc: "/assets/audio/korean/unit_5/kr_aozai.mp3" },
+    { challengeId: 22073, correct: true, text: "한복", audioSrc: "/assets/audio/korean/unit_5/kr_hanbok.mp3" },
+    
+    { challengeId: 22074, correct: false, text: "불고기", audioSrc: "/assets/audio/korean/unit_5/kr_bulgogi.mp3" },
+    { challengeId: 22074, correct: true, text: "김치", audioSrc: "/assets/audio/korean/unit_5/kr_kimchi.mp3" },
+    { challengeId: 22074, correct: false, text: "떡볶이", audioSrc: "/assets/audio/korean/unit_5/kr_tteokbokki.mp3" },
+    
+    { challengeId: 22075, correct: false, text: "전통", audioSrc: "/assets/audio/korean/unit_5/kr_jeontong.mp3" },
+    { challengeId: 22075, correct: true, text: "문화유산", audioSrc: "/assets/audio/korean/unit_5/kr_munhwayusan.mp3" },
+    { challengeId: 22075, correct: false, text: "역사", audioSrc: "/assets/audio/korean/unit_5/kr_yeoksa.mp3" },
+
 ]as const;

@@ -6,6 +6,9 @@ import "./globals.css";
 import { ExitModal } from "@/components/modals/exit-modal";
 import { HeartsModal } from "@/components/modals/hearts-modal";
 import { PraciceModal } from "@/components/modals/practice-modal";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/mode-toggle";
+
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -21,16 +24,26 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <head>
           <link rel="icon" href="./logo_main.svg" sizes="any" />
         </head>
-        <body className={font.className}>
+        <body className={`${font.className} bg-background text-foreground`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+          <div className="absolute top-4 right-4 z-50">
+              <ModeToggle />
+          </div>
           <Toaster />
           <ExitModal />
           <HeartsModal />
           <PraciceModal />
           {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

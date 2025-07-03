@@ -9,7 +9,7 @@ const CoursesPage = async () => {
 
   return (
     <div className="h-full max-w-[1300px] px-3 mx-auto">
-      <h1 className="text-2xl font-bold text-neutral-600">
+      <h1 className="text-2xl font-bold text-neutral-600 dark:text-neutral-100">
         Languages Courses
       </h1>
       <List
