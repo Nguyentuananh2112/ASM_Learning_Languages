@@ -74,8 +74,8 @@ export const Card = ({
                     className={cn(
                         "text-neutral-600 text-sm lg:text-base dark:text-white",
                         selected && "text-gray-500",
-                        selected && status === "correct" && "text-blue-500",
-                        selected && status === "wrong" && "text-rose-500",
+                        selected && status === "correct" && "text-blue-500 dark:bg-blue-300",
+                        selected && status === "wrong" && "text-rose-500 dark:bg-rose-300",
                     )}
                 >
                     {text}

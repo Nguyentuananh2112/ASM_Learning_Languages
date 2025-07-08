@@ -1,20 +1,17 @@
-// Import Button từ thư mục components/ui
 import { Button } from "@/components/ui/button";
-// Import các component xác thực từ Clerk (thư viện xác thực người dùng)
 import {
-  SignedIn,      // Hiển thị nội dung khi đã đăng nhập
-  SignedOut,     // Hiển thị nội dung khi chưa đăng nhập
-  SignInButton,  // Nút đăng nhập
-  UserButton,    // Hiển thị avatar và menu người dùng
-  ClerkLoaded,   // Hiển thị khi Clerk đã load xong
-  ClerkLoading,  // Hiển thị khi Clerk đang load
+  SignedIn,     
+  SignedOut,    
+  SignInButton,  
+  UserButton,    
+  ClerkLoaded,   
+  ClerkLoading,  
 } from "@clerk/nextjs"; 
-// Import icon Loader từ lucide-react để hiển thị loading
 import { Loader } from "lucide-react";
-// Import component Image của Next.js để tối ưu hình ảnh
 import Image from "next/image";
 
-// Định nghĩa component Header cho phần đầu trang
+
+
 export const Header = () => {
   return (
     // Thanh header với border dưới, padding ngang

@@ -10,49 +10,43 @@ export const course = {
 // == UNITS (ID Range: 20001-20005)
 // ============================================================================
 export const units = [
-    { id: 20001, courseId: 2, title: "Unit 1: Absolute Foundation", description: "Learn the alphabet and basic vocabulary", order: 1 },
-    { id: 20002, courseId: 2, title: "Unit 2: Daily Life", description: "Communicate in real-life situations", order: 2 },
-    { id: 20003, courseId: 2, title: "Unit 3: Expanding Communication", description: "Learn about time, hobbies, and adjectives", order: 3 },
-    { id: 20004, courseId: 2, title: "Unit 4: Sentence Structure", description: "Master core grammar", order: 4 },
-    { id: 20005, courseId: 2, title: "Unit 5: Advanced Topics", description: "Intermediate vocabulary and dialogues", order: 5 },
-]as const;
+    { id: 20001, courseId: 2, title: "unit_20001_title", description: "unit_20001_description", order: 1 },
+    { id: 20002, courseId: 2, title: "unit_20002_title", description: "unit_20002_description", order: 2 },
+    { id: 20003, courseId: 2, title: "unit_20003_title", description: "unit_20003_description", order: 3 },
+    { id: 20004, courseId: 2, title: "unit_20004_title", description: "unit_20004_description", order: 4 },
+    { id: 20005, courseId: 2, title: "unit_20005_title", description: "unit_20005_description", order: 5 },
+] as const;
 
 // ============================================================================
 // == LESSONS (ID Range: 21001-21025)
 // ============================================================================
 export const lessons = [
-    // Unit 1 (ID: 20001)
-    { id: 21001, unitId: 20001, order: 1, title: "Alphabet 1 (Consonants)" },
-    { id: 21002, unitId: 20001, order: 2, title: "Alphabet 2 (Vowels)" },
-    { id: 21003, unitId: 20001, order: 3, title: "Basic Nouns" },
-    { id: 21004, unitId: 20001, order: 4, title: "Basic Verbs" },
-    { id: 21005, unitId: 20001, order: 5, title: "Numbers 1–10 (Native Korean)" },
-    // Unit 2 (ID: 20002)
-    { id: 21006, unitId: 20002, order: 1, title: "Common Greetings" },
-    { id: 21007, unitId: 20002, order: 2, title: "Introducing Yourself" },
-    { id: 21008, unitId: 20002, order: 3, title: "Classroom Objects" },
-    { id: 21009, unitId: 20002, order: 4, title: "Asking Prices & Shopping" },
-    { id: 21010, unitId: 20002, order: 5, title: "Asking for Directions" },
-    // Unit 3 (ID: 20003)
-    { id: 21011, unitId: 20003, order: 1, title: "Talking About Time" },
-    { id: 21012, unitId: 20003, order: 2, title: "Talking About Weather" },
-    { id: 21013, unitId: 20003, order: 3, title: "Talking About Hobbies" },
-    { id: 21014, unitId: 20003, order: 4, title: "Ordering at a Restaurant" },
-    { id: 21015, unitId: 20003, order: 5, title: "Descriptive Adjectives" },
-    // Unit 4 (ID: 20004)
-    { id: 21016, unitId: 20004, order: 1, title: "Past Tense (았/었)" },
-    { id: 21017, unitId: 20004, order: 2, title: "Future Tense (ㄹ/을 거예요)" },
-    { id: 21018, unitId: 20004, order: 3, title: "Subject Particles (이/가)" },
-    { id: 21019, unitId: 20004, order: 4, title: "Object Particles (을/를)" },
-    { id: 21020, unitId: 20004, order: 5, title: "Conjunctions (그리고, 그래서)" },
-    // Unit 5 (ID: 20005)
-    { id: 21021, unitId: 20005, order: 1, title: "Emotions and Feelings" },
-    { id: 21022, unitId: 20005, order: 2, title: "At the Workplace" },
-    { id: 21023, unitId: 20005, order: 3, title: "Renting a House" },
-    { id: 21024, unitId: 20005, order: 4, title: "Planning a Trip" },
-    { id: 21025, unitId: 20005, order: 5, title: "Korean Culture" },
-]as const;
-
+    { id: 21001, unitId: 20001, order: 1, title: "lesson_21001_title" },
+    { id: 21002, unitId: 20001, order: 2, title: "lesson_21002_title" },
+    { id: 21003, unitId: 20001, order: 3, title: "lesson_21003_title" },
+    { id: 21004, unitId: 20001, order: 4, title: "lesson_21004_title" },
+    { id: 21005, unitId: 20001, order: 5, title: "lesson_21005_title" },
+    { id: 21006, unitId: 20002, order: 1, title: "lesson_21006_title" },
+    { id: 21007, unitId: 20002, order: 2, title: "lesson_21007_title" },
+    { id: 21008, unitId: 20002, order: 3, title: "lesson_21008_title" },
+    { id: 21009, unitId: 20002, order: 4, title: "lesson_21009_title" },
+    { id: 21010, unitId: 20002, order: 5, title: "lesson_21010_title" },
+    { id: 21011, unitId: 20003, order: 1, title: "lesson_21011_title" },
+    { id: 21012, unitId: 20003, order: 2, title: "lesson_21012_title" },
+    { id: 21013, unitId: 20003, order: 3, title: "lesson_21013_title" },
+    { id: 21014, unitId: 20003, order: 4, title: "lesson_21014_title" },
+    { id: 21015, unitId: 20003, order: 5, title: "lesson_21015_title" },
+    { id: 21016, unitId: 20004, order: 1, title: "lesson_21016_title" },
+    { id: 21017, unitId: 20004, order: 2, title: "lesson_21017_title" },
+    { id: 21018, unitId: 20004, order: 3, title: "lesson_21018_title" },
+    { id: 21019, unitId: 20004, order: 4, title: "lesson_21019_title" },
+    { id: 21020, unitId: 20004, order: 5, title: "lesson_21020_title" },
+    { id: 21021, unitId: 20005, order: 1, title: "lesson_21021_title" },
+    { id: 21022, unitId: 20005, order: 2, title: "lesson_21022_title" },
+    { id: 21023, unitId: 20005, order: 3, title: "lesson_21023_title" },
+    { id: 21024, unitId: 20005, order: 4, title: "lesson_21024_title" },
+    { id: 21025, unitId: 20005, order: 5, title: "lesson_21025_title" },
+] as const;
 
 // ============================================================================
 // == CHALLENGES (ID Range: 22001-22075)

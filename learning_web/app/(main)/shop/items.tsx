@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useTransition } from "react";
 import { toast } from "sonner";
-
+import { useTranslation } from "react-i18next";
 
 export const POINTS_TO_REFILL = 10;
 
@@ -17,6 +17,8 @@ type Props = {
 
 const Items = ({ hearts, points, hasActiveSubscription }: Props) => {
 
+
+    const { t } = useTranslation();
     const [pending, startTransition] = useTransition();
 
     const onRefillHeart = () => {

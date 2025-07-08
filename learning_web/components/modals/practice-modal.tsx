@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { usePracticesModal } from "@/store/use-practice-modals";
-
+import { useTranslation } from "react-i18next";
 
 
 
@@ -20,6 +20,7 @@ export const PraciceModal = () => {
 
     const [isClient, setIsClient] = useState(false); // đảm bảo chỉ hiển thị khi render client
     const { isOpen, close } = usePracticesModal(); // modal đang mở hay không
+    const { t } = useTranslation();
 
     useEffect(() => setIsClient(true), []);
 
@@ -42,10 +43,10 @@ export const PraciceModal = () => {
                         />
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
-                        Practice lesson
+                        {t("practice_modal_title")}
                     </DialogTitle>
                     <DialogDescription className="text-center text-base">
-                        Use practice lesson to regain hearts and points. You cannot loose hearts or points in practice lessons.
+                        {t("practice_modal_description")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="mb-4">
@@ -53,7 +54,7 @@ export const PraciceModal = () => {
                         
 
                         <Button variant="primary" className="w-full" onClick={close}>
-                            I understand
+                            {t("practice_modal_understand")}
                         </Button>
                     </div>
                 </DialogFooter>

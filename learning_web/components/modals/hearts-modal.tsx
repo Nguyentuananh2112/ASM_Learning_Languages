@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { useHeartsModal } from "@/store/use-hearts-modal";
-
+import { useTranslation } from "react-i18next"; 
 
 
 export const HeartsModal = () => {
     const router = useRouter();
+    const { t } = useTranslation();
     const [isClient, setIsClient] = useState(false); // đảm bảo chỉ hiển thị khi render client
     const { isOpen, close } = useHeartsModal(); // modal đang mở hay không
 
@@ -45,20 +46,20 @@ export const HeartsModal = () => {
                         />
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
-                        You ran out of hearts!
+                        {t("hearts_modal_title")}
                     </DialogTitle>
                     <DialogDescription className="text-center text-base">
-                        Go to purchase them in the store.
+                        {t("hearts_modal_description")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="mb-4">
                     <div className="flex flex-col gap-y-4 w-full">
                         <Button variant="primary" className="w-full" onClick={onClick}>
-                            Get unlimited hearts
+                            {t("hearts_modal_get_unlimited")}
                         </Button>
 
                         <Button variant="primaryOutline" className="w-full" onClick={close}>
-                            No, Thanks
+                            {t("hearts_modal_no_thanks")}
                         </Button>
                     </div>
                 </DialogFooter>

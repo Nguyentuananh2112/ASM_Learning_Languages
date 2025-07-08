@@ -5,16 +5,21 @@ import Link from "next/link";
 import { SidebarItem } from "./sidebar-item";
 import { ClerkLoading, ClerkLoaded, UserButton } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
+// import { useTranslation } from "react-i18next";
+// import { getTranslations } from "@/lib/server-i18n";
 
 type Props = {
   className?: string;
 };
 
-export const Sidebar = ({ className }: Props) => {
+export const Sidebar = async ({ className }: Props) => {
+  
+// const { t } = await getTranslations();
+
   return (
     <div
       className={cn(
-        "flex h-full lg:w-[256px] lg:fixed left-0 top-0 px-4 border-r-2 flex-col",
+        "flex h-full lg:w-[256px] lg:fixed left-0 top-0 px-4 border-r-2 flex-col", // Màu nền sidebar và viền
         className
       )}
     >
@@ -28,14 +33,14 @@ export const Sidebar = ({ className }: Props) => {
       </Link>
 
       <div className="flex flex-col gap-y-2 flex-1">
-        <SidebarItem label="Learn" href="/learn" iconSrc="/learn.svg" />
+        <SidebarItem label="learn" href="/learn" iconSrc="/learn.svg" />
         <SidebarItem
-          label="Leaderboard"
+          label="leaderboard"
           href="/leaderboard"
           iconSrc="/leaderboard.svg"
         />
-        <SidebarItem label="Quests" href="/quests" iconSrc="/quests.svg" />
-        <SidebarItem label="Shop" href="/shop" iconSrc="/shop.svg" />
+        <SidebarItem label="quests" href="/quests" iconSrc="/quests.svg" />
+        <SidebarItem label="shop" href="/shop" iconSrc="/shop.svg" />
         {/* <SidebarItem label="Chat" href="/chat" iconSrc="/chat.png"/> 
                 <SidebarItem label="Chat Bot" href="/chatbot" iconSrc="/logo_ai.svg"/> */}
       </div>

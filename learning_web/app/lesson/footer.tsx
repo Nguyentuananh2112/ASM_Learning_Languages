@@ -1,7 +1,10 @@
+"use client";
+
 import { useKey, useMedia } from "react-use";
 import { CheckCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 // Định nghĩa Props cho Footer
 type Props = {
@@ -21,28 +24,29 @@ export const Footer = ({
     // Cho phép bấm phím Enter để gọi onCheck
     useKey("Enter", onCheck, {}, [onCheck]);
     // Kiểm tra thiết bị có phải mobile không để chỉnh size nút
-    const isMobile = useMedia("(max-width: 1024px)");
+    const isMobile = useMedia("(max-width: 1024px)", false);
+    const { t } = useTranslation();
 
     return (
         <footer className={cn(
             "lg:-h[140px] h-[100px] border-t-2",
-            status === "correct" && "border-transparent bg-blue-100",
-            status === "wrong" && "border-transparent bg-rose-100",
+            status === "correct" && "border-transparent bg-blue-100 dark:bg-blue-200",
+            status === "wrong" && "border-transparent bg-rose-100 dark:bg-rose-200",
         )}>
             <div className="max-width-[1140px] h-full mx-auto flex items-center justify-between px-6 lg:px-10">
                 {/* Hiển thị thông báo khi trả lời đúng */}
                 {status === "correct" && (
-                     <div className="text-blue-500 font-bold text-base lg:text-2xl flex items-center">
+                     <div className="text-blue-500 font-bold text-base lg:text-2xl flex items-center dark:text-blue-400">
                         <CheckCircle className="h-6 w-6 lg:h-10 lg:w-10 mr-4"/>
-                        Nicely done!
+                        {t("nicely_done")}
                     </div>
                 )}
 
                 {/* Hiển thị thông báo khi trả lời sai */}
                 {status === "wrong" && (
-                    <div className="text-rose-500 font-bold text-base lg:text-2xl flex items-center">
+                    <div className="text-rose-500 font-bold text-base lg:text-2xl flex items-center dark:text-rose-400">
                         <XCircle className="h-6 w-6 lg:h-10 lg:w-10 mr-4"/>
-                        Try again.
+                        {t("try_again")}
                     </div>
                 )}
 
@@ -53,7 +57,7 @@ export const Footer = ({
                         size={isMobile ? "sm" : "lg"}
                         onClick={() => window.location.href = `/lesson/${lessonId}`}
                     >
-                        Practice again
+                        {t("practice_again")}
                     </Button>
                 )}
 
@@ -66,9 +70,9 @@ export const Footer = ({
                     variant={status === "wrong" ? "danger" : "secondary"}
                 >
                     {status === "none" && "check"}
-                    {status === "correct" && "Next"}
-                    {status === "wrong" && "Retry"}
-                    {status === "completed" && "Continue"}
+                    {status === "correct" && t("next")}
+                    {status === "wrong" && t("retry")}
+                    {status === "completed" && t("continue")}
                 </Button>
             </div>
         </footer>

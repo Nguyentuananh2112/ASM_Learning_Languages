@@ -8,6 +8,9 @@ import { HeartsModal } from "@/components/modals/hearts-modal";
 import { PraciceModal } from "@/components/modals/practice-modal";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Providers } from "@/components/providers"; 
+import { LanguageSwitcher } from "@/components/language-switcher"; 
+import { ClientOnly } from "@/components/client-only";
 
 
 const font = Nunito({ subsets: ["latin"] });
@@ -29,6 +32,7 @@ export default function RootLayout({
           <link rel="icon" href="./logo_main.svg" sizes="any" />
         </head>
         <body className={`${font.className} bg-background text-foreground`}>
+          <Providers>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -38,12 +42,19 @@ export default function RootLayout({
           <div className="absolute top-4 right-4 z-50">
               <ModeToggle />
           </div>
+
+          <ClientOnly>
+            <div className="absolute top-5 right-[4.8rem] z-50">
+            <LanguageSwitcher />
+          </div>
+          </ClientOnly>
           <Toaster />
           <ExitModal />
           <HeartsModal />
           <PraciceModal />
           {children}
           </ThemeProvider>
+          </Providers>
         </body>
       </html>
     </ClerkProvider>

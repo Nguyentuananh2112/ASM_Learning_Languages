@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-
+import { getTranslations } from "@/lib/server-i18n";
 
 
 
@@ -16,8 +16,7 @@ const LearderboardPage = async () => {
     //const userSubscriptonData = getUserSubscription();
     const leaderboardData = getTopTenUsers();
 
-
-
+    const { t } = await getTranslations();
 
 
     const [
@@ -54,9 +53,11 @@ const LearderboardPage = async () => {
                     width={90}
                     height={90}
                 />
-                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">LeaderBoard</h1>
+                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">
+                    {t("leaderboard_title")}
+                </h1>
                 <p className="text-muted-foreground text-center text-lg mb-6 dark:text-neutral-100">
-                    See where you stand among other learners in the community.
+                    {t("leaderboard_description")}
                 </p>
                 <Separator className="mb-4 h-0.5 rounded-full"/>
                {leaderboard.map((userProgress, index) => (
@@ -80,7 +81,7 @@ const LearderboardPage = async () => {
                         {userProgress.userName }
                     </p>
                     <p className="text-muted-foreground dark:text-white">
-                        {userProgress.points} XP
+                        {t("points_xp", { count: userProgress.points })}
                     </p>
                 </div>
 

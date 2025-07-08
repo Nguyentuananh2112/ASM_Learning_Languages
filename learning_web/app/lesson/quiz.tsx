@@ -6,6 +6,9 @@ import Confetti from "react-confetti";
 import { useAudio, useWindowSize, useMount } from "react-use";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
+import { ClientOnly } from "@/components/client-only";
+import { Loader } from "lucide-react";
 
 import { reduceHearts } from "@/actions/user-progress";
 import { challenges, challengeOptions } from "../db/schema";
@@ -43,6 +46,7 @@ export const Quiz = ({
     initialLessonChallenges,
     userSubscription,
 }: Props) => {
+    const { t } = useTranslation();
     const { open: openHeartsModal } = useHeartsModal();
     const { open: openPracticeModal } = usePracticesModal();
 
@@ -57,7 +61,7 @@ export const Quiz = ({
     const router = useRouter();
 
     // Khởi tạo các hook âm thanh
-    const [finishAudio, finishState, finishControls] = useAudio({ src: "/finish.mp3", autoPlay: true });
+    const [finishAudio, _f, finishControls] = useAudio({ src: "/finish.mp3" });
     const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.mp3" });
     const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.mp3" });
     
@@ -91,13 +95,14 @@ export const Quiz = ({
         setActiveIndex((current) => current + 1); // Chuyển sang câu hỏi tiếp theo
     };
 
-    // // Phát âm thanh hoàn tất chỉ một lần khi bài kiểm tra hoàn thành
-    // useEffect(() => {
-    // if (!challenge && !hasPlayedFinishAudio) {
-    //         finishControls.play();
-    //         setHasPlayedFinishAudio(true); // Đánh dấu âm thanh đã phát
-    //     }
-    // }, [challenge, finishControls, hasPlayedFinishAudio]);
+    
+    // Dùng useEffect để chủ động phát nhạc khi hoàn thành
+    useEffect(() => {
+        // Điều kiện: Không còn câu hỏi VÀ đã đạt 100%
+        if (!challenge && percentage === 100) {
+            finishControls.play();
+        }
+    }, [challenge, percentage, finishControls]);
 
 
 
@@ -171,8 +176,8 @@ export const Quiz = ({
         return (
             <>
             {finishAudio}
-            {/* {correctAudio}
-            {incorrectAudio} */}
+            {correctAudio}
+            {incorrectAudio}
             <Confetti
                 width={width}
                 height={height}
@@ -196,7 +201,7 @@ export const Quiz = ({
                 width={50}
                />
                <h1 className="text-xl lg:text-3xl font-bold text-neutral-700 dark:text-neutral-100">
-                    Great job! <br /> You've completed the lesson.
+                    {t('quiz_complete_title')} <br /> {t('quiz_complete_description')}
                 </h1>
                 <div className="flex items-center gap-x-4 w-full">
                     <ResultCard
@@ -219,13 +224,14 @@ export const Quiz = ({
     }
 
     // Tiêu đề câu hỏi
-    const title = challenge.type === "ASSIST" ? "Select the correct meaning" : challenge.question; // Tiêu đề hiển thị trên mỗi câu hỏi
+    const title = challenge.type === "ASSIST" ? t('quiz_assist_title')  : challenge.question; // Tiêu đề hiển thị trên mỗi câu hỏi
 
     return (
         <>
+            {finishAudio}
             {incorrectAudio}
             {correctAudio}
-            {/* {finishAudio} */}
+            
             {/* Header hiển thị trạng thái học */}
             <Header 
                 hearts={hearts}

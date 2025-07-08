@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import {Button} from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+// import { useTranslation } from 'react-i18next';
 type Props = {
     label: string;
     iconSrc: string;
@@ -12,6 +13,7 @@ type Props = {
 
 
 export const SidebarItem = ({label, iconSrc, href} : Props) => {
+  // const { t } = useTranslation();
   const pathname = usePathname();
   const active = pathname === href;
   return (

@@ -5,10 +5,11 @@ import { UserProgress } from "@/components/user-progress";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Items from "./items";
-
+import { getTranslations } from "@/lib/server-i18n";
 
 const ShopPage = async () => {
 
+    const { t } = await getTranslations();
     const userProgressData = getUserProgress();
 
     const [
@@ -39,9 +40,11 @@ const ShopPage = async () => {
                     width={90}
                     height={90}
                 />
-                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">Shop</h1>
+                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">
+                    {t('shop_title')}
+                </h1>
                 <p className="text-muted-foreground text-center text-lg mb-6 dark:text-white">
-                    Spend your points on coll stuff
+                    {t('shop_description')}
                 </p>
                 <Items 
                     hearts={userProgress.hearts}

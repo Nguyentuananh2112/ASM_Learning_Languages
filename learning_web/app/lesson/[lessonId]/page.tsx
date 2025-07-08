@@ -12,7 +12,8 @@ type Props = {
 const LessonIdPage = async ({params} : Props) => {
   
     // Gọi dữ liệu bài học & tiến độ người dùng
-  const lessonData = getLesson(params.lessonId);
+  const lessonId = Number(params.lessonId);
+  const lessonData = getLesson(lessonId);
   const userProgressData = getUserProgress();
 
   const [lesson, userProgress] = await Promise.all([

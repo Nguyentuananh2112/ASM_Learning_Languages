@@ -5,39 +5,20 @@ import { UserProgress } from "@/components/user-progress";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
+import { getTranslations } from "@/lib/server-i18n";
 
-
-const quest =[
-{
-
-    title: "Earn 20 xp",
-    value: 20,
-},
-{
-
-    title: "Earn 50 xp",
-    value: 50,
-},
-{
-
-    title: "Earn 100 xp",
-    value: 100,
-},
-{
-
-    title: "Earn 500 xp",
-    value: 500,
-},
-{
-
-    title: "Earn 1000 xp",
-    value: 1000,
-},
-
-]
+const quests = [
+    { value: 20 },
+    { value: 50 },
+    { value: 100 },
+    { value: 500 },
+    { value: 1000 },
+];
 
 
 const QuestsPage = async () => {
+
+    const { t } = await getTranslations();
 
     const userProgressData = getUserProgress();
 
@@ -65,12 +46,14 @@ const QuestsPage = async () => {
                     width={90}
                     height={90}
                 />
-                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">Quests</h1>
+                <h1 className="text-center font-bold text-neutral-800 text-2xl my-6 dark:text-white">
+                    {t("quests_title")}
+                </h1>
                 <p className="text-muted-foreground text-center text-lg mb-6 dark:text-white">
-                        Complete quests by earning points.
+                        {t("quests_description")}
                 </p>
                <ul className="w-full"> 
-                {quest.map((quest) =>{
+                {quests.map((quest) =>{
                     const progress = (userProgress.points /quest.value) *100;
 
                     console.log({progress, value: quest.value})
@@ -79,7 +62,7 @@ const QuestsPage = async () => {
 
                         <div
                         className="flex items-center w-full p-4 gap-x-4 border-t-2"
-                        key={quest.title}
+                        key={quest.value}
                         >
                             <Image
                             src="/points.svg"
@@ -89,29 +72,19 @@ const QuestsPage = async () => {
                             />  
                             <div className="flex flex-col gap-y-2 w-full">
                                 <p className="text-neutral-700 text-xl font-bold dark:text-white">
-                                    {quest.title}
+                                    {t("quest_earn_xp", { count: quest.value })}
                                 </p>
                                 <Progress value={progress} className="h-3"/>
-
-
                             </div>
-
                         </div>
                     );
-
-
-
-
                 })}
-
-
-
                </ul>
-                </div>
+            </div>
             </FeedWrapper>
             
         </div>
-     );
+    );
 }
  
 export default QuestsPage;
