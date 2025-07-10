@@ -1,4 +1,6 @@
+import ChatBubble from "@/components/ChatBubble";
 // Định nghĩa layout cho trang học (learn)
+
 export default function LearnLayout({
   children
 }: {
@@ -8,6 +10,7 @@ export default function LearnLayout({
     // Container bọc nội dung, chiều cao full
     <div className="h-full">
       {children} 
+      <ChatBubble />
     </div>
   );
 }
