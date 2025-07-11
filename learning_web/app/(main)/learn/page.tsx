@@ -6,9 +6,13 @@ import { redirect } from "next/navigation";
 import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress } from "@/app/db/queries";
 import { Unit } from "./unit";
 import { lessons, units as unitsSchema } from "@/app/db/schema";
+import { getTranslations } from "@/lib/server-i18n";
 
 
 const LearnPage = async () => {
+
+  const { t } = await getTranslations();
+
   // Gọi các hàm lấy dữ liệu song song
   const unitsData = getUnits(); // Lấy danh sách các Unit trong DB
   const userProgressData = getUserProgress(); // Lấy tiến trình học người dùng
@@ -59,7 +63,7 @@ const LearnPage = async () => {
             id= {unit.id}
             order= {unit.order}
             description= {unit.description}
-            title= {unit.title}
+            title={t(unit.title)}
             lessons= {unit.lessons}
             activeLesson= {courseProgress.activeLesson as typeof lessons.$inferSelect & {
               unit: typeof unitsSchema.$inferSelect;
