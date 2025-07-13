@@ -4,6 +4,7 @@ import StickyWrapper from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { redirect } from "next/navigation";
 import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress } from "@/app/db/queries";
+import { ScrollToTopButton } from "@/components/scroll-to-top-button";
 import { Unit } from "./unit";
 import { lessons, units as unitsSchema } from "@/app/db/schema";
 import { getTranslations } from "@/lib/server-i18n";
@@ -73,6 +74,8 @@ const LearnPage = async () => {
           </div>
         ))}
       </FeedWrapper>
+      {/* nút cuộn lên */}
+      <ScrollToTopButton />
     </div>
   );
 };
