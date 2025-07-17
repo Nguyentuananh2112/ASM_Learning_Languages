@@ -36,17 +36,22 @@ export const ScrollToTopButton = () => {
     }, []);
 
     return (
-        <div className="fixed bottom-5 right-5 z-10">
+        <div className="fixed bottom-5 right-5 z-50">
             <Button
                 size="icon"
                 onClick={scrollToTop}
+                // SỬA ĐỔI: Thêm các lớp CSS để tùy chỉnh giao diện
                 className={cn(
-                    "rounded-full transition-opacity duration-300",
-                    // Áp dụng class để ẩn/hiện nút
+                    "rounded-xl border-2 transition-opacity duration-300",
+                    "bg-white dark:bg-slate-800", // Nền trắng ở light mode, xám đậm ở dark mode
+                    "border-slate-200 dark:border-slate-700", // Viền xám nhạt/đậm
+                    "hover:bg-slate-100 dark:hover:bg-slate-700", // Hiệu ứng hover
+                    // Logic ẩn/hiện nút
                     isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
                 )}
             >
-                <ArrowUp className="h-6 w-6" />
+                {/* SỬA ĐỔI: Thêm lớp CSS để đổi màu icon */}
+                <ArrowUp className="h-6 w-6 text-sky-500" />
             </Button>
         </div>
     );
