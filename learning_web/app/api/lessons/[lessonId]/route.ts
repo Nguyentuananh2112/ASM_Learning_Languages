@@ -9,7 +9,7 @@ import { NextResponse } from "next/server"
 export const GET = async (
 req: Request, { params } : { params: { lessonId: number }},
 ) => {
-    if (!isAdmin()) {
+    if (!(await isAdmin())) {
         return new NextResponse("Unauthorized", { status: 403 });
     }
 
@@ -24,7 +24,7 @@ req: Request, { params } : { params: { lessonId: number }},
 export const PUT = async (
 req: Request, { params } : { params: { lessonId: number }},
 ) => {
-    if (!isAdmin()) {
+    if (!(await isAdmin())) {
         return new NextResponse("Unauthorized", { status: 403 });
     }
 
@@ -40,7 +40,7 @@ export const DELETE = async (
     req: Request, 
     { params } : { params: { lessonId: number }},
 ) => {
-    if (!isAdmin()) {
+    if (!(await isAdmin())) {
         return new NextResponse("Unauthorized", { status: 403 });
     }
 
