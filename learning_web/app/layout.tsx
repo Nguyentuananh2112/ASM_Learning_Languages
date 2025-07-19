@@ -11,6 +11,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Providers } from "@/components/providers"; 
 import { LanguageSwitcher } from "@/components/language-switcher"; 
 import { ClientOnly } from "@/components/client-only";
+import TopRightWidgets from "@/components/TopRightWidgets";
 
 
 const font = Nunito({ subsets: ["latin"] });
@@ -39,15 +40,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          <div className="absolute top-4 right-4 z-50">
-              <ModeToggle />
-          </div>
-
-          <ClientOnly>
-            <div className="absolute top-5 right-[4.8rem] z-50">
-            <LanguageSwitcher />
-          </div>
-          </ClientOnly>
+          <TopRightWidgets />
           <Toaster />
           <ExitModal />
           <HeartsModal />
