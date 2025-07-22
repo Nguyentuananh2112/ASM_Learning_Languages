@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Send, Bot, User, Loader2, Minimize2, Maximize2 } from "lucide-react";
+import { Send, Bot, User, Loader2, Minimize2 } from "lucide-react";
 
 type Message = {
     role: "assistant" | "user";
@@ -12,7 +12,7 @@ type Message = {
 export default function ChatBubble() {
     // Chat bubble states
     const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 30, y: 80 });
+    const [position, setPosition] = useState({ x: window.innerWidth - 94, y: 80 }); // Position on right side
     const [showChat, setShowChat] = useState(false);
     const bubbleRef = useRef<HTMLDivElement>(null);
     const offset = useRef({ x: 0, y: 0 });
@@ -22,19 +22,9 @@ export default function ChatBubble() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [activeMessage, setActiveMessage] = useState<string | null>(null);
     const [chatHistory, setChatHistory] = useState<any[]>([]);
-
-    // Scroll to bottom of messages
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
 
     // Handle message submission
     const handleSubmit = async (e: React.FormEvent) => {
@@ -73,6 +63,14 @@ export default function ChatBubble() {
             setChatHistory(data.history);
         } catch (error) {
             console.error("Error:", error);
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: "assistant",
+                    content: "Sorry, I encountered an error. Please try again later.",
+                    id: (Date.now() + 2).toString(),
+                },
+            ]);
         } finally {
             setIsLoading(false);
         }
@@ -118,25 +116,26 @@ export default function ChatBubble() {
         };
     }, [isDragging]);
 
+    // Handle resize and zoom
     useEffect(() => {
         const handleResize = () => {
             const maxX = window.innerWidth - BUBBLE_SIZE - 10;
             const maxY = window.innerHeight - BUBBLE_SIZE - 10;
-            setPosition(pos => ({
+            setPosition((pos) => ({
                 x: Math.max(10, Math.min(pos.x, maxX)),
                 y: Math.max(10, Math.min(pos.y, maxY)),
             }));
         };
+
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
 
+    // Handle single click to toggle chat
     const handleBubbleClick = (e: React.MouseEvent) => {
-        if (showChat && !isDragging) setShowChat(false);
-    };
-
-    const handleBubbleDoubleClick = (e: React.MouseEvent) => {
-        if (!showChat) setShowChat(true);
+        if (!isDragging) setShowChat(!showChat);
     };
 
     const bubbleTransition = isDragging
@@ -146,27 +145,37 @@ export default function ChatBubble() {
         ? "none"
         : "left 0.3s, top 0.3s";
 
+    // Handle key press for Shift + Enter
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        } else if (e.key === "Enter" && e.shiftKey) {
+            e.preventDefault();
+            setInput((prev) => prev + "\n");
+        }
+    };
+
     return (
         <>
             <div
                 ref={bubbleRef}
                 onMouseDown={onMouseDown}
                 onClick={handleBubbleClick}
-                onDoubleClick={handleBubbleDoubleClick}
                 style={{
                     position: "fixed",
                     left: position.x,
                     top: position.y,
-                    zIndex: 50,
+                    zIndex: 1000,
                     cursor: isDragging ? "grabbing" : "grab",
                     transition: bubbleTransition,
                     boxShadow: isDragging
-                        ? "0 0 0 6px #5ba5fa55, 0 8px 32px 0 #5ba5fa77"
-                        : "0 4px 24px 0 #5ba5fa55",
+                        ? "0 0 0 6px #4b5e97aa, 0 8px 32px 0 #4b5e9777"
+                        : "0 4px 24px 0 #4b5e9755",
                     transform: isDragging ? "scale(1.08)" : "scale(1)",
                 }}
-                className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center text-white text-3xl font-bold select-none shadow-lg hover:shadow-2xl border-4 border-white"
-                title={showChat ? "Click to close chat" : "Double click to open chat"}
+                className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold select-none shadow-lg hover:shadow-2xl border-4 border-white"
+                title={showChat ? "Click to close chat" : "Click to open chat"}
             >
                 💬
             </div>
@@ -174,33 +183,33 @@ export default function ChatBubble() {
                 <div
                     style={{
                         position: "fixed",
-                        left: position.x + 80,
-                        top: position.y,
-                        zIndex: 51,
-                        width: 320,
-                        height: 420,
+                        left: Math.max(10, position.x - 400), // Align chatbox to left of bubble
+                        top: position.y + BUBBLE_SIZE + 10, // Position below bubble with spacing
+                        zIndex: 999,
+                        width: 360,
+                        height: 480, // Fixed height as original
                         transition: chatTransition,
                     }}
-                    className="bg-gray-950/80 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/10 flex flex-col overflow-hidden"
+                    className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-700 flex flex-col"
                 >
-                    <div className="p-4 flex items-center justify-between border-b border-white/10 bg-purple-500/20">
+                    <div className="p-3 flex items-center justify-between border-b border-gray-700 bg-blue-600/20">
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-purple-500 animate-pulse" />
-                            <h1 className="text-base font-light tracking-wider text-white">LINO CHAT</h1>
+                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                            <h1 className="text-sm font-semibold tracking-wide text-white">LINO CHAT ASSISTANT</h1>
                         </div>
                         <button
                             onClick={() => setShowChat(false)}
-                            className="p-2 hover:bg-white/5 rounded-lg transition-colors text-white"
+                            className="p-1 hover:bg-gray-700/50 rounded-md transition-colors text-white"
                         >
-                            <Minimize2 size={16} />
+                            <Minimize2 size={14} />
                         </button>
                     </div>
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 mb-16">
+                    <div className="flex-1 p-3 space-y-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800" style={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>
                         {messages.length === 0 && (
                             <div className="flex flex-col items-center justify-center h-full space-y-2 text-center">
-                                <div className="text-xl font-thin tracking-widest text-purple-300">NEW</div>
-                                <p className="text-gray-400 text-sm">
-                                    Welcome to the quantum realm of conversation.
+                                <div className="text-lg font-light text-blue-300">START CHAT</div>
+                                <p className="text-gray-400 text-xs">
+                                    Ask me anything in your language—I’ll respond naturally!
                                 </p>
                             </div>
                         )}
@@ -211,27 +220,27 @@ export default function ChatBubble() {
                                 onMouseEnter={() => setActiveMessage(message.id)}
                                 onMouseLeave={() => setActiveMessage(null)}
                             >
-                                <div className={`group relative max-w-[80%] ${message.role === "assistant" ? "pr-4" : "pl-4"}`}>
-                                    <div className={`p-3 rounded-2xl text-sm transition-all duration-300 ${activeMessage === message.id ? "scale-[1.02]" : "scale-100"} ${message.role === "assistant" ? "bg-purple-500/10 hover:bg-purple-500/20 rounded-tl-sm" : "bg-white/5 hover:bg-white/10 rounded-tr-sm"}`}>
+                                <div className={`group relative max-w-[75%] ${message.role === "assistant" ? "pr-3" : "pl-3"}`}>
+                                    <div className={`p-2 rounded-lg text-sm transition-all duration-300 ${activeMessage === message.id ? "scale-[1.02]" : "scale-100"} ${message.role === "assistant" ? "bg-blue-600/20 hover:bg-blue-600/30 rounded-tl-sm" : "bg-gray-700/30 hover:bg-gray-700/50 rounded-tr-sm"}`} style={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>
                                         {message.content}
                                     </div>
-                                    <div className={`absolute -bottom-4 flex items-center gap-1 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity ${message.role === "assistant" ? "left-0" : "right-0"}`}>
-                                        <div className="w-4 h-4 rounded-full flex items-center justify-center bg-white/5">
-                                            {message.role === "assistant" ? <Bot size={10} /> : <User size={10} />}
+                                    <div className={`absolute -bottom-3 flex items-center gap-1 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity ${message.role === "assistant" ? "left-0" : "right-0"}`}>
+                                        <div className="w-3 h-3 rounded-full flex items-center justify-center bg-gray-700/50">
+                                            {message.role === "assistant" ? <Bot size={8} /> : <User size={8} />}
                                         </div>
-                                        {new Date().toLocaleDateString()}
+                                        {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </div>
                                 </div>
                             </div>
                         ))}
                         {isLoading && (
                             <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 rounded-full bg-purple-500/10 flex items-center justify-center">
-                                    <Loader2 size={12} className="animate-spin text-purple-500" />
+                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center">
+                                    <Loader2 size={10} className="animate-spin text-blue-500" />
                                 </div>
                                 <div className="space-y-1">
-                                    <div className="h-1 w-16 bg-purple-500/10 rounded-full animate-pulse" />
-                                    <div className="h-1 w-12 bg-purple-500/10 rounded-full animate-pulse" />
+                                    <div className="h-1 w-12 bg-blue-600/20 rounded-full animate-pulse" />
+                                    <div className="h-1 w-8 bg-blue-600/20 rounded-full animate-pulse" />
                                 </div>
                             </div>
                         )}
@@ -239,20 +248,21 @@ export default function ChatBubble() {
                     </div>
                     <form
                         onSubmit={handleSubmit}
-                        className="p-4 border-t border-white/10 bg-gray-950/80 backdrop-blur-md"
+                        className="p-3 border-t border-gray-700 bg-gray-800/90"
                     >
                         <div className="relative">
-                            <input
-                                type="text"
+                            <textarea
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Enter message..."
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-purple-500/50 placeholder:text-gray-500"
+                                onKeyDown={handleKeyPress}
+                                placeholder="Type your message (e.g., Xin chào, Hello, Hola)..."
+                                className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-gray-400 pr-10"
+                                style={{ minHeight: "60px", maxHeight: "120px", resize: "vertical" }}
                             />
                             <button
                                 type="submit"
                                 disabled={isLoading || !input.trim()}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/5 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md hover:bg-gray-600/50 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
                             >
                                 <Send size={16} />
                             </button>
