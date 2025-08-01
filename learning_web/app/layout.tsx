@@ -40,7 +40,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          <TopRightWidgets />
+          {/* Chỉ hiện TopRightWidgets ở desktop (>=640px) */}
+          <div className="hidden sm:block">
+            <TopRightWidgets />
+          </div>
           <Toaster />
           <ExitModal />
           <HeartsModal />

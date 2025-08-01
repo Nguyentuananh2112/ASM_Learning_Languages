@@ -12,11 +12,17 @@ type Message = {
 export default function ChatBubble() {
     // Chat bubble states
     const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: window.innerWidth - 94, y: 80 }); // Position on right side
+    // Khởi tạo vị trí mặc định tĩnh để tránh lỗi SSR (window is not defined)
+    const [position, setPosition] = useState({ x: 0, y: 80 });
     const [showChat, setShowChat] = useState(false);
     const bubbleRef = useRef<HTMLDivElement>(null);
     const offset = useRef({ x: 0, y: 0 });
     const BUBBLE_SIZE = 64;
+
+    // Khi đã vào client, cập nhật lại vị trí dựa trên window.innerWidth
+    useEffect(() => {
+        setPosition({ x: window.innerWidth - 94, y: 80 });
+    }, []);
 
     // Chat states
     const [messages, setMessages] = useState<Message[]>([]);
@@ -76,16 +82,17 @@ export default function ChatBubble() {
         }
     };
 
-    // Handle bubble dragging
+    // --- PHÂN BIỆT CLICK VÀ DRAG BUBBLE ---
+    const [dragged, setDragged] = useState(false);
     const onMouseDown = (e: React.MouseEvent) => {
         setIsDragging(true);
+        setDragged(false); // Reset cờ dragged
         offset.current = {
             x: e.clientX - position.x,
             y: e.clientY - position.y,
         };
         document.body.style.userSelect = "none";
     };
-
     const onMouseMove = (e: MouseEvent) => {
         if (!isDragging) return;
         const maxX = window.innerWidth - BUBBLE_SIZE - 10;
@@ -95,26 +102,82 @@ export default function ChatBubble() {
         newX = Math.max(10, Math.min(newX, maxX));
         newY = Math.max(10, Math.min(newY, maxY));
         setPosition({ x: newX, y: newY });
+        setDragged(true); // Đánh dấu là đã kéo
     };
-
     const onMouseUp = () => {
         setIsDragging(false);
         document.body.style.userSelect = "";
     };
+    // Chỉ mở chatbox khi click thực sự (không phải drag)
+    const handleBubbleClick = (e: React.MouseEvent) => {
+        if (!isDragging && !dragged) setShowChat(true);
+    };
+    // --- END PHÂN BIỆT CLICK VÀ DRAG BUBBLE ---
 
+    // --- DRAG CHATBOX BY HEADER ---
+    // Trạng thái kéo chatbox
+    const [isDraggingChat, setIsDraggingChat] = useState(false);
+    const chatOffset = useRef({ x: 0, y: 0 });
+
+    // Bắt đầu kéo khi mousedown vào header chatbox
+    const onChatHeaderMouseDown = (e: React.MouseEvent) => {
+        setIsDraggingChat(true);
+        chatOffset.current = {
+            x: e.clientX - position.x,
+            y: e.clientY - position.y,
+        };
+        document.body.style.userSelect = "none";
+    };
+    // Kéo chatbox
+    const onChatMouseMove = (e: MouseEvent) => {
+        if (!isDraggingChat) return;
+        const maxX = window.innerWidth - 360 - 10; // 360 là width chatbox
+        const maxY = window.innerHeight - 480 - 10; // 480 là height chatbox
+        let newX = e.clientX - chatOffset.current.x;
+        let newY = e.clientY - chatOffset.current.y;
+        newX = Math.max(10, Math.min(newX, maxX));
+        newY = Math.max(10, Math.min(newY, maxY));
+        setPosition({ x: newX, y: newY });
+    };
+    const onChatMouseUp = () => {
+        setIsDraggingChat(false);
+        document.body.style.userSelect = "";
+    };
     useEffect(() => {
-        if (isDragging) {
-            window.addEventListener("mousemove", onMouseMove);
-            window.addEventListener("mouseup", onMouseUp);
+        if (isDraggingChat) {
+            window.addEventListener("mousemove", onChatMouseMove);
+            window.addEventListener("mouseup", onChatMouseUp);
         } else {
-            window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("mousemove", onChatMouseMove);
+            window.removeEventListener("mouseup", onChatMouseUp);
         }
         return () => {
-            window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("mousemove", onChatMouseMove);
+            window.removeEventListener("mouseup", onChatMouseUp);
         };
-    }, [isDragging]);
+    }, [isDraggingChat]);
+    // --- END DRAG CHATBOX BY HEADER ---
+
+    // --- Transition cho bubble và chatbox ---
+    const bubbleTransition = isDragging
+        ? "box-shadow 0.1s, transform 0.1s"
+        : "box-shadow 0.3s, transform 0.3s, left 0.3s, top 0.3s";
+    const chatboxTransition = isDraggingChat ? "none" : "left 0.3s, top 0.3s";
+    // --- END Transition cho bubble và chatbox ---
+
+    // --- Ẩn chatbox khi click ra ngoài ---
+    const chatBoxRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (!showChat) return;
+        function handleClickOutside(e: MouseEvent) {
+            // Nếu click vào chatbox thì không làm gì
+            if (chatBoxRef.current && chatBoxRef.current.contains(e.target as Node)) return;
+            setShowChat(false);
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showChat]);
+    // --- END Ẩn chatbox khi click ra ngoài ---
 
     // Handle resize and zoom
     useEffect(() => {
@@ -133,17 +196,20 @@ export default function ChatBubble() {
         };
     }, []);
 
-    // Handle single click to toggle chat
-    const handleBubbleClick = (e: React.MouseEvent) => {
-        if (!isDragging) setShowChat(!showChat);
-    };
-
-    const bubbleTransition = isDragging
-        ? "box-shadow 0.1s, transform 0.1s"
-        : "box-shadow 0.3s, transform 0.3s, left 0.3s, top 0.3s";
-    const chatTransition = isDragging
-        ? "none"
-        : "left 0.3s, top 0.3s";
+    // Handle bubble dragging events
+    useEffect(() => {
+        if (isDragging) {
+            window.addEventListener("mousemove", onMouseMove);
+            window.addEventListener("mouseup", onMouseUp);
+        } else {
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
+        }
+        return () => {
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
+        };
+    }, [isDragging]);
 
     // Handle key press for Shift + Enter
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -158,41 +224,51 @@ export default function ChatBubble() {
 
     return (
         <>
-            <div
-                ref={bubbleRef}
-                onMouseDown={onMouseDown}
-                onClick={handleBubbleClick}
-                style={{
-                    position: "fixed",
-                    left: position.x,
-                    top: position.y,
-                    zIndex: 1000,
-                    cursor: isDragging ? "grabbing" : "grab",
-                    transition: bubbleTransition,
-                    boxShadow: isDragging
-                        ? "0 0 0 6px #4b5e97aa, 0 8px 32px 0 #4b5e9777"
-                        : "0 4px 24px 0 #4b5e9755",
-                    transform: isDragging ? "scale(1.08)" : "scale(1)",
-                }}
-                className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold select-none shadow-lg hover:shadow-2xl border-4 border-white"
-                title={showChat ? "Click to close chat" : "Click to open chat"}
-            >
-                💬
-            </div>
-            {showChat && (
+            {/* Ẩn bubble khi showChat=true */}
+            {!showChat && (
                 <div
+                    ref={bubbleRef}
+                    onMouseDown={onMouseDown}
+                    onClick={handleBubbleClick}
                     style={{
                         position: "fixed",
-                        left: Math.max(10, position.x - 400), // Align chatbox to left of bubble
-                        top: position.y + BUBBLE_SIZE + 10, // Position below bubble with spacing
+                        left: position.x,
+                        top: position.y,
+                        zIndex: 1000,
+                        cursor: isDragging ? "grabbing" : "grab",
+                        transition: bubbleTransition,
+                        boxShadow: isDragging
+                            ? "0 0 0 6px #4b5e97aa, 0 8px 32px 0 #4b5e9777"
+                            : "0 4px 24px 0 #4b5e9755",
+                        transform: isDragging ? "scale(1.08)" : "scale(1)",
+                    }}
+                    className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold select-none shadow-lg hover:shadow-2xl border-4 border-white"
+                    title={showChat ? "Click to close chat" : "Click to open chat"}
+                >
+                    💬
+                </div>
+            )}
+            {/* Hiện chatbox khi showChat=true */}
+            {showChat && (
+                <div
+                    ref={chatBoxRef}
+                    style={{
+                        position: "fixed",
+                        left: Math.max(10, Math.min(position.x, window.innerWidth - 360 - 10)),
+                        top: Math.max(10, Math.min(position.y, window.innerHeight - 480 - 10)),
                         zIndex: 999,
-                        width: 360,
-                        height: 480, // Fixed height as original
-                        transition: chatTransition,
+                        width: Math.min(360, window.innerWidth - 20),
+                        height: Math.min(480, window.innerHeight - 20),
+                        transition: chatboxTransition,
+                        cursor: isDraggingChat ? "grabbing" : "default",
                     }}
                     className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-700 flex flex-col"
                 >
-                    <div className="p-3 flex items-center justify-between border-b border-gray-700 bg-blue-600/20">
+                    {/* Thanh header của chatbox, dùng để kéo */}
+                    <div
+                        className="p-3 flex items-center justify-between border-b border-gray-700 bg-blue-600/20 cursor-move select-none rounded-t-xl"
+                        onMouseDown={onChatHeaderMouseDown}
+                    >
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
                             <h1 className="text-sm font-semibold tracking-wide text-white">LINO CHAT ASSISTANT</h1>
@@ -209,7 +285,7 @@ export default function ChatBubble() {
                             <div className="flex flex-col items-center justify-center h-full space-y-2 text-center">
                                 <div className="text-lg font-light text-blue-300">START CHAT</div>
                                 <p className="text-gray-400 text-xs">
-                                    Ask me anything in your language—I’ll respond naturally!
+                                    Ask me anything in your language—I'll respond naturally!
                                 </p>
                             </div>
                         )}
