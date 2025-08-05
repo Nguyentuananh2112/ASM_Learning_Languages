@@ -38,9 +38,9 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon">
-          {/* Đặt cùng kích thước với Sun/Moon: h-6 w-6 */}
-          <Globe className="h-6 w-6" />
+        <Button variant="ghost" size="icon">
+          {/* Đồng bộ kích thước với các icon khác */}
+          <Globe className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

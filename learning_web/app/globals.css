@@ -1,6 +1,32 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* CSS cho Chat bubble - đặt ở đầu file để có độ ưu tiên cao */
+[data-chat-bubble] {
+  font-size: 16px !important;
+}
+
+[data-chat-bubble] h1 {
+  font-size: 24px !important;
+}
+
+[data-chat-bubble] h2 {
+  font-size: 20px !important;
+}
+
+[data-chat-bubble] h3 {
+  font-size: 18px !important;
+}
+
+[data-chat-bubble] p,
+[data-chat-bubble] span,
+[data-chat-bubble] div,
+[data-chat-bubble] input,
+[data-chat-bubble] textarea {
+  font-size: 16px !important;
+}
+
+/* CSS gốc */
 html,
 body,
 :root {
@@ -126,5 +152,72 @@ body,
     @apply bg-background text-foreground;
     font-family: 'Quicksand', sans-serif;
     transition: background 0.3s, color 0.3s;
+  }
+}
+
+/* CSS cho tùy chỉnh kích cỡ chữ */
+/* Chỉ áp dụng cho main content area */
+.main-content {
+  /* Kích cỡ chữ nhỏ */
+  &.font-size-small {
+    font-size: 0.875rem; /* 14px */
+
+    h1 {
+      font-size: 1.5rem; /* 24px */
+    }
+
+    h2 {
+      font-size: 1.25rem; /* 20px */
+    }
+
+    h3 {
+      font-size: 1.125rem; /* 18px */
+    }
+
+    p, span, div:not([class*="sidebar"]):not([class*="chat"]):not([class*="mobile"]) {
+      font-size: 0.875rem; /* 14px */
+    }
+  }
+
+  /* Kích cỡ chữ trung bình (mặc định) */
+  &.font-size-medium {
+    font-size: 1rem; /* 16px */
+
+    h1 {
+      font-size: 1.75rem; /* 28px */
+    }
+
+    h2 {
+      font-size: 1.5rem; /* 24px */
+    }
+
+    h3 {
+      font-size: 1.25rem; /* 20px */
+    }
+
+    p, span, div:not([class*="sidebar"]):not([class*="chat"]):not([class*="mobile"]) {
+      font-size: 1rem; /* 16px */
+    }
+  }
+
+  /* Kích cỡ chữ lớn */
+  &.font-size-large {
+    font-size: 1.125rem; /* 18px */
+
+    h1 {
+      font-size: 2rem; /* 32px */
+    }
+
+    h2 {
+      font-size: 1.75rem; /* 28px */
+    }
+
+    h3 {
+      font-size: 1.5rem; /* 24px */
+    }
+
+    p, span, div:not([class*="sidebar"]):not([class*="chat"]):not([class*="mobile"]) {
+      font-size: 1.125rem; /* 18px */
+    }
   }
 }

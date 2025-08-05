@@ -12,6 +12,7 @@ import { Providers } from "@/components/providers";
 import { LanguageSwitcher } from "@/components/language-switcher"; 
 import { ClientOnly } from "@/components/client-only";
 import TopRightWidgets from "@/components/TopRightWidgets";
+import { FontSizeProvider } from "@/components/FontSizeSelector";
 
 
 const font = Nunito({ subsets: ["latin"] });
@@ -34,6 +35,7 @@ export default function RootLayout({
         </head>
         <body className={`${font.className} bg-background text-foreground`}>
           <Providers>
+          <FontSizeProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -50,6 +52,7 @@ export default function RootLayout({
           <PraciceModal />
           {children}
           </ThemeProvider>
+          </FontSizeProvider>
           </Providers>
         </body>
       </html>

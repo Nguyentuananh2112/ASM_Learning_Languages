@@ -10,6 +10,7 @@ type Message = {
 };
 
 export default function ChatBubble() {
+    // Không cần containerRef nữa vì đã dùng data-chat-bubble
     // Chat bubble states
     const [isDragging, setIsDragging] = useState(false);
     // Khởi tạo vị trí mặc định tĩnh để tránh lỗi SSR (window is not defined)
@@ -228,6 +229,7 @@ export default function ChatBubble() {
             {!showChat && (
                 <div
                     ref={bubbleRef}
+                    data-chat-bubble
                     onMouseDown={onMouseDown}
                     onClick={handleBubbleClick}
                     style={{
@@ -252,6 +254,7 @@ export default function ChatBubble() {
             {showChat && (
                 <div
                     ref={chatBoxRef}
+                    data-chat-bubble
                     style={{
                         position: "fixed",
                         left: Math.max(10, Math.min(position.x, window.innerWidth - 360 - 10)),

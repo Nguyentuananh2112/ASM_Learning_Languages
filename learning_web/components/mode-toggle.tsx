@@ -19,10 +19,10 @@ export function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button>
-            {/* Đặt cùng kích thước với Globe: h-6 w-6 */}
-            <Sun className="h-9 w-9 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-9 w-9 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        <Button variant="ghost" size="icon">
+            {/* Đồng bộ kích thước với các icon khác */}
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

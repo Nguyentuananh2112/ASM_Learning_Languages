@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import { ModeToggle } from "./mode-toggle";
 import { ClientOnly } from "./client-only";
 import { LanguageSwitcher } from "./language-switcher";
+import { FontSizeSelector } from "./FontSizeSelector";
 
 export default function TopRightWidgets() {
   const pathname = usePathname();
@@ -21,6 +22,8 @@ export default function TopRightWidgets() {
     >
       {/* Icon chuyển chế độ sáng/tối */}
       <ModeToggle />
+      {/* Icon tùy chỉnh kích cỡ chữ */}
+      <FontSizeSelector />
       {/* Icon chọn ngôn ngữ, chỉ render trên client để tránh lỗi hydration */}
       <ClientOnly>
         <LanguageSwitcher />
