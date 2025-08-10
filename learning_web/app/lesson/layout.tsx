@@ -1,4 +1,4 @@
-
+import ChatBubbleWrapper from "@/components/ChatBubbleWrapper";
 
 type Props = {
     children: React.ReactNode;
@@ -6,11 +6,15 @@ type Props = {
 
 const LessonLayout = ({ children }: Props) => {
     return ( 
-        <div className="flex flex-col h-full">
-            <div className="flex flex-col h-full w-full">
+        <>
+         <div className="flex flex-col h-full">
+            <div className="main-content flex flex-col h-full w-full">
                 {children}
             </div>
         </div>
+        <ChatBubbleWrapper />
+        </>
+       
     );
 };
  

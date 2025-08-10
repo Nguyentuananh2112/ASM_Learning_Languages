@@ -31,7 +31,7 @@ export const Card = ({
 }: Props) => {
 
     const [audio, _, controls] = useAudio({ src: audioSrc || "" });
-    const handleClick = useCallback(() => {
+  const handleClick = useCallback(() => {
     if (disabled) return;
     
     controls.play();
@@ -47,7 +47,7 @@ export const Card = ({
             onClick={handleClick}
             className={cn(
                 "h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2",
-                selected && "border-gray-300 bg-gray-100 hover:bg-gray-100",
+                selected && "text-gray-500 dark:text-gray-200",
                 selected && status === "correct" && "border-blue-300 bg-blue-100 hover:bg-blue-100",
                 selected && status === "wrong" && "border-rose-300 bg-rose-100 hover:bg-rose-100",
                 disabled && "pointer-events-none hover:bg-white",
@@ -72,10 +72,10 @@ export const Card = ({
                 {type === "ASSIST" && <div />}
                 <p
                     className={cn(
-                        "text-neutral-600 text-sm lg:text-base",
+                        "text-neutral-600 text-sm lg:text-base dark:text-white",
                         selected && "text-gray-500",
-                        selected && status === "correct" && "text-blue-500",
-                        selected && status === "wrong" && "text-rose-500",
+                        selected && status === "correct" && "text-blue-500 dark:bg-blue-300",
+                        selected && status === "wrong" && "text-rose-500 dark:bg-rose-300",
                     )}
                 >
                     {text}
@@ -83,10 +83,10 @@ export const Card = ({
                 <div
                     className={cn(
                         "lg:w-[20px] lg:h-[30px] w-[40px] h-[20px] border-2 flex items-center "
-                        + "justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold",
-                        selected && "border-gray-300 text-gray-500",
-                        selected && status === "correct" && "border-blue-500 text-blue-500",
-                        selected && status === "wrong" && "text-rose-500 border-rose-500",
+                        + "justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold dark:text-white",
+                        selected && "border-gray-300 text-gray-500 dark:text-gray-200",
+                        selected && status === "correct" && "border-blue-500 text-blue-500 dark:text-blue-400",
+                        selected && status === "wrong" && "text-rose-500 border-rose-500 dark:text-rose-400",
                     )}
                 >
                     {shortcut}

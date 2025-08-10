@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { useExitModal } from "@/store/use-exit-modal";
-
+import { useTranslation } from "react-i18next";
 
 export const ExitModal = () => {
+    const { t } = useTranslation();
     const router = useRouter();
     const [isClient, setIsClient] = useState(false); // đảm bảo chỉ hiển thị khi render client
     const { isOpen, close } = useExitModal(); // modal đang mở hay không
@@ -39,23 +40,23 @@ export const ExitModal = () => {
                         />
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
-                        Wait, don&apos;t go!
+                        {t("exit_modal_title")}
                     </DialogTitle>
                     <DialogDescription className="text-center text-base">
-                        You&apos;re about to leave the lesson. Are you sure you want to exit?
+                        {t("exit_modal_description")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="mb-4">
                     <div className="flex flex-col gap-y-4 w-full">
                         <Button variant="primary" className="w-full" onClick={close}>
-                            Keep learning
+                            {t("exit_modal_keep_learning")}
                         </Button>
 
                         <Button variant="dangerOutline" className="w-full" onClick={() => {
                             close();
                             router.push("/learn");
                         }}>
-                            Exit lesson
+                            {t("exit_modal_exit_lesson")}
                         </Button>
                     </div>
                 </DialogFooter>

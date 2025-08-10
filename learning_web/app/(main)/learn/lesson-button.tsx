@@ -5,6 +5,7 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import "react-circular-progressbar/dist/styles.css";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     id: number;
@@ -23,6 +24,7 @@ export const LessonButton = ({
     current,
     percentage
 }: Props) => {
+    const { t } = useTranslation();
     const cycleLength = 8;
     const cycleIndex = index % cycleLength;
 
@@ -55,8 +57,10 @@ export const LessonButton = ({
             }}>
                 {current ? (
                     <div className="h-[102px] w-[102px] relative">
-                        <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-blue-400 bg-white rounded-xl animate-bounce tracking-wide z-10">
-                            Start
+                        <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-blue-400 bg-white rounded-xl animate-bounce z-10 whitespace-nowrap" style={{minWidth: 80}}>
+                            {t("start")}
+
+                            {/* Mũi nhọn ở nút start(Bắt đầu) trong /learn */}
                             <div
                                 className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2"
                             />

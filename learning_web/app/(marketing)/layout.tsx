@@ -14,7 +14,9 @@ const MarketingLayout = ({ children }: Props) => {
         <div className="min-h-screen flex flex-col">
             <Header /> {/* Phần đầu trang */}
             <main className="flex flex-1 flex-col items-center justify-center">
-                {children} {/* Nội dung chính của trang */}
+                <div className="main-content w-full">
+                    {children} {/* Nội dung chính của trang */}
+                </div>
             </main>
             <Footer /> {/* Phần chân trang */}
         </div>

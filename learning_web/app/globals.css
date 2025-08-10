@@ -1,6 +1,32 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* CSS cho Chat bubble - đặt ở đầu file để có độ ưu tiên cao */
+[data-chat-bubble] {
+  font-size: 16px !important;
+}
+
+[data-chat-bubble] h1 {
+  font-size: 24px !important;
+}
+
+[data-chat-bubble] h2 {
+  font-size: 20px !important;
+}
+
+[data-chat-bubble] h3 {
+  font-size: 18px !important;
+}
+
+[data-chat-bubble] p,
+[data-chat-bubble] span,
+[data-chat-bubble] div,
+[data-chat-bubble] input,
+[data-chat-bubble] textarea {
+  font-size: 16px !important;
+}
+
+/* CSS gốc */
 html,
 body,
 :root {
@@ -85,9 +111,9 @@ body,
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --background: oklch(21.341% 0.04758 250.524);
+  --foreground: oklch(0.93 0.01 220);
+  --card: oklch(0.23 0.04 220); 
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -100,9 +126,9 @@ body,
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(0.28 0.04 220); 
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: oklch(0.65 0.15 220);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -126,5 +152,72 @@ body,
     @apply bg-background text-foreground;
     font-family: 'Quicksand', sans-serif;
     transition: background 0.3s, color 0.3s;
+  }
+}
+
+/* CSS cho tùy chỉnh kích cỡ chữ */
+/* Chỉ áp dụng cho main content area */
+.main-content {
+  /* Kích cỡ chữ nhỏ */
+  &.font-size-small {
+    font-size: 0.875rem; /* 14px */
+
+    h1 {
+      font-size: 1.5rem; /* 24px */
+    }
+
+    h2 {
+      font-size: 1.25rem; /* 20px */
+    }
+
+    h3 {
+      font-size: 1.125rem; /* 18px */
+    }
+
+    p, span, div:not([class*="sidebar"]):not([class*="chat"]):not([class*="mobile"]) {
+      font-size: 0.875rem; /* 14px */
+    }
+  }
+
+  /* Kích cỡ chữ trung bình (mặc định) */
+  &.font-size-medium {
+    font-size: 1rem; /* 16px */
+
+    h1 {
+      font-size: 1.75rem; /* 28px */
+    }
+
+    h2 {
+      font-size: 1.5rem; /* 24px */
+    }
+
+    h3 {
+      font-size: 1.25rem; /* 20px */
+    }
+
+    p, span, div:not([class*="sidebar"]):not([class*="chat"]):not([class*="mobile"]) {
+      font-size: 1rem; /* 16px */
+    }
+  }
+
+  /* Kích cỡ chữ lớn */
+  &.font-size-large {
+    font-size: 1.125rem; /* 18px */
+
+    h1 {
+      font-size: 2rem; /* 32px */
+    }
+
+    h2 {
+      font-size: 1.75rem; /* 28px */
+    }
+
+    h3 {
+      font-size: 1.5rem; /* 24px */
+    }
+
+    p, span, div:not([class*="sidebar"]):not([class*="chat"]):not([class*="mobile"]) {
+      font-size: 1.125rem; /* 18px */
+    }
   }
 }
