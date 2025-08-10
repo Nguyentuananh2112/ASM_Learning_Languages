@@ -23,8 +23,16 @@ export const List = ({ courses, activeCourseId }: Props) => {
             return router.push("/learn"); // Nếu khóa học đã được chọn, chuyển hướng đến trang học
         }
         startTransition(() => {
-            upsertUserProgress(id).catch(() => toast.error("Something went wrong! Please try again later."));
-
+            upsertUserProgress(id)
+                .catch((error: any) => {
+                    // Kiểm tra xem có phải redirect không
+                    if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+                        console.log("Redirecting to learn page");
+                        return; // Không hiển thị error toast cho redirect
+                    }
+                    console.error("Error updating user progress:", error);
+                    toast.error("Something went wrong! Please try again later.");
+                });
         });
     }
 
