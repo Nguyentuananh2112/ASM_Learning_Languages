@@ -12,5 +12,5 @@ export const isAdmin = async () => {
         return false;
     }
 
-    return adminIds.indexOf(userId) !== -1;
+    return adminIds.includes(userId);
 };

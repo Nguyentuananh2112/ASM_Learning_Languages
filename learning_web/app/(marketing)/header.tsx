@@ -10,9 +10,12 @@ import {
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import TopRightWidgets from "@/components/TopRightWidgets";
+import { getTranslations } from "@/lib/server-i18n";
 
 
-export const Header = () => {
+export const Header = async () => {
+
+  const { t } = await getTranslations();
   return (
     // Thanh header với border dưới, padding ngang
     <header className="h-20 w-full border-b-2 border-slate-200 px-4">
@@ -40,7 +43,7 @@ export const Header = () => {
             <SignedOut>
               <SignInButton>
                 <Button size="lg" variant="ghost">
-                  Login
+                  {t("login")}
                 </Button>
               </SignInButton>
             </SignedOut>

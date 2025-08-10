@@ -13,6 +13,8 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { ClientOnly } from "@/components/client-only";
 import TopRightWidgets from "@/components/TopRightWidgets";
 import { FontSizeProvider } from "@/components/FontSizeSelector";
+import AdminShortcut from "@/components/admin-shortcut";
+import BackToHome from "@/components/admin-shortcut/back-to-home";
 
 
 const font = Nunito({ subsets: ["latin"] });
@@ -47,6 +49,8 @@ export default function RootLayout({
             <TopRightWidgets />
           </div>
           <Toaster />
+          <BackToHome />
+          <AdminShortcut />
           <ExitModal />
           <HeartsModal />
           <PraciceModal />

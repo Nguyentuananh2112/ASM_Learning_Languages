@@ -15,15 +15,26 @@ export const GET = async () => {
 }
 
 export const POST = async (req: Request) => {
-    if (!(await isAdmin())) {
+    if (!await isAdmin()) {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const body = await req.json();
-    
-    const data = await db.insert(courses).values({
-        ...body,
-    }).returning();
+    console.log('BODY:', body);
 
-    return NextResponse.json(data[0]);
-}
+    // Map đúng field schema (phải là imageSrc, không phải image_src!)
+    const data = {
+        title: body.title,
+        imageSrc: body.imageSrc, // <-- Đúng theo schema drizzle!
+    };
+
+    // Kiểm tra dữ liệu có đủ chưa
+    if (!data.title || !data.imageSrc) {
+        return NextResponse.json({ error: "Thiếu dữ liệu title hoặc imageSrc" }, { status: 400 });
+    }
+
+    // Truyền đúng kiểu vào drizzle
+    const result = await db.insert(courses).values(data).returning();
+
+    return NextResponse.json(result[0]);
+};
