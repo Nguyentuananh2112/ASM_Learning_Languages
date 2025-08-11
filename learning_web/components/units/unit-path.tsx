@@ -17,12 +17,12 @@ export const UnitPath = ({ type, completed, active }: UnitPathProps) => {
   if (type === "start") icon = <Star className="w-8 h-8" />;
 
   // Xác định màu nền và hiệu ứng dựa vào trạng thái
-  let bg = completed
+  const bg = completed
     ? "bg-[#5ba5fa] text-white"
     : active
     ? "bg-white border-2 border-[#5ba5fa] text-[#5ba5fa]"
     : "bg-gray-200 text-gray-400";
-  let shadow = completed || active ? "shadow-lg" : "";
+  const shadow = completed || active ? "shadow-lg" : "";
 
   return (
     <div className="flex flex-col items-center relative">
