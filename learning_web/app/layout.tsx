@@ -36,6 +36,8 @@ export default function RootLayout({
           <link rel="icon" href="./logo_main.svg" sizes="any" />
         </head>
         <body className={`${font.className} bg-background text-foreground`}>
+
+          <AdminShortcut />
           <Providers>
           <FontSizeProvider>
           <ThemeProvider
@@ -50,7 +52,7 @@ export default function RootLayout({
           </div>
           <Toaster />
           <BackToHome />
-          <AdminShortcut />
+          
           <ExitModal />
           <HeartsModal />
           <PraciceModal />

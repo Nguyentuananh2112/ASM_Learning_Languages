@@ -46,11 +46,14 @@ export const Card = ({
         <div
             onClick={handleClick}
             className={cn(
-                "h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2",
-                selected && "text-gray-500 dark:text-gray-200",
-                selected && status === "correct" && "border-blue-300 bg-blue-100 hover:bg-blue-100",
-                selected && status === "wrong" && "border-rose-300 bg-rose-100 hover:bg-rose-100",
-                disabled && "pointer-events-none hover:bg-white",
+                "h-full border-2 rounded-xl border-b-4 hover:bg-black/5 dark:hover:bg-white/5 p-4 lg:p-6 cursor-pointer active:border-b-2 transition-all duration-200",
+                // Styling cho đáp án đã chọn nhưng chưa có kết quả
+                selected && status === "none" && "border-sky-400 bg-sky-50 dark:bg-sky-900/30 dark:border-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 shadow-md",
+                // Styling cho đáp án đúng
+                selected && status === "correct" && "border-blue-400 bg-blue-100 dark:bg-blue-900/30 dark:border-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 shadow-md",
+                // Styling cho đáp án sai
+                selected && status === "wrong" && "border-rose-400 bg-rose-100 dark:bg-rose-900/30 dark:border-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 shadow-md",
+                disabled && "pointer-events-none hover:bg-white dark:hover:bg-gray-800",
                 type === "ASSIST" && "lg:p-3 w-full"
             )} 
         >
@@ -72,10 +75,13 @@ export const Card = ({
                 {type === "ASSIST" && <div />}
                 <p
                     className={cn(
-                        "text-neutral-600 text-sm lg:text-base dark:text-white",
-                        selected && "text-gray-500",
-                        selected && status === "correct" && "text-blue-500 dark:bg-blue-300",
-                        selected && status === "wrong" && "text-rose-500 dark:bg-rose-300",
+                        "text-neutral-600 text-sm lg:text-base dark:text-neutral-300 font-medium",
+                        // Text color cho đáp án đã chọn nhưng chưa có kết quả
+                        selected && status === "none" && "text-sky-700 dark:text-sky-300",
+                        // Text color cho đáp án đúng
+                        selected && status === "correct" && "text-blue-700 dark:text-blue-300",
+                        // Text color cho đáp án sai
+                        selected && status === "wrong" && "text-rose-700 dark:text-rose-300",
                     )}
                 >
                     {text}
@@ -83,10 +89,13 @@ export const Card = ({
                 <div
                     className={cn(
                         "lg:w-[20px] lg:h-[30px] w-[40px] h-[20px] border-2 flex items-center "
-                        + "justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold dark:text-white",
-                        selected && "border-gray-300 text-gray-500 dark:text-gray-200",
-                        selected && status === "correct" && "border-blue-500 text-blue-500 dark:text-blue-400",
-                        selected && status === "wrong" && "text-rose-500 border-rose-500 dark:text-rose-400",
+                        + "justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold dark:text-neutral-400 transition-all duration-200",
+                        // Styling cho shortcut khi đáp án đã chọn nhưng chưa có kết quả
+                        selected && status === "none" && "border-sky-500 text-sky-600 dark:text-sky-400 dark:border-sky-400 bg-sky-100 dark:bg-sky-900/50",
+                        // Styling cho shortcut khi đáp án đúng
+                        selected && status === "correct" && "border-blue-500 text-blue-600 dark:text-blue-400 dark:border-blue-400 bg-blue-100 dark:bg-blue-900/50",
+                        // Styling cho shortcut khi đáp án sai
+                        selected && status === "wrong" && "border-rose-500 text-rose-600 dark:text-rose-400 dark:border-rose-400 bg-rose-100 dark:bg-rose-900/50",
                     )}
                 >
                     {shortcut}
