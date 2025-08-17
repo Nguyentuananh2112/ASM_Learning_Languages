@@ -191,9 +191,9 @@ export const challengeOptions = [
     { challengeId: 42005, correct: false, text: "Hỏi", audioSrc: "/assets/audio/vietnamese/unit_1/vi_hoi.mp3" },
     { challengeId: 42005, correct: false, text: "Ngã", audioSrc: "/assets/audio/vietnamese/unit_1/vi_nga.mp3" },
 
-    { challengeId: 42006, correct: false, text: "Dạy", audioSrc: "/assets/audio/vietnamese/unit_1/vi_day_huyen.mp3" },
-    { challengeId: 42006, correct: false, text: "Đãi", audioSrc: "/assets/audio/vietnamese/unit_1/vi_dai_hoi.mp3" },
-    { challengeId: 42006, correct: true, text: "Lẽ", audioSrc: "/assets/audio/vietnamese/unit_1/vi_le_nga.mp3" }, // Moved correct answer
+    { challengeId: 42006, correct: false, text: "Dạy", audioSrc: "/assets/audio/vietnamese/unit_1/vi_day.mp3" },
+    { challengeId: 42006, correct: false, text: "Đãi", audioSrc: "/assets/audio/vietnamese/unit_1/vi_dai.mp3" },
+    { challengeId: 42006, correct: true, text: "Lẽ", audioSrc: "/assets/audio/vietnamese/unit_1/vi_le.mp3" }, // Moved correct answer
 
     // U1-L41003
     { challengeId: 42007, correct: true, text: "Chào buổi sáng", audioSrc: "/assets/audio/vietnamese/unit_1/vi_chao_buoi_sang.mp3" }, // Moved correct answer
@@ -222,13 +222,13 @@ export const challengeOptions = [
     { challengeId: 42012, correct: false, text: "chúng tôi", audioSrc: "/assets/audio/vietnamese/unit_1/vi_chung_toi.mp3" },
 
     // U1-L41005
-    { challengeId: 42013, imageSrc: "/assets/images/vietnamese/unit_1/vi_bay.svg", correct: true, text: "bảy", audioSrc: "/assets/audio/vietnamese/unit_1/vi_bay.mp3" }, // Moved correct answer
-    { challengeId: 42013, imageSrc: "/assets/images/vietnamese/unit_1/vi_sau.svg", correct: false, text: "sáu", audioSrc: "/assets/audio/vietnamese/unit_1/vi_sau.mp3" },
-    { challengeId: 42013, imageSrc: "/assets/images/vietnamese/unit_1/vi_tam.svg", correct: false, text: "tám", audioSrc: "/assets/audio/vietnamese/unit_1/vi_tam.mp3" },
+    { challengeId: 42013, imageSrc: "/assets/images/vietnamese/unit_1/vi_bay.svg", correct: true, audioSrc: "/assets/audio/vietnamese/unit_1/vi_bay.mp3" }, // Moved correct answer
+    { challengeId: 42013, imageSrc: "/assets/images/vietnamese/unit_1/vi_sau.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_1/vi_sau.mp3" },
+    { challengeId: 42013, imageSrc: "/assets/images/vietnamese/unit_1/vi_tam.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_1/vi_tam.mp3" },
 
-    { challengeId: 42014, imageSrc: "/assets/images/vietnamese/unit_1/vi_chin.svg", correct: true, text: "chín", audioSrc: "/assets/audio/vietnamese/unit_1/vi_chin.mp3" }, // Moved correct answer
-    { challengeId: 42014, imageSrc: "/assets/images/vietnamese/unit_1/vi_bay.svg", correct: false, text: "bảy", audioSrc: "/assets/audio/vietnamese/unit_1/vi_bay.mp3" },
-    { challengeId: 42014, imageSrc: "/assets/images/vietnamese/unit_1/vi_sau.svg", correct: false, text: "sáu", audioSrc: "/assets/audio/vietnamese/unit_1/vi_sau.mp3" },
+    { challengeId: 42014, imageSrc: "/assets/images/vietnamese/unit_1/vi_chin.svg", correct: true, audioSrc: "/assets/audio/vietnamese/unit_1/vi_chin.mp3" }, // Moved correct answer
+    { challengeId: 42014, imageSrc: "/assets/images/vietnamese/unit_1/vi_bay.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_1/vi_bay.mp3" },
+    { challengeId: 42014, imageSrc: "/assets/images/vietnamese/unit_1/vi_sau.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_1/vi_sau.mp3" },
 
     { challengeId: 42015, correct: false, text: "tám", audioSrc: "/assets/audio/vietnamese/unit_1/vi_tam.mp3" },
     { challengeId: 42015, correct: true, text: "chín", audioSrc: "/assets/audio/vietnamese/unit_1/vi_chin.mp3" }, // Moved correct answer
@@ -261,13 +261,13 @@ export const challengeOptions = [
     { challengeId: 42021, correct: false, text: "anh trai", audioSrc: "/assets/audio/vietnamese/unit_2/vi_anh_trai.mp3" },
 
     // U2-L41008
-    { challengeId: 42022, imageSrc: "/assets/images/vietnamese/unit_2/vi_xe_may.svg", correct: true, text: "xe máy", audioSrc: "/assets/audio/vietnamese/unit_2/vi_xe_may.mp3" }, // Moved correct answer
-    { challengeId: 42022, imageSrc: "/assets/images/vietnamese/unit_2/vi_xe_dap.svg", correct: false, text: "xe đạp", audioSrc: "/assets/audio/vietnamese/unit_2/vi_xe_dap.mp3" },
-    { challengeId: 42022, imageSrc: "/assets/images/vietnamese/unit_2/vi_o_to.svg", correct: false, text: "ô tô", audioSrc: "/assets/audio/vietnamese/unit_2/vi_o_to.mp3" },
+    { challengeId: 42022, imageSrc: "/assets/images/vietnamese/unit_2/vi_xe_may.svg", correct: true, audioSrc: "/assets/audio/vietnamese/unit_2/vi_xe_may.mp3" }, // Moved correct answer
+    { challengeId: 42022, imageSrc: "/assets/images/vietnamese/unit_2/vi_xe_dap.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_2/vi_xe_dap.mp3" },
+    { challengeId: 42022, imageSrc: "/assets/images/vietnamese/unit_2/vi_o_to.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_2/vi_o_to.mp3" },
 
-    { challengeId: 42023, imageSrc: "/assets/images/vietnamese/unit_2/vi_cua_so.svg", correct: true, text: "cửa sổ", audioSrc: "/assets/audio/vietnamese/unit_2/vi_cua_so.mp3" }, // Moved correct answer
-    { challengeId: 42023, imageSrc: "/assets/images/vietnamese/unit_2/vi_cua_ra_vao.svg", correct: false, text: "cửa ra vào", audioSrc: "/assets/audio/vietnamese/unit_2/vi_cua_ra_vao.mp3" },
-    { challengeId: 42023, imageSrc: "/assets/images/vietnamese/unit_2/vi_tu.svg", correct: false, text: "tủ", audioSrc: "/assets/audio/vietnamese/unit_2/vi_tu.mp3" },
+    { challengeId: 42023, imageSrc: "/assets/images/vietnamese/unit_2/vi_cua_so.svg", correct: true, audioSrc: "/assets/audio/vietnamese/unit_2/vi_cua_so.mp3" }, // Moved correct answer
+    { challengeId: 42023, imageSrc: "/assets/images/vietnamese/unit_2/vi_cua_ra_vao.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_2/vi_cua_ra_vao.mp3" },
+    { challengeId: 42023, imageSrc: "/assets/images/vietnamese/unit_2/vi_tu.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_2/vi_tu.mp3" },
 
     { challengeId: 42024, correct: false, text: "ghế", audioSrc: "/assets/audio/vietnamese/unit_2/vi_ghe.mp3" },
     { challengeId: 42024, correct: false, text: "tủ", audioSrc: "/assets/audio/vietnamese/unit_2/vi_tu.mp3" },
@@ -321,9 +321,9 @@ export const challengeOptions = [
     { challengeId: 42035, correct: false, text: "Trời lạnh", audioSrc: "/assets/audio/vietnamese/unit_3/vi_troi_lanh.mp3" },
     { challengeId: 42035, correct: false, text: "Trời mát", audioSrc: "/assets/audio/vietnamese/unit_3/vi_troi_mat.mp3" },
 
-    { challengeId: 42036, imageSrc: "/assets/images/vietnamese/unit_3/vi_nang.svg", correct: true, text: "nắng", audioSrc: "/assets/audio/vietnamese/unit_3/vi_nang.mp3" }, // Moved correct answer
-    { challengeId: 42036, imageSrc: "/assets/images/vietnamese/unit_3/vi_may.svg", correct: false, text: "mây", audioSrc: "/assets/audio/vietnamese/unit_3/vi_may.mp3" },
-    { challengeId: 42036, imageSrc: "/assets/images/vietnamese/unit_3/vi_mua.svg", correct: false, text: "mưa", audioSrc: "/assets/audio/vietnamese/unit_3/vi_mua.mp3" },
+    { challengeId: 42036, imageSrc: "/assets/images/vietnamese/unit_3/vi_nang.svg", correct: true, audioSrc: "/assets/audio/vietnamese/unit_3/vi_nang.mp3" }, // Moved correct answer
+    { challengeId: 42036, imageSrc: "/assets/images/vietnamese/unit_3/vi_may.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_3/vi_may.mp3" },
+    { challengeId: 42036, imageSrc: "/assets/images/vietnamese/unit_3/vi_mua.svg", correct: false, audioSrc: "/assets/audio/vietnamese/unit_3/vi_mua.mp3" },
 
     // U3-L41013
     { challengeId: 42037, correct: false, text: "đọc sách", audioSrc: "/assets/audio/vietnamese/unit_3/vi_doc_sach.mp3" },
