@@ -15,8 +15,7 @@ import TopRightWidgets from "@/components/TopRightWidgets";
 import { FontSizeProvider } from "@/components/FontSizeSelector";
 import AdminShortcut from "@/components/admin-shortcut";
 import BackToHome from "@/components/admin-shortcut/back-to-home";
-import { initializeAudioOnInteraction } from "@/lib/audio-utils";
-import { AudioPreloader } from "@/components/AudioPreloader";
+
 
 
 const font = Nunito({ subsets: ["latin"] });
@@ -31,10 +30,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Initialize audio on first user interaction
-  if (typeof window !== 'undefined') {
-    initializeAudioOnInteraction();
-  }
+
 
   return (
     <ClerkProvider>
@@ -59,8 +55,6 @@ export default function RootLayout({
           </div>
           <Toaster />
           <BackToHome />
-          <AudioPreloader />
-          
           <ExitModal />
           <HeartsModal />
           <PraciceModal />

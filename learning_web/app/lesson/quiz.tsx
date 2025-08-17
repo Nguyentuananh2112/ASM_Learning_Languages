@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import Image from "next/image";
 import Confetti from "react-confetti";
-import { useWindowSize, useMount } from "react-use";
+import { useAudio, useWindowSize, useMount } from "react-use";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ import { ResultCard } from "./result-card";
 import QuestionBubble from "./question-bubble";
 import { useHeartsModal } from "@/store/use-hearts-modal";
 import { usePracticesModal } from "@/store/use-practice-modals";
-import { useAudioManager } from "@/lib/audio-utils";
+
 
 
 
@@ -61,8 +61,10 @@ export const Quiz = ({
 
     const router = useRouter();
 
-    // Khởi tạo audio manager
-    const { playAudio } = useAudioManager();
+    // Khởi tạo các hook âm thanh
+    const [finishAudio, _f, finishControls] = useAudio({ src: "/finish.mp3" });
+    const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.mp3" });
+    const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.mp3" });
     
     const [pending, startTransiton] = useTransition(); // Xử lý trạng thái loading khi gọi API
 
@@ -99,11 +101,9 @@ export const Quiz = ({
     useEffect(() => {
         // Điều kiện: Không còn câu hỏi VÀ đã đạt 100%
         if (!challenge && percentage === 100) {
-            playAudio("/finish.mp3").catch(error => {
-                console.error('Failed to play finish audio:', error);
-            });
+            finishControls.play();
         }
-    }, [challenge, percentage, playAudio]);
+    }, [challenge, percentage, finishControls]);
 
 
 
@@ -143,9 +143,7 @@ export const Quiz = ({
                         return;
                     }
                     
-                    playAudio("/correct.mp3").catch(error => {
-                        console.error('Failed to play correct audio:', error);
-                    }); // Phát âm thanh đúng
+                    correctControls.play(); // Phát âm thanh đúng
                     setStatus("correct"); // Đánh dấu trả lời đúng
                     setPercentage((prev) => prev + 100 /challenges.length); // Tăng phần trăm hoàn thành
 
@@ -163,9 +161,7 @@ export const Quiz = ({
                         return;
                     }
 
-                    playAudio("/incorrect.mp3").catch(error => {
-                        console.error('Failed to play incorrect audio:', error);
-                    }); // Phát âm thanh sai
+                    incorrectControls.play(); // Phát âm thanh sai
                     setStatus("wrong"); // Đánh dấu trả lời sai
 
                     if (!respone?.error) {
@@ -180,6 +176,10 @@ export const Quiz = ({
     if (!challenge) {
         return (
             <>
+            {finishAudio}
+            {correctAudio}
+            {incorrectAudio}
+            {/* Hiển thị confetti khi hoàn thành bài học */}
             <Confetti
                 width={width}
                 height={height}
@@ -230,6 +230,9 @@ export const Quiz = ({
 
     return (
         <>
+            {finishAudio}
+            {correctAudio}
+            {incorrectAudio}
             
             {/* Header hiển thị trạng thái học */}
             <Header 
