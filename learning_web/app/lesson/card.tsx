@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { challenges } from "../db/schema";
 import { useCallback } from "react";
-import { useAudio, useKey } from "react-use";
-import { cidr } from "drizzle-orm/pg-core";
+import { useKey } from "react-use";
+import { useAudioManager } from "@/lib/audio-utils";
 
 type Props = {
     id: number;
@@ -21,7 +21,7 @@ export const Card = ({
     id, 
     text, 
     imageSrc, 
-    shortcut, 
+    shortcut,
     selected, 
     onClick, 
     status, 
@@ -30,15 +30,22 @@ export const Card = ({
     type
 }: Props) => {
 
-    const [audio, _, controls] = useAudio({ src: audioSrc || "" });
-  const handleClick = useCallback(() => {
-    if (disabled) return;
+    const { playAudio } = useAudioManager();
     
-    controls.play();
-    onClick();
-
-
-  }, [disabled, onClick, controls]);
+    const handleClick = useCallback(async () => {
+        if (disabled) return;
+        
+        // Play audio if available
+        if (audioSrc) {
+            try {
+                await playAudio(audioSrc);
+            } catch (error) {
+                console.error('Failed to play audio:', error);
+            }
+        }
+        
+        onClick();
+    }, [disabled, onClick, playAudio, audioSrc]);
 
   useKey(shortcut, handleClick, {}, [handleClick]);
     
@@ -57,7 +64,6 @@ export const Card = ({
                 type === "ASSIST" && "lg:p-3 w-full"
             )} 
         >
-            {audio}
             {imageSrc && (
                 <div className="relative aspect-square mb-4 max-h-[80px] lg:max-h-[150px] w-full">
                     <Image 
