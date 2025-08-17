@@ -26,6 +26,7 @@ import { usePracticesModal } from "@/store/use-practice-modals";
 
 
 
+
 // Định nghĩa kiểu Props cho component Quiz
 type Props = {
     initialLessonId: number;
@@ -178,6 +179,7 @@ export const Quiz = ({
             {finishAudio}
             {correctAudio}
             {incorrectAudio}
+            {/* Hiển thị confetti khi hoàn thành bài học */}
             <Confetti
                 width={width}
                 height={height}
@@ -229,8 +231,8 @@ export const Quiz = ({
     return (
         <>
             {finishAudio}
-            {incorrectAudio}
             {correctAudio}
+            {incorrectAudio}
             
             {/* Header hiển thị trạng thái học */}
             <Header 

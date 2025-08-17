@@ -1,44 +1,34 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getLesson, getUserProgress } from "@/app/db/queries";
 import { Quiz } from "../quiz";
 
-
-type Props = {
-    params: {
-        lessonId: number;
-    }
-  }
-
-const LessonIdPage = async ({params} : Props) => {
-  
-    // Gọi dữ liệu bài học & tiến độ người dùng
-  const lessonId = Number(params.lessonId);
-  const lessonData = getLesson(lessonId);
-  const userProgressData = getUserProgress();
+export default async function LessonIdPage(
+  { params }: { params: Promise<{ lessonId: string }> } // 👈 params là Promise
+) {
+  const { lessonId } = await params;                    // 👈 phải await
+  const id = Number(lessonId);
+  if (!Number.isFinite(id)) notFound();
 
   const [lesson, userProgress] = await Promise.all([
-    lessonData,
-    userProgressData,
+    getLesson(id),
+    getUserProgress(),
   ]);
 
-  // Nếu thiếu dữ liệu thì chuyển về /learn
   if (!lesson || !userProgress) {
     redirect("/learn");
   }
 
-  // Tính phần trăm hoàn thành của bài học
-  const initialPercentage = lesson.challenges.filter((challenge) => challenge.completed).length / lesson.challenges.length * 100;
+  const total = lesson.challenges.length;
+  const completed = lesson.challenges.filter((c) => c.completed).length;
+  const initialPercentage = total ? Math.round((completed / total) * 100) : 0;
 
   return (
-    // Truyền dữ liệu vào component Quiz
-    <Quiz 
-        initialLessonId={lesson.id}
-        initialLessonChallenges={lesson.challenges}
-        initialHearts={userProgress.hearts}
-        initialPercentage={initialPercentage}
-        userSubscription={null}
+    <Quiz
+      initialLessonId={lesson.id}
+      initialLessonChallenges={lesson.challenges}
+      initialHearts={userProgress.hearts}
+      initialPercentage={initialPercentage}
+      userSubscription={null}
     />
   );
-};
-
-export default LessonIdPage;
+}

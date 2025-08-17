@@ -4,7 +4,8 @@ import {
   ReferenceInput,
   required,
   TextInput,
-  BooleanInput
+  BooleanInput,
+  AutocompleteInput
 } from "react-admin";
 
 export const ChallengeOptionCreate = () => {
@@ -21,10 +22,13 @@ export const ChallengeOptionCreate = () => {
         label="Correct option"
        />
 
-        <ReferenceInput 
-          source="challengeId"
-          reference="challenges"
-        />
+        <ReferenceInput source="challengeId" reference="challenges">
+          <AutocompleteInput
+            optionText={record => `${record.id} - ${record.question}`}
+            filterToQuery={searchText => ({ question: searchText })}
+            fullWidth
+          />
+        </ReferenceInput>
 
         <TextInput 
           source="imageSrc"

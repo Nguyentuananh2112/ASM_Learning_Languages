@@ -12,18 +12,19 @@ import { and, eq } from "drizzle-orm";
 const POINTS_TO_REFILL = 10;
 
 export const upsertUserProgress = async (courseId: number) => {
-    const { userId } = await auth();
-    const user = await currentUser();
+    try {
+        const { userId } = await auth();
+        const user = await currentUser();
 
-    if (!userId || !user) {
-        throw new Error("User not authenticated");
-    }
+        if (!userId || !user) {
+            throw new Error("User not authenticated");
+        }
 
-   const course = await getCourseById(courseId);
+        const course = await getCourseById(courseId);
 
-    if (!course) {
-        throw new Error("Course not found");
-    }
+        if (!course) {
+            throw new Error("Course not found");
+        }
 
    
 
@@ -39,7 +40,7 @@ export const upsertUserProgress = async (courseId: number) => {
             activeCourseId: courseId,
             userName: user.firstName || "User",
             userImageSrc: user.imageUrl || "/logo_main.svg",
-        });
+        }).where(eq(userProgress.userId, userId));
     } else {
         await db.insert(userProgress).values({
             userId,
@@ -49,9 +50,18 @@ export const upsertUserProgress = async (courseId: number) => {
         });
     }
 
-    revalidatePath("/courses");
-    revalidatePath("/learn");
-    redirect("/learn");
+        revalidatePath("/courses");
+        revalidatePath("/learn");
+        redirect("/learn");
+    } catch (error: any) {
+        // NEXT_REDIRECT không phải là lỗi thực sự
+        if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+            // Đây là redirect bình thường, không phải lỗi
+            return;
+        }
+        console.error("Error in upsertUserProgress:", error);
+        throw error; // Re-throw để component có thể handle
+    }
 };
 
 export const reduceHearts = async (challengeId: number) => {

@@ -1,20 +1,15 @@
 import { isAdmin } from "@/lib/admin";
-import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
+import AdminAppWrapper from "./AppWrapper"; // Đặt tên tùy bạn
 
+export default async function AdminPage() {
+  const admin = await isAdmin();
 
+  if (!admin) {
+    redirect("/");
+  }
 
-const App = dynamic(() => import("@/app/admin/app"), ); //{ ssr: false}
-
-const AdminPage = () => {
-
-    if (!isAdmin()) {
-        redirect("/");
-    }
-
-    return (
-        <App />
-    );
-};
+  // Chỉ render một Client Component
+  return <AdminAppWrapper />;
+}
  
-export default AdminPage;

@@ -11,6 +11,11 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Providers } from "@/components/providers"; 
 import { LanguageSwitcher } from "@/components/language-switcher"; 
 import { ClientOnly } from "@/components/client-only";
+import TopRightWidgets from "@/components/TopRightWidgets";
+import { FontSizeProvider } from "@/components/FontSizeSelector";
+import AdminShortcut from "@/components/admin-shortcut";
+import BackToHome from "@/components/admin-shortcut/back-to-home";
+
 
 
 const font = Nunito({ subsets: ["latin"] });
@@ -25,6 +30,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -32,28 +39,28 @@ export default function RootLayout({
           <link rel="icon" href="./logo_main.svg" sizes="any" />
         </head>
         <body className={`${font.className} bg-background text-foreground`}>
+
+          <AdminShortcut />
           <Providers>
+          <FontSizeProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-          <div className="absolute top-4 right-4 z-50">
-              <ModeToggle />
+          {/* Chỉ hiện TopRightWidgets ở desktop (>=640px) */}
+          <div className="hidden sm:block">
+            <TopRightWidgets />
           </div>
-
-          <ClientOnly>
-            <div className="absolute top-5 right-[4.8rem] z-50">
-            <LanguageSwitcher />
-          </div>
-          </ClientOnly>
           <Toaster />
+          <BackToHome />
           <ExitModal />
           <HeartsModal />
           <PraciceModal />
           {children}
           </ThemeProvider>
+          </FontSizeProvider>
           </Providers>
         </body>
       </html>

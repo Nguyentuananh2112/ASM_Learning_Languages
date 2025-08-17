@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 
 
 const adminIds = [
-    "user_2ySDIKSv3uijauf0CNcCkLaPb2j"
+    "user_2xV5uFE0LJ3wS01OLv4QAS9AP2G"
 ];
 
 export const isAdmin = async () => {
@@ -12,5 +12,5 @@ export const isAdmin = async () => {
         return false;
     }
 
-    return adminIds.indexOf(userId) !== -1;
+    return adminIds.includes(userId);
 };
