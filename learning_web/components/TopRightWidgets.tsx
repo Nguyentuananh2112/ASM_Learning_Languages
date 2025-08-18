@@ -16,8 +16,9 @@ export default function TopRightWidgets() {
         // flex-row cho mobile, absolute cho desktop
         // sm:absolute: chỉ absolute từ sm (640px) trở lên, còn mobile thì relative
         // top-4 right-4: vị trí góc trên bên phải
-        // gap-2: khoảng cách giữa 2 icon
-        "flex flex-row items-center gap-2 sm:absolute sm:top-4 sm:right-4 z-50"
+        // gap-3: khoảng cách giữa các icon
+        // sm:w-28: cố định chiều rộng để chừa chỗ trong header (khớp với sm:mr-32 của header)
+        "flex flex-row items-center gap-3 sm:absolute sm:top-4 sm:right-4 sm:w-44 justify-end z-50"
       }
     >
       {/* Icon chuyển chế độ sáng/tối */}

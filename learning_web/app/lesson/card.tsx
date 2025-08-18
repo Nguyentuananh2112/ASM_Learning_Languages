@@ -49,13 +49,13 @@ export const Card = ({
                 "h-full border-2 rounded-xl border-b-4 hover:bg-black/5 dark:hover:bg-white/5 p-4 lg:p-6 cursor-pointer active:border-b-2 transition-all duration-200",
                 // Styling cho đáp án đã chọn nhưng chưa có kết quả
                 selected && status === "none" && "border-sky-400 bg-sky-50 dark:bg-sky-900/30 dark:border-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 shadow-md",
-                // Styling cho đáp án đúng
+                // Styling cho đáp án đúng (đã chọn và đúng)
                 selected && status === "correct" && "border-blue-400 bg-blue-100 dark:bg-blue-900/30 dark:border-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 shadow-md",
-                // Styling cho đáp án sai
+                // Styling cho đáp án sai,
                 selected && status === "wrong" && "border-rose-400 bg-rose-100 dark:bg-rose-900/30 dark:border-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 shadow-md",
                 disabled && "pointer-events-none hover:bg-white dark:hover:bg-gray-800",
                 type === "ASSIST" && "lg:p-3 w-full"
-            )} 
+            )}
         >
             {audio}
             {imageSrc && (

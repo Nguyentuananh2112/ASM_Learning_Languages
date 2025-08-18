@@ -19,7 +19,7 @@ export const Header = async () => {
   return (
     // Thanh header với border dưới, padding ngang
     <header className="h-20 w-full border-b-2 border-slate-200 px-4">
-      <div className="lg:max-w-screen-xl mx-auto flex items-center justify-between h-full flex-nowrap gap-x-2 sm:gap-x-4">
+      <div className="lg:max-w-screen-xl mx-auto flex items-center justify-between h-full flex-nowrap gap-x-2 sm:gap-x-4 relative sm:pr-48 overflow-visible">
         {/* Logo và tên ứng dụng, cho phép co lại, không tràn */}
         <div className="pt-8 pl-4 pb-7 flex items-center gap-x-3 min-w-0">
           <Image src="/logo_main.svg" alt="Logo Main" width={40} height={40} />
@@ -28,7 +28,7 @@ export const Header = async () => {
           </h1>
         </div>
         {/* Khu vực xác thực + 2 icon, không co nhỏ quá mức, luôn cùng hàng */}
-        <div className="flex items-center gap-x-2 flex-shrink-0">
+        <div className="flex items-center gap-x-3 sm:gap-x-2 flex-shrink-0">
           {/* Hiển thị icon loading khi Clerk đang load */}
           <ClerkLoading>
             <Loader className="h-5 w-5 text-muted-foreground animate-spin" />

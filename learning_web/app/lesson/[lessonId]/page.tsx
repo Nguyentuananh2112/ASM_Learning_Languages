@@ -18,6 +18,8 @@ export default async function LessonIdPage(
     redirect("/learn");
   }
 
+
+  // Tính toán tỷ lệ hoàn thành
   const total = lesson.challenges.length;
   const completed = lesson.challenges.filter((c) => c.completed).length;
   const initialPercentage = total ? Math.round((completed / total) * 100) : 0;

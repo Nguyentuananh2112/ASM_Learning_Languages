@@ -1,8 +1,45 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+// Import các hook từ React để quản lý state và side effects
+import { useState, useEffect, useRef, useCallback } from "react";
+// Import các icon từ lucide-react để sử dụng trong giao diện
 import { Send, Bot, User, Loader2, Minimize2 } from "lucide-react";
 
+// Tối thiểu hóa khai báo type cho Web Speech API để tránh lỗi TypeScript trên trình duyệt không có định nghĩa sẵn
+interface ISpeechRecognitionResultAlternative {
+    transcript: string;
+}
+interface ISpeechRecognitionResult {
+    0: ISpeechRecognitionResultAlternative;
+}
+interface ISpeechRecognitionEvent {
+    results: ArrayLike<ISpeechRecognitionResult>;
+}
+interface ISpeechRecognitionErrorEvent {
+    error: string;
+}
+interface ISpeechRecognition {
+    continuous: boolean;
+    interimResults: boolean;
+    lang: string;
+    start: () => void;
+    stop: () => void;
+    onresult: ((event: ISpeechRecognitionEvent) => void) | null;
+    onerror: ((event: ISpeechRecognitionErrorEvent) => void) | null;
+    onend: (() => void) | null;
+}
+interface ISpeechRecognitionConstructor {
+    new (): ISpeechRecognition;
+}
+
+declare global {
+    interface Window {
+        webkitSpeechRecognition?: ISpeechRecognitionConstructor;
+        SpeechRecognition?: ISpeechRecognitionConstructor;
+    }
+}
+
+// Định nghĩa kiểu cho mỗi tin nhắn trong chat (vai trò, nội dung, ID)
 type Message = {
     role: "assistant" | "user";
     content: string;
@@ -10,44 +47,101 @@ type Message = {
 };
 
 export default function ChatBubble() {
-    // Không cần containerRef nữa vì đã dùng data-chat-bubble
-    // Chat bubble states
+    // === CHAT BUBBLE STATES (QUẢN LÝ VỊ TRÍ VÀ KÉO THẢ BUBBLE) ===
+    // Trạng thái kéo thả bubble
     const [isDragging, setIsDragging] = useState(false);
-    // Khởi tạo vị trí mặc định tĩnh để tránh lỗi SSR (window is not defined)
+    // Vị trí của bubble trên màn hình (x, y)
     const [position, setPosition] = useState({ x: 0, y: 80 });
+    // Trạng thái hiển thị chatbox
     const [showChat, setShowChat] = useState(false);
+    // Tham chiếu đến DOM element của bubble
     const bubbleRef = useRef<HTMLDivElement>(null);
+    // Offset vị trí chuột khi bắt đầu kéo (tính toán tọa độ tương đối)
     const offset = useRef({ x: 0, y: 0 });
+    // Kích thước cố định của bubble (64px)
     const BUBBLE_SIZE = 64;
 
-    // Khi đã vào client, cập nhật lại vị trí dựa trên window.innerWidth
+    // Cập nhật vị trí ban đầu của bubble khi component mount (tránh lỗi SSR với window)
     useEffect(() => {
-        setPosition({ x: window.innerWidth - 94, y: 80 });
+        setPosition({ x: window.innerWidth - 94, y: 80 }); // Đặt ở góc phải trên (width - 94, y = 80)
     }, []);
 
-    // Chat states
+    // === CHAT STATES (QUẢN LÝ TIN NHẮN VÀ INPUT) ===
+    // Danh sách các tin nhắn trong chat
     const [messages, setMessages] = useState<Message[]>([]);
+    // Nội dung đang nhập trong textarea
     const [input, setInput] = useState("");
+    // Trạng thái loading khi gửi tin nhắn
     const [isLoading, setIsLoading] = useState(false);
+    // Tham chiếu đến cuối danh sách tin nhắn (dùng để scroll nếu cần)
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    // ID tin nhắn đang hover (để hiển thị tooltip)
     const [activeMessage, setActiveMessage] = useState<string | null>(null);
-    const [chatHistory, setChatHistory] = useState<any[]>([]);
+    // Lịch sử chat để gửi lên server
+    const [chatHistory, setChatHistory] = useState<object[]>([]);
 
-    // Handle message submission
+    // === SPEECH RECOGNITION STATES (QUẢN LÝ THU ÂM THANH) ===
+    // Trạng thái ghi âm (true khi đang ghi, false khi dừng)
+    const [isRecording, setIsRecording] = useState(false);
+    // Tham chiếu đến object SpeechRecognition
+    const recognitionRef = useRef<ISpeechRecognition | null>(null);
+
+    // Khởi tạo Web Speech API khi component mount
+    useEffect(() => {
+        // Kiểm tra hỗ trợ SpeechRecognition (Chrome/Safari)
+        const SpeechRecognitionConstructor = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognitionConstructor) {
+            const recognition = new SpeechRecognitionConstructor();
+            recognitionRef.current = recognition;
+            // Không ghi liên tục, chỉ một lần
+            recognition.continuous = false;
+            // Hiển thị kết quả tạm thời
+            recognition.interimResults = true;
+            // Đặt ngôn ngữ mặc định là tiếng Việt
+            recognition.lang = "vi-VN";
+
+            // Xử lý khi nhận kết quả giọng nói (chuyển thành text)
+            recognition.onresult = (event: ISpeechRecognitionEvent) => {
+                const transcript = Array.from(event.results)
+                    .map((result) => result[0].transcript)
+                    .join("");
+                setInput(transcript); // Điền text vào input
+            };
+
+            // Xử lý lỗi khi ghi âm
+            recognition.onerror = (event: ISpeechRecognitionErrorEvent) => {
+                console.error("Speech recognition error:", event.error);
+                setIsRecording(false);
+                setInput((prev) => prev + "\n[Error: Could not recognize speech]");
+            };
+
+            // Xử lý khi kết thúc ghi âm
+            recognition.onend = () => {
+                setIsRecording(false);
+            };
+        } else {
+            console.warn("SpeechRecognition API is not supported in this browser.");
+        }
+    }, []);
+
+    // === HÀM XỬ LÝ GỬI TIN NHẮN ===
+    // Gửi tin nhắn và nhận phản hồi từ server
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!input.trim()) return;
+        e.preventDefault(); // Ngăn submit mặc định
+        if (!input.trim()) return; // Không gửi nếu input rỗng
 
+        // Tạo tin nhắn user và thêm vào danh sách
         const userMessage: Message = {
             role: "user",
             content: input,
             id: Date.now().toString(),
         };
         setMessages((prev) => [...prev, userMessage]);
-        setInput("");
-        setIsLoading(true);
+        setInput(""); // Xóa input
+        setIsLoading(true); // Bắt đầu loading
 
         try {
+            // Gửi request POST đến API chat
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: {
@@ -60,6 +154,7 @@ export default function ChatBubble() {
             });
             if (!response.ok) throw new Error("Failed to fetch response");
 
+            // Xử lý phản hồi từ server
             const data = await response.json();
             const assistantMessage: Message = {
                 role: "assistant",
@@ -70,6 +165,7 @@ export default function ChatBubble() {
             setChatHistory(data.history);
         } catch (error) {
             console.error("Error:", error);
+            // Thêm tin nhắn lỗi nếu có vấn đề
             setMessages((prev) => [
                 ...prev,
                 {
@@ -79,48 +175,67 @@ export default function ChatBubble() {
                 },
             ]);
         } finally {
-            setIsLoading(false);
+            setIsLoading(false); // Kết thúc loading
         }
     };
 
-    // --- PHÂN BIỆT CLICK VÀ DRAG BUBBLE ---
+    // === HÀM TOGGLE GHI ÂM ===
+    // Bật/tắt chức năng ghi âm
+    const toggleRecording = () => {
+        if (!recognitionRef.current) {
+            setInput((prev) => prev + "\n[Error: Speech recognition not supported]");
+            return;
+        }
+
+        if (isRecording) {
+            recognitionRef.current.stop(); // Dừng ghi âm
+        } else {
+            recognitionRef.current.start(); // Bắt đầu ghi âm
+        }
+        setIsRecording(!isRecording); // Chuyển đổi trạng thái
+    };
+
+    // === LOGIC KÉO THẢ BUBBLE ===
+    // Trạng thái đã kéo (phân biệt click và drag)
     const [dragged, setDragged] = useState(false);
+    // Bắt đầu kéo bubble
     const onMouseDown = (e: React.MouseEvent) => {
         setIsDragging(true);
-        setDragged(false); // Reset cờ dragged
+        setDragged(false);
         offset.current = {
             x: e.clientX - position.x,
             y: e.clientY - position.y,
         };
-        document.body.style.userSelect = "none";
+        document.body.style.userSelect = "none"; // Ngăn chọn text khi kéo
     };
-    const onMouseMove = (e: MouseEvent) => {
+    // Di chuyển khi kéo
+    const onMouseMove = useCallback((e: MouseEvent) => {
         if (!isDragging) return;
         const maxX = window.innerWidth - BUBBLE_SIZE - 10;
         const maxY = window.innerHeight - BUBBLE_SIZE - 10;
         let newX = e.clientX - offset.current.x;
         let newY = e.clientY - offset.current.y;
-        newX = Math.max(10, Math.min(newX, maxX));
+        newX = Math.max(10, Math.min(newX, maxX)); // Giới hạn trong màn hình
         newY = Math.max(10, Math.min(newY, maxY));
         setPosition({ x: newX, y: newY });
-        setDragged(true); // Đánh dấu là đã kéo
-    };
+        setDragged(true);
+    }, [isDragging]);
+    // Kết thúc kéo
     const onMouseUp = () => {
         setIsDragging(false);
         document.body.style.userSelect = "";
     };
-    // Chỉ mở chatbox khi click thực sự (không phải drag)
-    const handleBubbleClick = (e: React.MouseEvent) => {
+    // Xử lý click để mở chatbox (chỉ khi không kéo)
+    const handleBubbleClick = () => {
         if (!isDragging && !dragged) setShowChat(true);
     };
-    // --- END PHÂN BIỆT CLICK VÀ DRAG BUBBLE ---
 
-    // --- DRAG CHATBOX BY HEADER ---
+    // === LOGIC KÉO THẢ CHATBOX (BẰNG HEADER) ===
     // Trạng thái kéo chatbox
     const [isDraggingChat, setIsDraggingChat] = useState(false);
+    // Offset khi kéo chatbox
     const chatOffset = useRef({ x: 0, y: 0 });
-
-    // Bắt đầu kéo khi mousedown vào header chatbox
+    // Bắt đầu kéo chatbox
     const onChatHeaderMouseDown = (e: React.MouseEvent) => {
         setIsDraggingChat(true);
         chatOffset.current = {
@@ -129,21 +244,23 @@ export default function ChatBubble() {
         };
         document.body.style.userSelect = "none";
     };
-    // Kéo chatbox
-    const onChatMouseMove = (e: MouseEvent) => {
+    // Di chuyển khi kéo chatbox
+    const onChatMouseMove = useCallback((e: MouseEvent) => {
         if (!isDraggingChat) return;
-        const maxX = window.innerWidth - 360 - 10; // 360 là width chatbox
-        const maxY = window.innerHeight - 480 - 10; // 480 là height chatbox
+        const maxX = window.innerWidth - 360 - 10; // Giới hạn theo width chatbox (360px)
+        const maxY = window.innerHeight - 480 - 10; // Giới hạn theo height chatbox (480px)
         let newX = e.clientX - chatOffset.current.x;
         let newY = e.clientY - chatOffset.current.y;
         newX = Math.max(10, Math.min(newX, maxX));
         newY = Math.max(10, Math.min(newY, maxY));
         setPosition({ x: newX, y: newY });
-    };
+    }, [isDraggingChat]);
+    // Kết thúc kéo chatbox
     const onChatMouseUp = () => {
         setIsDraggingChat(false);
         document.body.style.userSelect = "";
     };
+    // Thêm/xóa event listener cho kéo chatbox
     useEffect(() => {
         if (isDraggingChat) {
             window.addEventListener("mousemove", onChatMouseMove);
@@ -156,31 +273,31 @@ export default function ChatBubble() {
             window.removeEventListener("mousemove", onChatMouseMove);
             window.removeEventListener("mouseup", onChatMouseUp);
         };
-    }, [isDraggingChat]);
-    // --- END DRAG CHATBOX BY HEADER ---
+    }, [isDraggingChat, onChatMouseMove]);
 
-    // --- Transition cho bubble và chatbox ---
+    // === TRANSITION CHO BUBBLE VÀ CHATBOX ===
+    // Thiết lập transition cho bubble (thay đổi khi kéo)
     const bubbleTransition = isDragging
         ? "box-shadow 0.1s, transform 0.1s"
         : "box-shadow 0.3s, transform 0.3s, left 0.3s, top 0.3s";
+    // Thiết lập transition cho chatbox (tắt khi kéo)
     const chatboxTransition = isDraggingChat ? "none" : "left 0.3s, top 0.3s";
-    // --- END Transition cho bubble và chatbox ---
 
-    // --- Ẩn chatbox khi click ra ngoài ---
+    // === ẨN CHATBOX KHI CLICK RA NGOÀI ===
+    // Tham chiếu đến chatbox để kiểm tra click ngoài
     const chatBoxRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (!showChat) return;
+        if (!showChat) return; // Chỉ chạy khi chatbox mở
         function handleClickOutside(e: MouseEvent) {
-            // Nếu click vào chatbox thì không làm gì
             if (chatBoxRef.current && chatBoxRef.current.contains(e.target as Node)) return;
-            setShowChat(false);
+            setShowChat(false); // Đóng chatbox nếu click ngoài
         }
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [showChat]);
-    // --- END Ẩn chatbox khi click ra ngoài ---
 
-    // Handle resize and zoom
+    // === XỬ LÝ RESIZE MÀN HÌNH ===
+    // Điều chỉnh vị trí bubble khi resize window
     useEffect(() => {
         const handleResize = () => {
             const maxX = window.innerWidth - BUBBLE_SIZE - 10;
@@ -197,7 +314,8 @@ export default function ChatBubble() {
         };
     }, []);
 
-    // Handle bubble dragging events
+    // === EVENT LISTENER CHO KÉO THẢ BUBBLE ===
+    // Thêm/xóa event listener khi kéo bubble
     useEffect(() => {
         if (isDragging) {
             window.addEventListener("mousemove", onMouseMove);
@@ -210,28 +328,30 @@ export default function ChatBubble() {
             window.removeEventListener("mousemove", onMouseMove);
             window.removeEventListener("mouseup", onMouseUp);
         };
-    }, [isDragging]);
+    }, [isDragging, onMouseMove]);
 
-    // Handle key press for Shift + Enter
+    // === XỬ LÝ PHÍM BÀN PHÍM TRONG TEXTAREA ===
+    // Xử lý phím Enter (gửi hoặc xuống dòng)
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            handleSubmit(e);
+            handleSubmit(e as unknown as React.FormEvent); // Gửi tin nhắn
         } else if (e.key === "Enter" && e.shiftKey) {
             e.preventDefault();
-            setInput((prev) => prev + "\n");
+            setInput((prev) => prev + "\n"); // Xuống dòng
         }
     };
 
+    // === GIAO DIỆN (JSX RETURN) ===
     return (
         <>
-            {/* Ẩn bubble khi showChat=true */}
+            {/* Hiển thị bubble khi chatbox đóng */}
             {!showChat && (
                 <div
                     ref={bubbleRef}
                     data-chat-bubble
-                    onMouseDown={onMouseDown}
-                    onClick={handleBubbleClick}
+                    onMouseDown={onMouseDown} // Bắt đầu kéo
+                    onClick={handleBubbleClick} // Mở chatbox khi click
                     style={{
                         position: "fixed",
                         left: position.x,
@@ -250,7 +370,7 @@ export default function ChatBubble() {
                     💬
                 </div>
             )}
-            {/* Hiện chatbox khi showChat=true */}
+            {/* Hiển thị chatbox khi chatbox mở */}
             {showChat && (
                 <div
                     ref={chatBoxRef}
@@ -265,30 +385,31 @@ export default function ChatBubble() {
                         transition: chatboxTransition,
                         cursor: isDraggingChat ? "grabbing" : "default",
                     }}
-                    className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-700 flex flex-col"
+                    className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col text-gray-900 dark:text-white"
                 >
-                    {/* Thanh header của chatbox, dùng để kéo */}
+                    {/* Header của chatbox (kéo thả và nút minimize) */}
                     <div
-                        className="p-3 flex items-center justify-between border-b border-gray-700 bg-blue-600/20 cursor-move select-none rounded-t-xl"
-                        onMouseDown={onChatHeaderMouseDown}
+                        className="p-3 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-blue-600/10 dark:bg-blue-600/20 cursor-move select-none rounded-t-xl"
+                        onMouseDown={onChatHeaderMouseDown} // Bắt đầu kéo chatbox
                     >
                         <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                            <h1 className="text-sm font-semibold tracking-wide text-white">LINO CHAT ASSISTANT</h1>
+                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" /> {/* Điểm sáng hiệu ứng */}
+                            <h1 className="text-sm font-semibold tracking-wide text-gray-900 dark:text-white">LINO CHAT ASSISTANT</h1>
                         </div>
                         <button
-                            onClick={() => setShowChat(false)}
-                            className="p-1 hover:bg-gray-700/50 rounded-md transition-colors text-white"
+                            onClick={() => setShowChat(false)} // Đóng chatbox
+                            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700/50 rounded-md transition-colors text-gray-700 dark:text-white"
                         >
                             <Minimize2 size={14} />
                         </button>
                     </div>
+                    {/* Danh sách tin nhắn */}
                     <div className="flex-1 p-3 space-y-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800" style={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>
                         {messages.length === 0 && (
                             <div className="flex flex-col items-center justify-center h-full space-y-2 text-center">
-                                <div className="text-lg font-light text-blue-300">START CHAT</div>
-                                <p className="text-gray-400 text-xs">
-                                    Ask me anything in your language—I'll respond naturally!
+                                <div className="text-lg font-light text-blue-700 dark:text-blue-300">START CHAT</div>
+                                <p className="text-gray-500 dark:text-gray-400 text-xs">
+                                    Ask me anything in your language—I&apos;ll respond naturally!
                                 </p>
                             </div>
                         )}
@@ -296,14 +417,14 @@ export default function ChatBubble() {
                             <div
                                 key={message.id}
                                 className={`flex ${message.role === "assistant" ? "justify-start" : "justify-end"}`}
-                                onMouseEnter={() => setActiveMessage(message.id)}
+                                onMouseEnter={() => setActiveMessage(message.id)} // Hover để hiển thị tooltip
                                 onMouseLeave={() => setActiveMessage(null)}
                             >
                                 <div className={`group relative max-w-[75%] ${message.role === "assistant" ? "pr-3" : "pl-3"}`}>
-                                    <div className={`p-2 rounded-lg text-sm transition-all duration-300 ${activeMessage === message.id ? "scale-[1.02]" : "scale-100"} ${message.role === "assistant" ? "bg-blue-600/20 hover:bg-blue-600/30 rounded-tl-sm" : "bg-gray-700/30 hover:bg-gray-700/50 rounded-tr-sm"}`} style={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>
+                                    <div className={`p-2 rounded-lg text-sm transition-all duration-300 ${activeMessage === message.id ? "scale-[1.02]" : "scale-100"} ${message.role === "assistant" ? "bg-blue-50 dark:bg-blue-600/20 hover:bg-blue-100 dark:hover:bg-blue-600/30 rounded-tl-sm text-gray-900 dark:text-white" : "bg-gray-100 dark:bg-gray-700/30 hover:bg-gray-200 dark:hover:bg-gray-700/50 rounded-tr-sm text-gray-900 dark:text-white"}`} style={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>
                                         {message.content}
                                     </div>
-                                    <div className={`absolute -bottom-3 flex items-center gap-1 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity ${message.role === "assistant" ? "left-0" : "right-0"}`}>
+                                    <div className={`absolute -bottom-3 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity ${message.role === "assistant" ? "left-0" : "right-0"}`}>
                                         <div className="w-3 h-3 rounded-full flex items-center justify-center bg-gray-700/50">
                                             {message.role === "assistant" ? <Bot size={8} /> : <User size={8} />}
                                         </div>
@@ -314,34 +435,55 @@ export default function ChatBubble() {
                         ))}
                         {isLoading && (
                             <div className="flex items-center gap-2">
-                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center">
-                                    <Loader2 size={10} className="animate-spin text-blue-500" />
+                                <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-600/20 flex items-center justify-center">
+                                    <Loader2 size={10} className="animate-spin text-blue-600 dark:text-blue-500" />
                                 </div>
                                 <div className="space-y-1">
-                                    <div className="h-1 w-12 bg-blue-600/20 rounded-full animate-pulse" />
-                                    <div className="h-1 w-8 bg-blue-600/20 rounded-full animate-pulse" />
+                                    <div className="h-1 w-12 bg-blue-100 dark:bg-blue-600/20 rounded-full animate-pulse" />
+                                    <div className="h-1 w-8 bg-blue-100 dark:bg-blue-600/20 rounded-full animate-pulse" />
                                 </div>
                             </div>
                         )}
                         <div ref={messagesEndRef} />
                     </div>
+                    {/* Form nhập liệu */}
                     <form
                         onSubmit={handleSubmit}
-                        className="p-3 border-t border-gray-700 bg-gray-800/90"
+                        className="p-3 border-t border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90"
                     >
                         <div className="relative">
                             <textarea
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={handleKeyPress}
+                                onKeyDown={handleKeyPress} // Xử lý Enter/Shift+Enter
                                 placeholder="Type your message (e.g., Xin chào, Hello, Hola)..."
-                                className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-gray-400 pr-10"
+                                className="w-full bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-gray-500 dark:placeholder:text-gray-400 pr-20 text-gray-900 dark:text-white"
                                 style={{ minHeight: "60px", maxHeight: "120px", resize: "vertical" }}
                             />
                             <button
+                                type="button"
+                                onClick={toggleRecording} // Bật/tắt ghi âm
+                                className={`absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded-md transition-colors ${
+                                    isRecording ? "bg-red-500/50 hover:bg-red-500/70" : "hover:bg-gray-200 dark:hover:bg-gray-600/50"
+                                }`}
+                                disabled={!recognitionRef.current}
+                                title={isRecording ? "Stop recording" : "Start recording"}
+                            >
+                                {isRecording ? (
+                                    <svg className="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <rect x="6" y="6" width="12" height="12" rx="2" />
+                                    </svg>
+                                ) : (
+                                    <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.47 6 6.93V21h2v-3.07c3.39-.46 6-3.4 6-6.93h-2z" />
+                                    </svg>
+                                )}
+                            </button>
+                            <button
                                 type="submit"
-                                disabled={isLoading || !input.trim()}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md hover:bg-gray-600/50 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                                disabled={isLoading || !input.trim()} // Vô hiệu khi loading hoặc input rỗng
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600/50 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
                             >
                                 <Send size={16} />
                             </button>
